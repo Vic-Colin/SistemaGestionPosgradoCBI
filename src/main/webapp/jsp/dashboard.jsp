@@ -1,17 +1,43 @@
-<%-- 
-    Document   : dashboard
-    Created on : 19 ene 2026, 7:21:49 p.m.
-    Author     : CASH
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Principal - Sistema de Gestión de Posgrado CBI</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="board-container">
+        <header class="header-logos-dash">
+            <div class="logo-uam-dash"></div>
+            <div class="logo-cbi-dash"></div>
+        </header>
+
+        <nav class="red-nav-bar">
+            <a href="${pageContext.request.contextPath}/LogoutServlet" class="btn-exit">
+                <img src="../img/Out.png" alt="Icono Salir" class="exit-icon">
+                <span class="exit-text">SALIR</span>
+            </a>
+        </nav>
+
+        <main class="dashboard-content">
+            <h1 class="main-title-dash">Sistema de Posgrado de la División de CBI</h1>
+            <h2 class="welcome-user">Bienvenido USUARIO</h2>
+
+            <div class="button-grid">
+                <div class="button-column">
+                    <a href="${pageContext.request.contextPath}/AlumnadoServlet" class="menu-card">Alumnado</a>
+                    <a href="${pageContext.request.contextPath}/EstadisticasServlet" class="menu-card">Estadísticas</a>
+                </div>
+
+                <a href="${pageContext.request.contextPath}/BecaServlet" class="menu-card">Estado de beca</a>
+                <a href="${pageContext.request.contextPath}/ProfesoradoServlet" class="menu-card">Profesorado</a>
+                <a href="${pageContext.request.contextPath}/ProyectosServlet" class="menu-card">Proyectos</a>
+            </div>
+        </main>
+
+        <div class="watermark-logo"></div>
+    </div>
+</body>
 </html>

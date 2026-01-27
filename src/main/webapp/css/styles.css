@@ -29,9 +29,11 @@ html, body {
 /* Línea roja delgada pegada arriba */
 .red-divider {
     width: 100%;
-    height: 1px; /* Un poco más visible que 0.30 para que no desaparezca */
+    height: 1px;
     background-color: #CD032E;
-    margin-top: -50px; /* Sube la línea hacia los logos */
+    margin-top: -30px; /* Ajuste para pegar a los logos */
+    position: relative;
+    z-index: 10;
 }
 
 /* Área de contenido centralizada */
@@ -71,16 +73,17 @@ html, body {
 
 /* El botón ahora queda entre los textos */
 .btn-submit {
-    background-color: #CD032E;
-    color: white;
-    border: none;
+    background-color: #ffffff; /* Fondo inicial blanco */
+    color: #000000;            /* Texto negro inicial */
+    border: 2px solid #CD032E; /* Borde rojo UAM */
     padding: 12px 60px;
     border-radius: 30px;
     font-weight: bold;
     font-size: 16px;
     cursor: pointer;
-    margin: 10px 0; /* Espaciado arriba y abajo */
+    margin: 10px 0;
     width: 20%;
+    transition: all 0.3s ease; /* Efecto suave de transición */
 }
 
 .footer-note {
@@ -96,4 +99,152 @@ html, body {
     width: 100%;
     height: 40px;
     background-color: #CD032E;
+}
+
+.btn-submit:hover {
+    background-color: #CD032E; /* Se llena de rojo */
+    color: #ffffff;            /* El texto cambia a blanco */
+}
+
+
+/* --- CONFIGURACIÓN ESPECÍFICA DEL DASHBOARD --- */
+
+.board-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #ffffff;
+    overflow-x: hidden;
+    z-index: 0;
+}
+
+/* Logos del Header */
+.header-logos-dash {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    height: 110px;
+    margin-bottom: -10;
+}
+
+.logo-uam-dash {
+    width: 450px;
+    height: 200px;
+    background: url('../img/LogoA2Digitales.jpg') no-repeat center center / contain;
+}
+
+.logo-cbi-dash {
+    width: 200px;
+    height: 80px;
+    background: url('../img/CBI.png') no-repeat center center / contain;
+}
+
+/* Barra Roja y Botón Salir */
+.red-nav-bar {
+    width: 100%;
+    height: 50px;
+    background-color: #CD032E;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+    z-index: 20;
+    margin-top: 0;
+}
+
+.btn-exit {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    margin-right: 60px;
+    gap: 10px;
+    transition: opacity 0.2s;
+}
+
+.btn-exit:hover {
+    opacity: 0.8;
+}
+
+.exit-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+
+.exit-text {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Títulos y Contenido */
+.dashboard-content {
+    padding: 20px 80px;
+}
+
+.main-title-dash {
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.welcome-user {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    color: #7a7a7a;
+    margin-top: 0;
+    font-weight: normal;
+}
+
+/* Rejilla de Botones (Estilo Penpot) */
+.button-grid {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 25px;
+    margin-top: 50px;
+    position: relative;
+    z-index: 5;
+}
+
+.button-column {
+    display: flex;
+    flex-direction: column; /* Apila los hijos verticalmente */
+    gap: 25px; /* Mantiene el mismo espacio que los otros botones */
+}
+
+.menu-card {
+    width: 200px;
+    height: 45px;
+    border: 2px solid #CD032E;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    font-size: 16px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.menu-card:hover {
+    background-color: #CD032E;
+    color: #ffffff;
+}
+
+/* Logo de fondo (Marca de agua) */
+.watermark-logo {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    width: 300px;
+    height: 350px;
+    background: url('../img/LogoSolo.jpg') no-repeat center center / contain;
+    opacity: 1;
+    z-index: -1;
+    pointer-events: none;
 }
