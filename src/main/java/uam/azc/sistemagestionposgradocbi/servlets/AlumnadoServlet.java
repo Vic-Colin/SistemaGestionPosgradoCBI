@@ -57,7 +57,10 @@ public class AlumnadoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // Aquí llamarías a tu Base de Datos
+        // List<Alumno> lista = dao.listar();
+        // request.setAttribute("alumnos", lista);
+        request.getRequestDispatcher("jsp/alumnos.jsp").forward(request, response);
     }
 
     /**
@@ -71,7 +74,15 @@ public class AlumnadoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        String accion = request.getParameter("accion"); // Para saber si es create, update o delete
+        
+        // Aquí recibirías los parámetros del formulario:
+        // String matricula = request.getParameter("regMatricula");
+        
+        // Lógica de BD...
+        
+        response.sendRedirect("AlumnadoServlet"); // Recarga la lista
     }
 
     /**

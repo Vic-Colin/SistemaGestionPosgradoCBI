@@ -1,12 +1,24 @@
+/* --- FUENTES (PENPOT) --- */
+@font-face {
+    font-family: 'sourcesanspro';
+    src: url('https://design.penpot.app/fonts/sourcesanspro-regular.woff') format('woff');
+}
+@font-face {
+    font-family: 'DM Sans';
+    font-weight: 700;
+    src: url('https://design.penpot.app/internal/gfonts/font/dmsans/v17/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwARZtRR232VGM.woff2') format('woff2');
+}
+
+/* --- ESTILOS GENERALES --- */
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'sourcesanspro', Arial, sans-serif;
     background-color: #ffffff;
 }
 
-/* Contenedor principal ajustado */
+/* --- 1. SECCIÓN LOGIN (index.html) --- */
 .login-container {
     width: 100%;
     height: 100vh;
@@ -15,51 +27,37 @@ html, body {
     box-sizing: border-box;
 }
 
-/* logos: uno a la izquierda y otro a la derecha */
 .header-logos {
     display: flex;
-    justify-content: space-between; /* Esto empuja los logos a los extremos */
+    justify-content: space-between;
     align-items: center;
-    padding: 0px; /* Margen interno para que no toquen el borde físico */
+    padding: 10px 40px;
 }
 
 .logo-uam { height: 180px; width: auto; }
 .logo-cbi { height: 70px; width: auto; }
 
-/* Línea roja delgada pegada arriba */
 .red-divider {
     width: 100%;
     height: 1px;
     background-color: #CD032E;
-    margin-top: -30px; /* Ajuste para pegar a los logos */
+    margin-top: -30px;
     position: relative;
     z-index: 10;
 }
 
-/* Área de contenido centralizada */
 .content-area {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centra verticalmente el formulario */
-    padding-left: 100px; /* Alineado a la izquierda según tu código previo */
+    justify-content: center;
+    padding-left: 100px;
+    margin-top: 50px;
 }
 
-.main-title {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
+.main-title { font-size: 24px; color: #333; font-weight: bold; margin-bottom: 5px; }
+.sub-title { font-size: 18px; color: #888; margin-bottom: 30px; }
 
-.sub-title {
-    font-size: 18px;
-    color: #888;
-    margin-bottom: 30px;
-}
-
-/* Formulario */
 .login-form input {
-    font-family: Arial, sans-serif;
     display: block;
     width: 40%;
     margin: 15px 0;
@@ -68,29 +66,22 @@ html, body {
     border-radius: 30px;
     text-align: center;
     outline: none;
-    box-sizing: border-box;
 }
 
-/* El botón ahora queda entre los textos */
 .btn-submit {
-    background-color: #ffffff; /* Fondo inicial blanco */
-    color: #000000;            /* Texto negro inicial */
-    border: 2px solid #CD032E; /* Borde rojo UAM */
+    background-color: #ffffff;
+    color: #000;
+    border: 2px solid #CD032E;
     padding: 12px 60px;
     border-radius: 30px;
     font-weight: bold;
-    font-size: 16px;
     cursor: pointer;
-    margin: 10px 0;
-    width: 20%;
-    transition: all 0.3s ease; /* Efecto suave de transición */
+    transition: all 0.3s ease;
 }
 
-.footer-note {
-    font-size: 12px;
-    color: #888;
-    line-height: 1.5;
-    margin: 0; /* Quitamos margen excesivo */
+.btn-submit:hover {
+    background-color: #CD032E;
+    color: #fff;
 }
 
 .bottom-bar {
@@ -101,46 +92,35 @@ html, body {
     background-color: #CD032E;
 }
 
-.btn-submit:hover {
-    background-color: #CD032E; /* Se llena de rojo */
-    color: #ffffff;            /* El texto cambia a blanco */
-}
-
-
-/* --- CONFIGURACIÓN ESPECÍFICA DEL DASHBOARD --- */
-
+/* --- 2. SECCIÓN COMÚN DASHBOARD Y ALUMNADO --- */
 .board-container {
     position: relative;
     width: 100%;
     min-height: 100vh;
-    background-color: #ffffff;
-    overflow-x: hidden;
     z-index: 0;
 }
 
-/* Logos del Header */
 .header-logos-dash {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 40px;
-    height: 110px;
-    margin-bottom: -10;
+    height: 100px;
+    margin-bottom: -10px;
 }
 
 .logo-uam-dash {
-    width: 450px;
-    height: 200px;
+    width: 350px;
+    height: 120px;
     background: url('../img/LogoA2Digitales.jpg') no-repeat center center / contain;
 }
 
 .logo-cbi-dash {
     width: 200px;
-    height: 80px;
+    height: 70px;
     background: url('../img/CBI.png') no-repeat center center / contain;
 }
 
-/* Barra Roja y Botón Salir */
 .red-nav-bar {
     width: 100%;
     height: 50px;
@@ -150,7 +130,6 @@ html, body {
     align-items: center;
     position: relative;
     z-index: 20;
-    margin-top: 0;
 }
 
 .btn-exit {
@@ -159,65 +138,39 @@ html, body {
     text-decoration: none;
     margin-right: 60px;
     gap: 10px;
-    transition: opacity 0.2s;
+    transition: transform 0.2s ease;
 }
+
+/* --- EFECTO HOVER EN NAVEGACIÓN --- */
 
 .btn-exit:hover {
-    opacity: 0.8;
+    transform: scale(1.02); /* Crece un 2% al pasar el mouse */
 }
 
-.exit-icon {
-    width: 22px;
-    height: 22px;
-    object-fit: contain;
+.btn-exit:hover .exit-text {
+    color: #e0e0e0; /* Un gris muy claro que simula el aclarado */
+    transition: color 0.3s ease;
 }
 
-.exit-text {
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 16px;
+.btn-exit:hover .exit-icon {
+    opacity: 0.8; /* También aclaramos ligeramente el icono para que sea uniforme */
+    transition: opacity 0.3s ease;
 }
 
-/* Títulos y Contenido */
-.dashboard-content {
-    padding: 20px 80px;
-}
+.exit-icon { width: 22px; height: 22px; object-fit: contain; }
+.exit-text { color: #ffffff; font-weight: bold; font-size: 16px; }
 
-.main-title-dash {
-    font-family: Arial, sans-serif;
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 10px;
-}
+.dashboard-content { padding: 20px 80px; position: relative; z-index: 5; }
+.main-title-dash { font-size: 32px; color: #333; margin-bottom: 5px; }
+.welcome-user { font-size: 22px; color: #7a7a7a; margin-top: 0; font-weight: normal; }
 
-.welcome-user {
-    font-family: Arial, sans-serif;
-    font-size: 18px;
-    color: #7a7a7a;
-    margin-top: 0;
-    font-weight: normal;
-}
-
-/* Rejilla de Botones (Estilo Penpot) */
-.button-grid {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 25px;
-    margin-top: 50px;
-    position: relative;
-    z-index: 5;
-}
-
-.button-column {
-    display: flex;
-    flex-direction: column; /* Apila los hijos verticalmente */
-    gap: 25px; /* Mantiene el mismo espacio que los otros botones */
-}
+/* --- 3. BOTONES DEL DASHBOARD (MENÚ) --- */
+.button-grid { display: flex; flex-wrap: wrap; gap: 25px; margin-top: 40px; }
+.button-column { display: flex; flex-direction: column; gap: 25px; }
 
 .menu-card {
-    width: 200px;
-    height: 45px;
+    width: 220px;
+    height: 48px;
     border: 2px solid #CD032E;
     border-radius: 12px;
     display: flex;
@@ -226,25 +179,206 @@ html, body {
     text-decoration: none;
     color: #000;
     font-weight: bold;
-    font-size: 16px;
-    background-color: #fff;
+    transition: all 0.3s ease;
+    background: #fff;
+}
+
+.menu-card:hover { background-color: #CD032E; color: #fff; }
+
+/* --- 4. LISTA DE ALUMNADO (TABLA Y FILTROS) --- */
+.table-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    width: 98%;
+}
+
+.filters-group { display: flex; gap: 15px; }
+
+.search-input, .filter-select {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.search-input { width: 320px; }
+
+.btn-reporte-top {
+    background-color: #cd032e;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-reporte-top:hover { background-color: #a50225; }
+
+.table-container {
+    background: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    overflow: hidden;
+    width: 98%;
+}
+
+.alumnos-table { width: 100%; border-collapse: collapse; }
+.alumnos-table thead { background-color: #f9f9f9; border-bottom: 2px solid #cd032e; }
+.alumnos-table th { padding: 15px; text-align: left; font-size: 13px; color: #333; }
+.alumnos-table td { padding: 12px 15px; border-bottom: 1px solid #eee; font-size: 14px; color: #555; }
+
+.status-badge {
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.btn-action {
+    background: none;
+    border: 1px solid #cd032e;
+    color: #cd032e;
+    padding: 4px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-action:hover { background: #cd032e; color: #fff; }
+
+/* Botón Nuevo Alumno (Estilo similar al menú) */
+.btn-nuevo {
+    background-color: #ffffff;
+    color: #000000;
+    border: 2px solid #CD032E;
+    padding: 10px 20px;
+    border-radius: 12px; /* Redondeado como las menu-cards */
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 15px;
     transition: all 0.3s ease;
 }
 
-.menu-card:hover {
+.btn-nuevo:hover {
     background-color: #CD032E;
     color: #ffffff;
 }
 
-/* Logo de fondo (Marca de agua) */
+/* Grupo de botones a la derecha */
+.actions-group {
+    display: flex;
+    align-items: center;
+}
+
+/* --- 5. MARCA DE AGUA --- */
 .watermark-logo {
     position: fixed;
-    bottom: 50px;
-    right: 50px;
-    width: 300px;
-    height: 350px;
+    bottom: 40px;
+    right: 40px;
+    width: 250px;
+    height: 300px;
     background: url('../img/LogoSolo.jpg') no-repeat center center / contain;
     opacity: 1;
     z-index: -1;
     pointer-events: none;
 }
+
+/* --- ESTILOS DEL MODAL --- */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.6); /* Fondo oscuro semitransparente */
+    backdrop-filter: blur(3px); /* Efecto de desenfoque al fondo */
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 550px;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+    position: relative;
+    animation: aparecer 0.3s ease-out;
+}
+
+@keyframes aparecer {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Campos del formulario */
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.registro-form input, .registro-form select, .registro-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+}
+
+.registro-form input:focus { border-color: #CD032E; }
+
+/* Botones del formulario */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-guardar {
+    background-color: #CD032E;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-cancelar {
+    background-color: #eee;
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.close-modal {
+    position: absolute;
+    right: 20px; top: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+}
+
+.btn-action-icon {
+    background: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 5px 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 16px;
+}
+
+.btn-action-icon.edit:hover { background: #e3f2fd; border-color: #2196f3; }
+.btn-action-icon.delete:hover { background: #ffebee; border-color: #f44336; }
