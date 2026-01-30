@@ -1,105 +1,163 @@
 /**
- * alumnos.js - Lógica para la gestión de alumnos
+ * alumnos.js - Gestión de Expediente Maestro (13 Columnas)
  */
+/**
+ * Genera las opciones de los select de forma dinámica basado en el año actual
+ */
+function configurarCamposDinamicos() {
+    const fecha = new Date();
+    const anioActualCorto = fecha.getFullYear() % 100;
+    
+    const regIngreso = document.getElementById("regIngreso");
+    const regPierde = document.getElementById("regPierdeCalidad");
+
+    if (regIngreso) {
+        // Limpiar y agregar opciones desde el 2016 hasta el año actual
+        regIngreso.innerHTML = '<option value="" disabled selected>Trimestre Ingreso...</option>';
+        for (let y = anioActualCorto; y >= 16; y--) {
+            ["O", "P", "I"].forEach(t => {
+                regIngreso.add(new Option(`${y}-${t}`, `${y}-${t}`));
+            });
+        }
+    }
+
+    if (regPierde) {
+        // Limpiar y agregar opciones desde el año actual hasta 6 años al futuro
+        regPierde.innerHTML = '<option value="" disabled selected>Selecciona...</option>';
+        for (let y = anioActualCorto; y <= anioActualCorto + 6; y++) {
+            ["O", "P", "I"].forEach(t => {
+                regPierde.add(new Option(`${y}-${t}`, `${y}-${t}`));
+            });
+        }
+    }
+}
 
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("Script alumnos.js cargado correctamente.");
+    configurarCamposDinamicos();
+    // --- REFERENCIAS DOM ---
     const modal = document.getElementById("modalRegistro");
     const modalEliminar = document.getElementById("modalEliminar");
     const form = document.getElementById("formNuevoAlumno");
-    const tablaBody = document.getElementById("tablaAlumnos").getElementsByTagName("tbody")[0];
+    const tablaBody = document.querySelector("#tablaAlumnos tbody");
     
-    // Referencias a filtros
-    const filtroMatricula = document.getElementById("filtroMatricula");
-    const filtroTrimestre = document.getElementById("filtroTrimestre");
-    const filtroEstatus = document.getElementById("filtroEstatus");
-
-    let filaAEliminar = null;
-
-    // --- FUNCIONES DE FILTRADO ---
-    function aplicarFiltros() {
-        const valMat = filtroMatricula.value.toLowerCase();
-        const valTri = filtroTrimestre.value;
-        const valEst = filtroEstatus.value;
-
-        Array.from(tablaBody.rows).forEach(row => {
-            const txtMat = row.cells[0].innerText.toLowerCase();
-            const txtTri = row.cells[5].innerText;
-            const txtEst = row.cells[6].innerText;
-
-            const coincideMat = txtMat.includes(valMat);
-            const coincideTri = valTri === "" || txtTri === valTri;
-            const coincideEst = valEst === "" || txtEst.includes(valEst);
-
-            row.style.display = (coincideMat && coincideTri && coincideEst) ? "" : "none";
+    // Botones (Usamos IDs para mayor seguridad)
+    const btnNuevo = document.getElementById("btnAbrirModal");
+    const btnCerrarX = document.getElementById("btnCerrarX");
+    const btnCancelar = document.getElementById("btnCancelarModal");
+    const btnCancelarDel = document.getElementById("btnCancelarEliminar");
+    
+    // --- FUNCIONES DE APERTURA/CIERRE ---
+    
+    // Abrir Modal Nuevo
+    if(btnNuevo) {
+        btnNuevo.addEventListener("click", () => {
+            document.getElementById("modalTitulo").innerText = "Registrar Nuevo Alumno";
+            document.getElementById("editRowIndex").value = "-1";
+            form.reset();
+            // Reset placeholders
+            document.getElementById("regIngreso").value = "";
+            document.getElementById("regPierdeCalidad").value = "";
+            document.getElementById("regEstatus").value = "";
+            document.getElementById("regEstatusBeca").value = "";
+            modal.style.display = "block";
         });
+    } else {
+        console.error("No se encontró el botón 'btnAbrirModal'. Revisa el ID en el JSP.");
     }
 
-    // Escuchar eventos en los filtros
-    filtroMatricula.addEventListener("input", aplicarFiltros);
-    filtroTrimestre.addEventListener("change", aplicarFiltros);
-    filtroEstatus.addEventListener("change", aplicarFiltros);
+    // Cerrar Modales
+    const cerrar = () => modal.style.display = "none";
+    const cerrarDel = () => modalEliminar.style.display = "none";
 
-    // --- FUNCIONES DE MODAL ---
-    window.abrirModal = () => {
-        document.getElementById("modalTitulo").innerText = "Registrar Nuevo Alumno";
-        document.getElementById("editRowIndex").value = "-1";
-        form.reset();
-        modal.style.display = "block";
-    };
+    if(btnCerrarX) btnCerrarX.addEventListener("click", cerrar);
+    if(btnCancelar) btnCancelar.addEventListener("click", cerrar);
+    if(btnCancelarDel) btnCancelarDel.addEventListener("click", cerrarDel);
 
-    window.cerrarModal = () => modal.style.display = "none";
-    window.cerrarModalEliminar = () => modalEliminar.style.display = "none";
-
-    // --- PREPARAR EDICIÓN ---
+    // --- FUNCIONES GLOBALES (Para botones dentro de la tabla) ---
+    // Deben estar en 'window' para que el onclick="prepararEdicion(this)" funcione
+    
     window.prepararEdicion = (btn) => {
         const fila = btn.closest("tr");
         document.getElementById("modalTitulo").innerText = "Editar Información del Alumno";
-        // Guardamos el índice real de la fila en el cuerpo de la tabla
         document.getElementById("editRowIndex").value = fila.sectionRowIndex;
 
-        document.getElementById("regMatricula").value = fila.cells[0].innerText;
-        document.getElementById("regNombre").value = fila.cells[1].innerText;
-        document.getElementById("regCorreoInst").value = fila.cells[2].innerText === "-" ? "" : fila.cells[2].innerText;
-        document.getElementById("regCorreoAlt").value = fila.cells[3].innerText === "-" ? "" : fila.cells[3].innerText;
-        document.getElementById("regTel").value = fila.cells[4].innerText === "-" ? "" : fila.cells[4].innerText;
-        document.getElementById("regIngreso").value = fila.cells[5].innerText;
-        document.getElementById("regEstatus").value = fila.cells[6].innerText.trim();
-        document.getElementById("regActa").value = fila.cells[7].innerText === "-" ? "" : fila.cells[7].innerText;
-        document.getElementById("regFechaTit").value = fila.cells[8].innerText === "-" ? "" : fila.cells[8].innerText;
-        document.getElementById("regComentarios").value = fila.cells[9].innerText === "Sin comentarios" ? "" : fila.cells[9].innerText;
+        const getVal = (idx) => {
+            const txt = fila.cells[idx].innerText.trim();
+            return (txt === "-" || txt === "Sin comentarios") ? "" : txt;
+        };
+
+        // Mapeo 13 columnas (Indices 0 a 12)
+        document.getElementById("regMatricula").value = getVal(0);
+        document.getElementById("regNombre").value = getVal(1);
+        document.getElementById("regCorreoInst").value = getVal(2);
+        document.getElementById("regCorreoAlt").value = getVal(3);
+        document.getElementById("regTel").value = getVal(4);
+        document.getElementById("regIngreso").value = getVal(5); 
+        document.getElementById("regFechaIngUam").value = getVal(6); 
+        document.getElementById("regPierdeCalidad").value = getVal(7); 
+        document.getElementById("regEstatus").value = fila.cells[8].innerText.trim(); 
+        document.getElementById("regEstatusBeca").value = fila.cells[9].innerText.trim(); 
+        document.getElementById("regActa").value = getVal(10);
+        document.getElementById("regFechaTit").value = getVal(11); 
+        document.getElementById("regComentarios").value = getVal(12);
 
         modal.style.display = "block";
     };
 
-    // --- GUARDAR (CREAR O EDITAR) ---
+    let filaAEliminar = null;
+    window.confirmarEliminar = (btn) => {
+        filaAEliminar = btn.closest("tr");
+        modalEliminar.style.display = "block";
+    };
+
+    document.getElementById("btnConfirmarBorrado").addEventListener("click", () => {
+        if(filaAEliminar) {
+            filaAEliminar.remove();
+            filaAEliminar = null;
+            cerrarDel();
+            aplicarFiltros();
+        }
+    });
+
+    // --- GUARDAR DATOS ---
     form.addEventListener("submit", (e) => {
         e.preventDefault();
         const index = document.getElementById("editRowIndex").value;
         
-        const datos = {
-            m: document.getElementById("regMatricula").value,
-            n: document.getElementById("regNombre").value,
-            ci: document.getElementById("regCorreoInst").value || "-",
+        // Recolección segura
+        const val = (id) => document.getElementById(id).value || "-";
+        
+        const d = {
+            m: val("regMatricula"),
+            n: val("regNombre"),
+            ci: document.getElementById("regCorreoInst").value || "-", // Correos pueden ser vacios
             ca: document.getElementById("regCorreoAlt").value || "-",
-            t: document.getElementById("regTel").value || "-",
-            i: document.getElementById("regIngreso").value || "-",
-            e: document.getElementById("regEstatus").value,
-            a: document.getElementById("regActa").value || "-",
-            ft: document.getElementById("regFechaTit").value || "-",
+            t: val("regTel"),
+            i: val("regIngreso"),
+            fiu: val("regFechaIngUam"),
+            pc: val("regPierdeCalidad"),
+            e: document.getElementById("regEstatus").value || "Vigente",
+            eb: document.getElementById("regEstatusBeca").value || "-",
+            a: val("regActa"),
+            ft: val("regFechaTit"),
             c: document.getElementById("regComentarios").value || "Sin comentarios"
         };
 
-        const htmlFila = `
-            <td>${datos.m}</td>
-            <td>${datos.n}</td>
-            <td>${datos.ci}</td>
-            <td>${datos.ca}</td>
-            <td>${datos.t}</td>
-            <td>${datos.i}</td>
-            <td><span class="status-badge">${datos.e}</span></td>
-            <td>${datos.a}</td>
-            <td>${datos.ft}</td>
-            <td>${datos.c}</td>
+        const html = `
+            <td>${d.m}</td>
+            <td>${d.n}</td>
+            <td>${d.ci}</td>
+            <td>${d.ca}</td>
+            <td>${d.t}</td>
+            <td>${d.i}</td>
+            <td>${d.fiu}</td>
+            <td>${d.pc}</td>
+            <td><span class="status-badge">${d.e}</span></td>
+            <td>${d.eb}</td>
+            <td>${d.a}</td>
+            <td>${d.ft}</td>
+            <td>${d.c}</td>
             <td>
                 <div style="display: flex; gap: 8px;">
                     <button class="btn-action-icon edit" onclick="prepararEdicion(this)">✏️</button>
@@ -109,27 +167,58 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
 
         if (index === "-1") {
-            const nuevaFila = tablaBody.insertRow();
-            nuevaFila.innerHTML = htmlFila;
+            const row = tablaBody.insertRow();
+            row.innerHTML = html;
         } else {
-            tablaBody.rows[index].innerHTML = htmlFila;
+            tablaBody.rows[index].innerHTML = html;
         }
 
-        cerrarModal();
-        aplicarFiltros(); // Re-aplicar filtros por si el nuevo dato no coincide
+        cerrar();
+        aplicarFiltros();
     });
 
-    // --- ELIMINAR ---
-    window.confirmarEliminar = (btn) => {
-        filaAEliminar = btn.closest("tr");
-        modalEliminar.style.display = "block";
-    };
+    // --- FILTROS ---
+    // Referencias a los elementos del DOM (Nota: filtroMatricula ya no existe)
+    const filtroTrimestre = document.getElementById("filtroTrimestre");
+    const filtroPierde = document.getElementById("filtroPierdeCalidad");
+    const filtroAnioTit = document.getElementById("filtroAnioTit");
+    const filtroEstatus = document.getElementById("filtroEstatus");
 
-    document.getElementById("btnConfirmarBorrado").onclick = () => {
-        if (filaAEliminar) {
-            filaAEliminar.remove();
-            cerrarModalEliminar();
-            filaAEliminar = null;
-        }
-    };
+    function aplicarFiltros() {
+        // Obtenemos valores (si el filtro no existe por alguna razón, usamos cadena vacía)
+        const valTri = filtroTrimestre ? filtroTrimestre.value : "";
+        const valPierde = filtroPierde ? filtroPierde.value : "";
+        const valAnio = filtroAnioTit ? filtroAnioTit.value : "";
+        const valEst = filtroEstatus ? filtroEstatus.value : "";
+
+        Array.from(tablaBody.rows).forEach(row => {
+            // Obtenemos el texto de las celdas específicas según tu estructura de 13 columnas
+            const txtTri = row.cells[5].innerText;       // Columna Ingreso
+            const txtPierde = row.cells[7].innerText;    // Columna Pierde Calidad
+            const txtEst = row.cells[8].innerText;       // Columna Estatus
+            const txtFechaTit = row.cells[11].innerText; // Columna F. Titulación
+            
+            // Lógica de comparación
+            const coincideTri = valTri === "" || txtTri === valTri;
+            const coincidePierde = valPierde === "" || txtPierde === valPierde;
+            const coincideEst = valEst === "" || txtEst.includes(valEst);
+            
+            // Para el año, verificamos si la fecha completa INCLUYE el año seleccionado
+            // Funciona tanto para "2024-05-10" como para "10/05/2024"
+            const coincideAnio = valAnio === "" || txtFechaTit.includes(valAnio);
+
+            // Mostrar solo si CUMPLE TODAS las condiciones
+            if (coincideTri && coincidePierde && coincideEst && coincideAnio) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+
+    // Event Listeners (Detectar cambios en los select)
+    if(filtroTrimestre) filtroTrimestre.addEventListener("change", aplicarFiltros);
+    if(filtroPierde) filtroPierde.addEventListener("change", aplicarFiltros);
+    if(filtroAnioTit) filtroAnioTit.addEventListener("change", aplicarFiltros);
+    if(filtroEstatus) filtroEstatus.addEventListener("change", aplicarFiltros);
 });
