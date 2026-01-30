@@ -382,3 +382,33 @@ html, body {
 
 .btn-action-icon.edit:hover { background: #e3f2fd; border-color: #2196f3; }
 .btn-action-icon.delete:hover { background: #ffebee; border-color: #f44336; }
+
+/* Control de grupos de entrada reducidos */
+.form-group-slim {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Esto hace que todos midan lo mismo en la fila */
+    min-width: 150px; /* Evita que se colapsen en pantallas pequeñas */
+    padding: 0 5px;
+}
+
+.label-mini {
+    font-size: 10px; /* Texto más pequeño para las etiquetas superiores */
+    color: #666;
+    margin-bottom: 2px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Ajuste específico para que los inputs de fecha no se vean gigantes */
+.form-group-slim input[type="date"], 
+.form-group-slim select {
+    padding: 6px;
+    font-size: 13px;
+    height: 35px; /* Altura estándar */
+}
+
+/* El campo de comentarios suele ser largo, le damos prioridad */
+#regComentarios {
+    flex: 2.5; 
+}

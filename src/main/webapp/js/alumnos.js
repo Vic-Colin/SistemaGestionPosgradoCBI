@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- FUNCIONES GLOBALES (Para botones dentro de la tabla) ---
     // Deben estar en 'window' para que el onclick="prepararEdicion(this)" funcione
     
+    // --- PREPARAR EDICIÓN (ACTUALIZADO) ---
     window.prepararEdicion = (btn) => {
         const fila = btn.closest("tr");
         document.getElementById("modalTitulo").innerText = "Editar Información del Alumno";
@@ -87,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return (txt === "-" || txt === "Sin comentarios") ? "" : txt;
         };
 
-        // Mapeo 13 columnas (Indices 0 a 12)
+        // Seteamos los campos existentes
         document.getElementById("regMatricula").value = getVal(0);
         document.getElementById("regNombre").value = getVal(1);
         document.getElementById("regCorreoInst").value = getVal(2);
@@ -101,6 +102,12 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("regActa").value = getVal(10);
         document.getElementById("regFechaTit").value = getVal(11); 
         document.getElementById("regComentarios").value = getVal(12);
+
+        // Los campos CVU e Inicio/Fin de beca no están en la tabla de alumnos, 
+        // pero se cargarán desde el backend en el futuro. Por ahora los dejamos limpios o con lógica dummy.
+        document.getElementById("regCVU").value = ""; 
+        document.getElementById("regFechaInicioBeca").value = "";
+        document.getElementById("regFechaFinBeca").value = "";
 
         modal.style.display = "block";
     };
@@ -120,29 +127,38 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // --- GUARDAR DATOS ---
+    // --- GUARDAR DATOS (ACTUALIZADO) ---
     form.addEventListener("submit", (e) => {
         e.preventDefault();
         const index = document.getElementById("editRowIndex").value;
         
-        // Recolección segura
         const val = (id) => document.getElementById(id).value || "-";
         
+        // Creamos un objeto que ya tiene TODO lo de alumno y beca
         const d = {
             m: val("regMatricula"),
             n: val("regNombre"),
-            ci: document.getElementById("regCorreoInst").value || "-", // Correos pueden ser vacios
+            ci: document.getElementById("regCorreoInst").value || "-",
             ca: document.getElementById("regCorreoAlt").value || "-",
             t: val("regTel"),
             i: val("regIngreso"),
             fiu: val("regFechaIngUam"),
             pc: val("regPierdeCalidad"),
             e: document.getElementById("regEstatus").value || "Vigente",
+            // Campos de Beca
             eb: document.getElementById("regEstatusBeca").value || "-",
+            cvu: val("regCVU"),
+            fbi: val("regFechaInicioBeca"),
+            fbf: val("regFechaFinBeca"),
+            fm: document.getElementById("regFechaMax").value || "-",
+            // Otros
             a: val("regActa"),
             ft: val("regFechaTit"),
             c: document.getElementById("regComentarios").value || "Sin comentarios"
         };
+
+        // Imprimimos en consola para verificar que el FRONTEND ya captura la beca
+        console.log("Expediente Maestro capturado para matrícula: " + d.m, d);
 
         const html = `
             <td>${d.m}</td>
