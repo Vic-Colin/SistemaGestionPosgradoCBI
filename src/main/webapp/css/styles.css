@@ -412,3 +412,70 @@ html, body {
 #regComentarios {
     flex: 2.5; 
 }
+
+/* =======================================================
+   ESTILOS NUEVOS (PROFESORADO & SEPARACIÓN DE ESTILOS)
+   ======================================================= */
+
+/* --- Títulos de Secciones (Para separar visualmente formularios) --- */
+.seccion-titulo {
+    color: #CD032E;
+    font-size: 16px;
+    border-bottom: 2px solid #eee;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* --- Tabla con Encabezado Rojo (Diseño Profesorado) --- */
+.header-rojo th {
+    background-color: #CD032E;
+    color: white;
+    font-weight: normal;
+    border: none;
+    padding: 12px;
+    text-align: left;
+}
+
+/* --- Grupo de Filtros para Profesorado (Doble Input) --- */
+.filters-group-prof {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    align-items: center;
+}
+
+/* --- Inputs de Búsqueda Estilo Penpot --- */
+.search-input-prof {
+    padding: 10px 15px;
+    border: 2px solid #CD032E;
+    border-radius: 8px;
+    width: 300px;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    transition: box-shadow 0.3s ease;
+}
+
+.search-input-prof:focus {
+    box-shadow: 0 0 5px rgba(205, 3, 46, 0.3);
+}
+
+/* --- Botón Generar Reporte (Estilo Outline / Fondo blanco) --- */
+.btn-outline-red {
+    background: #fff;
+    border: 2px solid #CD032E;
+    color: #000;
+    padding: 10px 20px;
+    border-radius: 12px; /* Mismo radio que otros botones */
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s, color 0.3s;
+}
+
+.btn-outline-red:hover {
+    background: #fcebeb; /* Color rojo muy suave al hover */
+    color: #cd032e;
+}
