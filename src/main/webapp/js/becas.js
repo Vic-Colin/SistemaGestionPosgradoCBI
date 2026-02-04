@@ -34,8 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.style.display = "block";
     };
 
-    window.cerrarModalBeca = () => modal.style.display = "none";
-    window.cerrarModalEliminarBeca = () => modalDel.style.display = "none";
+    window.cerrarModalBeca = () => {modal.style.display = "none";};
+    window.cerrarModalEliminarBeca = () => {modalDel.style.display = "none";};
 
     window.prepararEdicionBeca = (btn) => {
         const fila = btn.closest("tr");
