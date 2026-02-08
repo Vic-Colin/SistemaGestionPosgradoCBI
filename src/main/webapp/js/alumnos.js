@@ -10,6 +10,8 @@ function configurarCamposDinamicos() {
     
     const regIngreso = document.getElementById("regIngreso");
     const regPierde = document.getElementById("regPierdeCalidad");
+    //const regEstatusBeca = document.getElementById("regEstatusBeca");
+    //regEstatusBeca.innerHTML='<option value="" disabled selected> Selecciona...</option>';
 
     if (regIngreso) {
         // Limpiar y agregar opciones desde el 2016 hasta el año actual
@@ -59,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("regIngreso").value = "";
             document.getElementById("regPierdeCalidad").value = "";
             document.getElementById("regEstatus").value = "";
-            document.getElementById("regEstatusBeca").value = "";
+            document.getElementById("regEstatusBeca").value = "NO TUVO BECA";
             modal.style.display = "block";
         });
     } else {

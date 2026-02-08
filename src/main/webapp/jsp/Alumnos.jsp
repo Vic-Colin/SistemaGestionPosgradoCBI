@@ -159,43 +159,58 @@
                 <form id="formNuevoAlumno">
                 <input type="hidden" id="editRowIndex" value="-1">
             
-                <div class="seccion-titulo">Datos Generales</div>
+                <div class="seccion-titulo">Datos Generales*</div>
                 
                 <div class="form-row">
-                    <input type="text" id="regMatricula" placeholder="Matrícula" required style="flex: 1;">
-                    <input type="text" id="regNombre" placeholder="Nombre Completo" required style="flex: 2;">
+                    <div class="form-group-slim">
+                        <label class="label-mini">Matrícula:*</label>
+                        <input type="text" id="regMatricula" placeholder="Matrícula" required style="flex: 1;">
+                    </div>
+                    <div class="from-group-slim">
+                        <label class="label-mini">Nombre:*</label>
+                        <input type="text" id="regNombre" placeholder="Nombre Completo" required style="flex: 2;">
+                    </div>
                 </div>
                 <div class="form-row">
-                    <input type="email" id="regCorreoInst" placeholder="Correo Institucional">
-                    <input type="email" id="regCorreoAlt" placeholder="Correo Alternativo">
-                    <input type="text" id="regTel" placeholder="Teléfono" style="width: 150px;">
+                    <div class="from-group-slim">
+                        <label class="label-mini">Correo Institucional:*</label>
+                        <input type="email" id="regCorreoInst" placeholder="Correo Institucional">
+                    </div>
+                    <div class="from-group-slim">
+                        <label class="label-mini">Correo Alternativo:</label>
+                        <input type="email" id="regCorreoAlt" placeholder="Correo Alternativo">
+                    </div>
+                    <div class="from-group-slim">
+                        <label class="label-mini">Teléfono:</label>
+                        <input type="text" id="regTel" placeholder="Teléfono" style="width: 150px;">
+                    </div>
                 </div>
 
-                <div class="seccion-titulo">Estatus y Becas CONAHCyT</div>
+                <div class="seccion-titulo">Datos Académicos*</div>
                 <div class="form-row">
                     <div class="form-group-slim">
-                        <label class="label-mini">Trim. Ingreso:</label>
+                        <label class="label-mini">Trim. Ingreso:*</label>
                         <select id="regIngreso"></select>
                     </div>
                     <div class="form-group-slim">
-                        <label class="label-mini">Fecha Ing. UAM:</label>
+                        <label class="label-mini">Fecha Ingreso UAM:*</label>
                         <input type="date" id="regFechaIngUam">
                     </div>
                     <div class="form-group-slim">
-                        <label class="label-mini">Pierde Calidad:</label>
+                        <label class="label-mini">Pierde Calidad:*</label>
                         <select id="regPierdeCalidad"></select>
                     </div>
                 </div>
-
+                <div class="seccion-titulo">Beca SECIHTI</div>
                 <div class="form-row">
                     <div class="form-group-slim" style="flex: 1;">
                         <label class="label-mini">Número CVU:</label>
                         <input type="text" id="regCVU" placeholder="Número de CVU">
                     </div>
                     <div class="form-group-slim" style="flex: 1;">
-                        <label class="label-mini">Estatus Beca:</label>
+                        <label class="label-mini">Estatus Beca*:</label>
                         <select id="regEstatusBeca">
-                            <option value="NO TUVO BECA">Sin Beca</option>
+                            <option value="NO TUVO BECA" selected>Sin Beca</option>
                             <option value="VIGENTE">VIGENTE</option>
                             <option value="CONCLUIDA">CONCLUIDA</option>
                             <option value="SUSPENDIDA">SUSPENDIDA</option>
@@ -218,7 +233,7 @@
                     </div>
                 </div>
 
-                <div class="seccion-titulo">Titulación y Estatus Final</div>
+                <div class="seccion-titulo">Titulación</div>
                 <div class="form-row">
                     
                     <div class="form-group-slim">
@@ -230,7 +245,7 @@
                         <input type="date" id="regFechaTit">
                     </div>
                 </div>
-
+                <div class="seccion-titulo">Proyecto Tesis</div>
                 <div class="form-row">
                     <input type="text" id="regComentarios" placeholder="Comentarios adicionales" style="flex: 1;">
                 </div>

@@ -23,7 +23,7 @@
 
         <main class="dashboard-content">
             <h1 class="main-title-dash">Sistema de Posgrado de la División de CBI</h1>
-            <h2 class="welcome-user">Bienvenido USUARIO</h2>
+            <h2 class="welcome-user">Bienvenido </h2>
 
             <div class="button-grid">
                 <div class="button-column">
@@ -31,9 +31,9 @@
                     <a href="${pageContext.request.contextPath}/EstadisticasServlet" class="menu-card">Estadísticas</a>
                 </div>
 
-                <a href="${pageContext.request.contextPath}/BecaServlet" class="menu-card">Estado de beca</a>
+                <a href="${pageContext.request.contextPath}/BecaServlet" class="menu-card">Becas</a>
                 <a href="${pageContext.request.contextPath}/ProfesoradoServlet" class="menu-card">Profesorado</a>
-                <a href="${pageContext.request.contextPath}/ProyectosServlet" class="menu-card">Proyectos</a>
+                <a href="${pageContext.request.contextPath}/ProyectosServlet" class="menu-card">Tesis</a>
             </div>
         </main>
 

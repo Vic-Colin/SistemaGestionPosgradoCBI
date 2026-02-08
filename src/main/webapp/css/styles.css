@@ -358,15 +358,25 @@ html, body {
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
+    transition: all 0.3s ease;
 }
 
+.btn-guardar:hover {
+    background-color: #a50225;
+}
 .btn-cancelar {
-    background-color: #eee;
-    color: #333;
+    background-color: #e0e0e0;
+    color: #000;
     border: none;
     padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-cancelar:hover{
+    background-color: #CD032E;
+    color: #FFFFFF;
 }
 
 .close-modal {
@@ -504,7 +514,7 @@ html, body {
 }
 
 .seccion-titulo {
-    color: #000 !important; /* Forzado a Negro */
+    color: #CD032E !important; 
     font-size: 16px;
     border-bottom: 2px solid #eee;
     margin-top: 20px;

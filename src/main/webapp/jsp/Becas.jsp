@@ -25,8 +25,8 @@
         </nav>
 
         <main class="dashboard-content">
-            <h1 class="main-title-dash">Becas SECIHTI (CONAHCyT)</h1>
-            <h2 class="welcome-user">Control de Vigencias y CVU</h2>
+            <h1 class="main-title-dash">Becas SECIHTI</h1>
+            <h2 class="welcome-user">Consulta de Vigencias</h2>
             
             <div class="table-controls">
                 <div class="filters-group">
