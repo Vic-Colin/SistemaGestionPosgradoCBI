@@ -50,6 +50,7 @@
             
             <div class="table-controls">
                 <div class="filters-group">
+                    <input type="text" placeholder="Matrícula" class="search-input" id="filtroMatricula">
                     <select class="filter-select" id="filtroTrimestre">
                         <option value="">Ingreso (Todos)</option>
                         <c:forEach var="a" begin="16" end="${anioActual}">
@@ -84,9 +85,9 @@
                     </select>
                 </div>
                 
-                <div class="actions-group">
-                    <button type="button" class="btn-nuevo" id="btnAbrirModal">+ Nuevo Alumno</button>
-                    <button class="btn-reporte-top">Generar reporte</button>
+                <div class="actions-group" style="flex-direction: column; gap: 10px; align-items: flex-end;">
+                    <button type="button" class="btn-nuevo" id="btnAbrirModal" style="width: 200px; margin: 0; display: flex; justify-content: center; align-items: center;">+ Nuevo Alumno</button>
+                    <button class="btn-reporte-top" style="width: 200px; margin: 0; display: flex; justify-content: center; align-items: center;">Generar reporte</button>
                 </div>
             </div>
 
@@ -140,13 +141,26 @@
 
     <div id="modalRegistro" class="modal">
         <div class="modal-content">
-            <span class="close-modal" id="btnCerrarX">&times;</span>
-            <h2 id="modalTitulo" style="color: #CD032E; margin-top: 0;">Expediente de Alumno</h2>
-        
-            <form id="formNuevoAlumno">
+            
+            <div class="modal-header-flex">
+                <h2 id="modalTitulo" class="modal-main-title">Expediente de Alumno</h2>
+                <div class="estatus-top-right">
+                    <label class="label-mini">Estatus UAM:</label>
+                    <select id="regEstatus" class="select-estatus-uam">
+                        <option value="Vigente">Vigente</option>
+                        <option value="Titulado">Titulado</option>
+                        <option value="Baja">Baja</option>
+                        <option value="Egresado">Baja Temporal</option>
+                    </select>
+                </div>
+                <span class="close-modal" id="btnCerrarX">&times;</span>
+            </div>
+            <div class="modal-body-scroll">
+                <form id="formNuevoAlumno">
                 <input type="hidden" id="editRowIndex" value="-1">
             
-                <div class="seccion-titulo">Datos Académicos y Contacto</div>
+                <div class="seccion-titulo">Datos Generales</div>
+                
                 <div class="form-row">
                     <input type="text" id="regMatricula" placeholder="Matrícula" required style="flex: 1;">
                     <input type="text" id="regNombre" placeholder="Nombre Completo" required style="flex: 2;">
@@ -206,15 +220,7 @@
 
                 <div class="seccion-titulo">Titulación y Estatus Final</div>
                 <div class="form-row">
-                    <div class="form-group-slim">
-                        <label class="label-mini">Estatus UAM:</label>
-                        <select id="regEstatus">
-                            <option value="Vigente">Vigente</option>
-                            <option value="Titulado">Titulado</option>
-                            <option value="Baja">Baja</option>
-                            <option value="Egresado">Egresado</option>
-                        </select>
-                    </div>
+                    
                     <div class="form-group-slim">
                         <label class="label-mini">No. Acta:</label>
                         <input type="text" id="regActa" placeholder="Acta">

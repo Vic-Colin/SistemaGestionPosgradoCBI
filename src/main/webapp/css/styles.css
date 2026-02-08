@@ -195,7 +195,13 @@ html, body {
     width: 98%;
 }
 
-.filters-group { display: flex; gap: 15px; }
+.filters-group { 
+    display: flex;
+    align-items: center;
+    gap: 10px;              /* Espacio estándar entre elementos */
+    flex-wrap: nowrap;      /* Evita que se salten de línea */
+}
+
 
 .search-input, .filter-select {
     padding: 10px 15px;
@@ -204,7 +210,7 @@ html, body {
     font-size: 14px;
 }
 
-.search-input { width: 320px; }
+.search-input { width: 160px; }
 
 .btn-reporte-top {
     background-color: #cd032e;
@@ -304,12 +310,13 @@ html, body {
 .modal-content {
     background-color: #fff;
     margin: 5% auto;
-    padding: 30px;
+    padding: 0;
     border-radius: 15px;
-    width: 550px;
-    box-shadow: 0 5px 30px rgba(0,0,0,0.3);
-    position: relative;
-    animation: aparecer 0.3s ease-out;
+    width: 800px;
+    max-height: 90vh; /* El modal no ocupará más del 90% de la pantalla */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Evita scroll doble */
 }
 
 @keyframes aparecer {
@@ -393,11 +400,11 @@ html, body {
 }
 
 .label-mini {
-    font-size: 10px; /* Texto más pequeño para las etiquetas superiores */
-    color: #666;
-    margin-bottom: 2px;
+    font-size: 13px;
+    color: #000 !important; /* Forzado a Negro */
+    margin-bottom: 4px;
     font-weight: bold;
-    text-transform: uppercase;
+    text-transform: none !important;
 }
 
 /* Ajuste específico para que los inputs de fecha no se vean gigantes */
@@ -419,14 +426,14 @@ html, body {
 
 /* --- Títulos de Secciones (Para separar visualmente formularios) --- */
 .seccion-titulo {
-    color: #CD032E;
+    color: #000;
     font-size: 16px;
     border-bottom: 2px solid #eee;
     margin-top: 20px;
     margin-bottom: 10px;
     padding-bottom: 5px;
     font-weight: bold;
-    text-transform: uppercase;
+    text-transform: none;
 }
 
 /* --- Tabla con Encabezado Rojo (Diseño Profesorado) --- */
@@ -494,4 +501,51 @@ html, body {
 
 .registro-form textarea:focus {
     border-color: #CD032E;
+}
+
+.seccion-titulo {
+    color: #000 !important; /* Forzado a Negro */
+    font-size: 16px;
+    border-bottom: 2px solid #eee;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    text-transform: none !important; /* Quita el UPPERCASE */
+}
+
+.modal-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Alinea la base del título con la base del select */
+    padding: 20px 30px;
+    padding-bottom: 2px solid #CD032E;
+    background: #fff;
+}
+
+.select-estatus-uam {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #CD032E; /* Borde rojo característico */
+    border-radius: 8px;
+    font-family: 'sourcesanspro', sans-serif;
+    outline: none;
+    background-color: white;
+}
+
+.estatus-top-right {
+    width: 200px; /* Tamaño controlado para el select de arriba */
+    margin-right: 40px;
+}
+
+.modal-main-title {
+    color: #CD032E; /* El título principal se mantiene rojo para destacar */
+    margin: 0;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.modal-body-scroll {
+    padding: 20px 30px;
+    overflow-y: auto; /* Aquí activamos el scroll */
+    flex-grow: 1;
 }

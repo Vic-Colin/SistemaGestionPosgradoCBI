@@ -195,13 +195,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- FILTROS ---
     // Referencias a los elementos del DOM (Nota: filtroMatricula ya no existe)
+    const filtroMatricula = document.getElementById("filtroMatricula");
     const filtroTrimestre = document.getElementById("filtroTrimestre");
     const filtroPierde = document.getElementById("filtroPierdeCalidad");
     const filtroAnioTit = document.getElementById("filtroAnioTit");
     const filtroEstatus = document.getElementById("filtroEstatus");
 
-    function aplicarFiltros() {
+    function aplicarFiltros() {        
         // Obtenemos valores (si el filtro no existe por alguna razón, usamos cadena vacía)
+        const valMat = filtroMatricula ? filtroMatricula.value.toLowerCase().trim() : "";
         const valTri = filtroTrimestre ? filtroTrimestre.value : "";
         const valPierde = filtroPierde ? filtroPierde.value : "";
         const valAnio = filtroAnioTit ? filtroAnioTit.value : "";
@@ -209,12 +211,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         Array.from(tablaBody.rows).forEach(row => {
             // Obtenemos el texto de las celdas específicas según tu estructura de 13 columnas
+            const txtMat = row.cells[0].innerText.toLowerCase(); //Columna Matricula
             const txtTri = row.cells[5].innerText;       // Columna Ingreso
             const txtPierde = row.cells[7].innerText;    // Columna Pierde Calidad
             const txtEst = row.cells[8].innerText;       // Columna Estatus
             const txtFechaTit = row.cells[11].innerText; // Columna F. Titulación
             
             // Lógica de comparación
+            const coincideMat = valMat === "" || txtMat.includes(valMat);
             const coincideTri = valTri === "" || txtTri === valTri;
             const coincidePierde = valPierde === "" || txtPierde === valPierde;
             const coincideEst = valEst === "" || txtEst.includes(valEst);
@@ -224,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const coincideAnio = valAnio === "" || txtFechaTit.includes(valAnio);
 
             // Mostrar solo si CUMPLE TODAS las condiciones
-            if (coincideTri && coincidePierde && coincideEst && coincideAnio) {
+            if (coincideMat && coincideTri && coincidePierde && coincideEst && coincideAnio) {
                 row.style.display = "";
             } else {
                 row.style.display = "none";
@@ -233,6 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Event Listeners (Detectar cambios en los select)
+    if(filtroMatricula) filtroMatricula.addEventListener("input", aplicarFiltros);
     if(filtroTrimestre) filtroTrimestre.addEventListener("change", aplicarFiltros);
     if(filtroPierde) filtroPierde.addEventListener("change", aplicarFiltros);
     if(filtroAnioTit) filtroAnioTit.addEventListener("change", aplicarFiltros);

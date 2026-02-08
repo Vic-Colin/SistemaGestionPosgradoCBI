@@ -30,8 +30,12 @@
             
             <div class="table-controls">
                 <div class="filters-group">
-                    <input type="text" placeholder="Buscar por Matrícula o CVU..." class="search-input" id="filtroBeca">
+                    <input type="text" placeholder="Buscar por CVU..." class="search-input" id="filtroBeca">
                     
+                    <select class="filter-select" id="filtroGeneracionBeca">
+                        <option value="">Generación (Todas)</option>
+                    </select>
+
                     <select class="filter-select" id="filtroEstatusBeca">
                         <option value="">Estatus Beca (Todos)</option>
                         <option value="Vigente">Vigente</option>
@@ -39,11 +43,12 @@
                         <option value="No tuvo beca">No tuvo beca</option>
                         <option value="Concluida">Concluida</option>
                     </select>
+
+                    <input type="text" placeholder="Fecha Máx. (ej. 2027)" class="search-input" id="filtroFechaMax">
                 </div>
                 
                 <div class="actions-group">
-                    <button type="button" class="btn-nuevo" onclick="abrirModalBeca()">+ Registrar Beca</button>
-                    <button class="btn-reporte-top">Exportar Excel</button>
+                    <button class="btn-reporte-top">Exportar PDF</button>
                 </div>
             </div>
 
@@ -59,7 +64,6 @@
                             <th>Fecha Máx.</th>
                             <th>Estatus Beca</th>
                             <th>Titulación</th>
-                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,67 +76,23 @@
                             <td>30/11/2027</td>
                             <td><span class="status-badge">Vigente</span></td>
                             <td>-</td>
-                            <td>
-                                <div style="display: flex; gap: 8px;">
-                                    <button class="btn-action-icon edit" onclick="prepararEdicionBeca(this)">✏️</button>
-                                    <button class="btn-action-icon delete" onclick="confirmarEliminarBeca(this)">🗑️</button>
-                                </div>
-                            </td>
                         </tr>
+                        <c:forEach var="beca" items="${listaBecas}">
+                            <tr>
+                                <td>${beca.matricula}</td>
+                                <td>${beca.nombre}</td>
+                                <td>${beca.cvu}</td>
+                                <td>${beca.ingreso}</td>
+                                <td>${beca.finBeca}</td>
+                                <td>${beca.fechaMax}</td>
+                                <td><span class="status-badge">${beca.estatus}</span></td>
+                                <td>${beca.titulacion}</td>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
             </div>
         </main>
-    </div>
-
-    <div id="modalBeca" class="modal">
-        <div class="modal-content" style="width: 650px;">
-            <span class="close-modal" onclick="cerrarModalBeca()">&times;</span>
-            <h2 id="modalTituloBeca" style="color: #CD032E;">Registrar Información de Beca</h2>
-            
-            <form id="formBeca" class="registro-form">
-                <input type="hidden" id="editRowIndexBeca" value="-1">
-                
-                <div class="form-row">
-                    <input type="text" id="becaMatricula" placeholder="Matrícula del Alumno" required>
-                    <input type="text" id="becaNombre" placeholder="Nombre Completo" required>
-                </div>
-                <div class="form-row">
-                    <input type="text" id="becaCVU" placeholder="CVU CONAHCyT">
-                    <input type="text" id="becaIngreso" placeholder="Trimestre Ingreso (ej. 24-O)">
-                </div>
-                <div class="form-row">
-                    <input type="text" id="becaFin" placeholder="Fecha Fin de Beca">
-                    <input type="text" id="becaMax" placeholder="Fecha Máx. CONAHCyT">
-                </div>
-                <div class="form-row">
-                    <select id="becaEstatus">
-                        <option value="Vigente">Vigente</option>
-                        <option value="No tuvo beca">No tuvo beca</option>
-                        <option value="Baja">Baja</option>
-                        <option value="Concluida">Concluida</option>
-                    </select>
-                    <input type="text" id="becaTit" placeholder="Fecha de Titulación">
-                </div>
-                <textarea id="becaComentario" placeholder="Observaciones de la beca..." rows="2"></textarea>
-
-                <div class="form-actions">
-                    <button type="button" class="btn-cancelar" onclick="cerrarModalBeca()">Cancelar</button>
-                    <button type="submit" class="btn-guardar">Guardar Registro</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="modalEliminarBeca" class="modal">
-        <div class="modal-content" style="width: 350px; text-align: center;">
-            <h2 style="color: #CD032E;">¿Eliminar registro?</h2>
-            <p>Se borrará la información de beca de este alumno.</p>
-            <div class="form-actions" style="justify-content: center;">
-                <button class="btn-cancelar" onclick="cerrarModalEliminarBeca()">Cancelar</button>
-                <button class="btn-guardar" id="btnConfirmarBorradoBeca" style="background: #CD032E;">Eliminar</button>
-            </div>
-        </div>
     </div>
 
     <script src="${pageContext.request.contextPath}/js/becas.js"></script>
