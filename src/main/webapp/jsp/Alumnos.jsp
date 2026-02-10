@@ -107,7 +107,10 @@
                             <th>Estatus Beca</th>
                             <th>No. Acta</th>
                             <th>F. Titulación</th>
-                            <th>Comentarios</th>
+                            <th>Título de tesis</th>
+                            <th>Área de concentración</th>
+                            <th>Director (Asesor)</th>
+                            <th>Codirector (Coasesor)</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -125,7 +128,10 @@
                             <td>NO TUVO BECA</td>
                             <td>-</td>
                             <td>2024-04-25</td>
-                            <td>5 trimestres de prórroga</td>
+                            <td>Modelo cinemático computacional para la reproducción del alfabeto dactilológico de la lengua de señas mexicana</td>
+                            <td>Sistemas Inteligentes y manejo de la información</td>
+                            <td>Dra. Ángeles Belem Priego</td>
+                            <td>-</td>
                             <td>
                                 <div style="display: flex; gap: 8px;">
                                     <button class="btn-action-icon edit" onclick="prepararEdicion(this)">✏️</button>
@@ -153,7 +159,7 @@
                         <option value="Egresado">Baja Temporal</option>
                     </select>
                 </div>
-                <span class="close-modal" id="btnCerrarX">&times;</span>
+                <span class="btn-close-modal" id="btnCerrarX">&times;</span>
             </div>
             <div class="modal-body-scroll">
                 <form id="formNuevoAlumno">
@@ -247,7 +253,24 @@
                 </div>
                 <div class="seccion-titulo">Proyecto Tesis</div>
                 <div class="form-row">
-                    <input type="text" id="regComentarios" placeholder="Comentarios adicionales" style="flex: 1;">
+                    <div class="from-group-slim">
+                        <label class="label-mini">Título de tesis</label>
+                        <input type="text" id="alumTituloTesis" placeholder="Título de tesis">
+                    </div>
+                    <div class="from-group-slim">
+                        <label class="label-mini">Área de concentración</label>
+                        <input type="text" id="alumArea" placeholder="Área de concentración">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="from-group-slim">
+                        <label class="label-mini">Director (Asesor)</label>
+                        <input type="text" id="alumDirector" placeholder="Director">
+                    </div>
+                    <div class="from-group-slim">
+                        <label class="label-mini">Codirector (Coasesor)</label>
+                        <input type="text" id="alumCodirector" placeholder="Codirector">
+                    </div>
                 </div>
 
                 <div class="form-actions" style="margin-top: 25px; text-align: right;">

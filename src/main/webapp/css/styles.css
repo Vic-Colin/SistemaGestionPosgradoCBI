@@ -317,6 +317,8 @@ html, body {
     display: flex;
     flex-direction: column;
     overflow: hidden; /* Evita scroll doble */
+    
+    position: relative;
 }
 
 @keyframes aparecer {
@@ -558,4 +560,24 @@ html, body {
     padding: 20px 30px;
     overflow-y: auto; /* Aquí activamos el scroll */
     flex-grow: 1;
+}
+
+/* Botón X cerrar modal */
+.btn-close-modal {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    font-size: 26px;
+    font-weight: bold;
+    color: #CD032E;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+    z-index: 10;
+}
+
+.btn-close-modal:hover {
+    transform: scale(1.2);
+    color: #a50225;
 }

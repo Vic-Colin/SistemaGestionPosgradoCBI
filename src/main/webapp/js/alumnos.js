@@ -103,7 +103,10 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("regEstatusBeca").value = fila.cells[9].innerText.trim(); 
         document.getElementById("regActa").value = getVal(10);
         document.getElementById("regFechaTit").value = getVal(11); 
-        document.getElementById("regComentarios").value = getVal(12);
+        document.getElementById("alumTituloTesis").value = getVal(12);
+        document.getElementById("alumArea").value = getVal(13);
+        document.getElementById("alumDirector").value = getVal(14);
+        document.getElementById("alumCodirector").value = getVal(15);
 
         // Los campos CVU e Inicio/Fin de beca no están en la tabla de alumnos, 
         // pero se cargarán desde el backend en el futuro. Por ahora los dejamos limpios o con lógica dummy.
@@ -156,7 +159,10 @@ document.addEventListener("DOMContentLoaded", () => {
             // Otros
             a: val("regActa"),
             ft: val("regFechaTit"),
-            c: document.getElementById("regComentarios").value || "Sin comentarios"
+            tt: document.getElementById("alumTituloTesis").value || "-",
+            ar: document.getElementById("alumArea").value || "-",
+            di: document.getElementById("alumDirector").value || "-",
+            co: document.getElementById("alumCodirector").value || "-"
         };
 
         // Imprimimos en consola para verificar que el FRONTEND ya captura la beca
@@ -175,7 +181,10 @@ document.addEventListener("DOMContentLoaded", () => {
             <td>${d.eb}</td>
             <td>${d.a}</td>
             <td>${d.ft}</td>
-            <td>${d.c}</td>
+            <td>${d.tt}</td>
+            <td>${d.ar}</td>
+            <td>${d.di}</td>
+            <td>${d.co}</td>
             <td>
                 <div style="display: flex; gap: 8px;">
                     <button class="btn-action-icon edit" onclick="prepararEdicion(this)">✏️</button>
