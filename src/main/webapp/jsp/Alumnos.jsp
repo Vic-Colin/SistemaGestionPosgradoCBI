@@ -150,6 +150,11 @@
             
             <div class="modal-header-flex">
                 <h2 id="modalTitulo" class="modal-main-title">Expediente de Alumno</h2>
+                <!--<div class="activadores-opcionales">
+                    <label><input type="checkbox" id="chkBeca"> Agregar información de Beca</label>
+                    <label><input type="checkbox" id="chkTitulacion"> Agregar información de Titulación</label>
+                    <label><input type="checkbox" id="chkTesis"> Agregar Proyecto de Tesis</label>
+                </div>-->
                 <div class="estatus-top-right">
                     <label class="label-mini">Estatus UAM:</label>
                     <select id="regEstatus" class="select-estatus-uam">
@@ -169,12 +174,12 @@
                 
                 <div class="form-row">
                     <div class="form-group-slim">
-                        <label class="label-mini">Matrícula:*</label>
-                        <input type="text" id="regMatricula" placeholder="Matrícula" required style="flex: 1;">
+                        <label class="label-mini">Nombre:*</label>
+                        <input type="text" id="regNombre" placeholder="Nombre Completo" required style="flex: 1;">
                     </div>
                     <div class="from-group-slim">
-                        <label class="label-mini">Nombre:*</label>
-                        <input type="text" id="regNombre" placeholder="Nombre Completo" required style="flex: 2;">
+                        <label class="label-mini">Matrícula:*</label>
+                        <input type="text" id="regMatricula" placeholder="Matrícula" required style="flex: 2;">
                     </div>
                 </div>
                 <div class="form-row">
@@ -191,7 +196,7 @@
                         <input type="text" id="regTel" placeholder="Teléfono" style="width: 150px;">
                     </div>
                 </div>
-
+                
                 <div class="seccion-titulo">Datos Académicos*</div>
                 <div class="form-row">
                     <div class="form-group-slim">
@@ -207,72 +212,92 @@
                         <select id="regPierdeCalidad"></select>
                     </div>
                 </div>
-                <div class="seccion-titulo">Beca SECIHTI</div>
-                <div class="form-row">
-                    <div class="form-group-slim" style="flex: 1;">
-                        <label class="label-mini">Número CVU:</label>
-                        <input type="text" id="regCVU" placeholder="Número de CVU">
+                <div class="accordion">
+                    <div class="accordion-header" data-target="seccionBeca">
+                        <span>Beca SECIHTI</span>
+                        <span class="icono">▶</span>
                     </div>
-                    <div class="form-group-slim" style="flex: 1;">
-                        <label class="label-mini">Estatus Beca*:</label>
-                        <select id="regEstatusBeca">
-                            <option value="NO TUVO BECA" selected>Sin Beca</option>
-                            <option value="VIGENTE">VIGENTE</option>
-                            <option value="CONCLUIDA">CONCLUIDA</option>
-                            <option value="SUSPENDIDA">SUSPENDIDA</option>
-                        </select>
-                    </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="form-group-slim">
-                        <label class="label-mini">Inicio de Beca:</label>
-                        <input type="date" id="regFechaInicioBeca">
-                    </div>
-                    <div class="form-group-slim">
-                        <label class="label-mini">Fin de Beca:</label>
-                        <input type="date" id="regFechaFinBeca">
-                    </div>
-                    <div class="form-group-slim">
-                        <label class="label-mini">Fecha Máxima:</label>
-                        <input type="date" id="regFechaMax">
+                    <div id="seccionBeca" class="accordion-body">
+                        <div class="form-row">
+                            <div class="form-group-slim" style="flex: 1;">
+                                <label class="label-mini">Número CVU:</label>
+                                <input type="text" id="regCVU" placeholder="Número de CVU">
+                            </div>
+                            <div class="form-group-slim" style="flex: 1;">
+                                <label class="label-mini">Estatus Beca*:</label>
+                                <select id="regEstatusBeca">
+                                    <option value="NO TUVO BECA" selected>Sin Beca</option>
+                                    <option value="VIGENTE">VIGENTE</option>
+                                    <option value="CONCLUIDA">CONCLUIDA</option>
+                                    <option value="SUSPENDIDA">SUSPENDIDA</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group-slim">
+                                <label class="label-mini">Inicio de Beca:</label>
+                                <input type="date" id="regFechaInicioBeca">
+                            </div>
+                            <div class="form-group-slim">
+                                <label class="label-mini">Fin de Beca:</label>
+                                <input type="date" id="regFechaFinBeca">
+                            </div>
+                            <div class="form-group-slim">
+                                <label class="label-mini">Fecha Máxima:</label>
+                                <input type="date" id="regFechaMax">
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="accordion">
+                    <div class="accordion-header" data-target="seccionTitulacion">
+                        <span>Titulación</span>
+                        <span class="icono">▶</span>
+                    </div>
 
-                <div class="seccion-titulo">Titulación</div>
-                <div class="form-row">
-                    
-                    <div class="form-group-slim">
-                        <label class="label-mini">No. Acta:</label>
-                        <input type="text" id="regActa" placeholder="Acta">
-                    </div>
-                    <div class="form-group-slim">
-                        <label class="label-mini">Fecha Titulación:</label>
-                        <input type="date" id="regFechaTit">
-                    </div>
-                </div>
-                <div class="seccion-titulo">Proyecto Tesis</div>
-                <div class="form-row">
-                    <div class="from-group-slim">
-                        <label class="label-mini">Título de tesis</label>
-                        <input type="text" id="alumTituloTesis" placeholder="Título de tesis">
-                    </div>
-                    <div class="from-group-slim">
-                        <label class="label-mini">Área de concentración</label>
-                        <input type="text" id="alumArea" placeholder="Área de concentración">
+                    <div id="seccionTitulacion" class="accordion-body">
+                        <div class="form-row">                
+                            <div class="form-group-slim">
+                                <label class="label-mini">No. Acta:</label>
+                                <input type="text" id="regActa" placeholder="Acta">
+                            </div>
+                            <div class="form-group-slim">
+                                <label class="label-mini">Fecha Titulación:</label>
+                                <input type="date" id="regFechaTit">
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="from-group-slim">
-                        <label class="label-mini">Director (Asesor)</label>
-                        <input type="text" id="alumDirector" placeholder="Director">
+                <div class="accordion">
+                    <div class="accordion-header" data-target="seccionTesis">
+                        <span>Proyecto de Tesis</span>
+                        <span class="icono">▶</span>
                     </div>
-                    <div class="from-group-slim">
-                        <label class="label-mini">Codirector (Coasesor)</label>
-                        <input type="text" id="alumCodirector" placeholder="Codirector">
-                    </div>
-                </div>
 
+                    <div id="seccionTesis" class="accordion-body">
+                        <div class="form-row">
+                            <div class="from-group-slim">
+                                <label class="label-mini">Título de tesis</label>
+                                <input type="text" id="alumTituloTesis" placeholder="Título de tesis">
+                            </div>
+                            <div class="from-group-slim">
+                                <label class="label-mini">Área de concentración</label>
+                                <input type="text" id="alumArea" placeholder="Área de concentración">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="from-group-slim">
+                                <label class="label-mini">Director (Asesor)</label>
+                                <input type="text" id="alumDirector" placeholder="Director">
+                            </div>
+                            <div class="from-group-slim">
+                                <label class="label-mini">Codirector (Coasesor)</label>
+                                <input type="text" id="alumCodirector" placeholder="Codirector">
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-actions" style="margin-top: 25px; text-align: right;">
                     <button type="button" class="btn-cancelar" id="btnCancelarModal">Cancelar</button>
                     <button type="submit" class="btn-guardar">Guardar Expediente Completo</button>
