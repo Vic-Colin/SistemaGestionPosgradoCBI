@@ -17,8 +17,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author CASH
  */
-@WebServlet(name = "LogoutServlet", urlPatterns = {"/LogoutServlet"})
-public class LogoutServlet extends HttpServlet {
+@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
+public class LoginServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +37,10 @@ public class LogoutServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LogoutServlet</title>");
+            out.println("<title>Servlet LoginServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LogoutServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,12 +58,7 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate(); // Cierra la sesión
-        }
-        // Redirige al login (index.html está en la raíz)
-        response.sendRedirect(request.getContextPath() + "/index.jsp");
+        processRequest(request, response);
     }
 
     /**
@@ -77,8 +72,43 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("application/json");
+    response.setCharacterEncoding("UTF-8");
+
+    String usuario = request.getParameter("usuario");
+    String password = request.getParameter("password");
+    
+    System.out.println("Usuario recibido: [" + usuario + "]");
+    System.out.println("Password recibido: [" + password + "]");
+    
+    if (usuario != null) usuario = usuario.trim();
+    if (password != null) password = password.trim();
+
+    PrintWriter out = response.getWriter();
+
+    boolean valido = validarUsuario(usuario, password);
+
+    if (valido) {
+        HttpSession session = request.getSession();
+        session.setAttribute("usuarioActivo", usuario);
+        out.print("{\"success\": true}");
+    } else {
+        out.print("{\"success\": false, \"message\": \"Usuario o contraseña incorrectos\"}");
     }
+
+    out.flush();
+    out.close();
+}
+
+    private boolean validarUsuario(String usuario, String password) {
+
+    if (usuario == null || password == null) {
+        return false;
+    }
+
+    return "admin".equals(usuario) && "1234".equals(password);
+}
+    
 
     /**
      * Returns a short description of the servlet.

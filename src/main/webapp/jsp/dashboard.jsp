@@ -1,3 +1,9 @@
+<%
+    if (session.getAttribute("usuarioActivo") == null) {
+        response.sendRedirect("../index.jsp");
+        return;
+    }
+%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
@@ -28,7 +34,6 @@
             <div class="button-grid">
                 <div class="button-column">
                     <a href="${pageContext.request.contextPath}/AlumnadoServlet" class="menu-card">Alumnado</a>
-                    <a href="${pageContext.request.contextPath}/EstadisticasServlet" class="menu-card">Estadísticas</a>
                 </div>
 
                 <a href="${pageContext.request.contextPath}/BecaServlet" class="menu-card">Becas</a>
