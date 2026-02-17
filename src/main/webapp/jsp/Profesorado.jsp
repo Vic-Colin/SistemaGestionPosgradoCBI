@@ -30,8 +30,8 @@
             
             <div class="table-controls">
                 <div class="filters-group">
-                    <input type="text" placeholder="Buscar por CVU..." class="search-input" id="filtroCvu">
-                    <input type="text" placeholder="Buscar por Programa..." class="search-input" id="filtroPrograma">
+                    <input type="text" placeholder="CVU..." class="search-input" id="buscarCVU">
+                    <input type="text" placeholder="No. Económico..." class="search-input" id="buscarNoEconomico">
                 </div>
                 
                 <div class="actions-group">
@@ -40,7 +40,7 @@
             </div>
 
             <div class="table-container">
-                <table class="alumnos-table" id="tablaProfesores">
+                <table id="tablaProfesores" class="alumnos-table">
                     <thead>
                         <tr>
                             <th>No. Económico</th>
@@ -51,25 +51,8 @@
                             <th>Categoría</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <c:forEach var="p" items="${listaProfesores}">
-                            <tr>
-                                <td>${p.noEconomico}</td>
-                                <td>${p.nombre}</td>
-                                <td>${p.cvu}</td>
-                                <td>${p.programa}</td>
-                                <td>${p.correo}</td>
-                                <td><span class="status-badge">${p.categoria}</span></td>
-                            </tr>
-                        </c:forEach>
-                        
-                        <c:if test="${empty listaProfesores}">
-                            <tr>
-                                <td colspan="6" style="text-align: center; padding: 30px; color: #999;">
-                                    No hay registros disponibles para mostrar.
-                                </td>
-                            </tr>
-                        </c:if>
+                    <tbody id="tbodyProfesores">
+                        <!-- Se llenará dinámicamente -->
                     </tbody>
                 </table>
             </div>

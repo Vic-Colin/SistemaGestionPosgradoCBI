@@ -208,7 +208,7 @@
                         <input type="date" id="regFechaIngUam">
                     </div>
                     <div class="form-group-slim">
-                        <label class="label-mini">Pierde Calidad:*</label>
+                        <label class="label-mini">Trim. Pierde Calidad:*</label>
                         <select id="regPierdeCalidad"></select>
                     </div>
                 </div>

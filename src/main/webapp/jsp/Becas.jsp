@@ -43,8 +43,6 @@
                         <option value="No tuvo beca">No tuvo beca</option>
                         <option value="Concluida">Concluida</option>
                     </select>
-
-                    <input type="text" placeholder="Fecha Máx. (ej. 2027)" class="search-input" id="filtroFechaMax">
                 </div>
                 
                 <div class="actions-group">

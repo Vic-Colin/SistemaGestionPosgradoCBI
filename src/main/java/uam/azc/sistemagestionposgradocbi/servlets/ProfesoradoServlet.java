@@ -13,6 +13,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.gson.Gson;
+import javax.servlet.http.HttpSession;
+import uam.azc.sistemagestionposgradocbi.DAO.ProfesorDAO;
+import uam.azc.sistemagestionposgradocbi.modelo.Profesor;
 
 /**
  *
@@ -21,31 +25,17 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ProfesoradoServlet", urlPatterns = {"/ProfesoradoServlet"})
 public class ProfesoradoServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ProfesoradoServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ProfesoradoServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+    private static final long serialVersionUID = 1L;
+
+    private ProfesorDAO dao;
+    private Gson gson;
+
+    @Override
+    public void init() throws ServletException {
+        dao = new ProfesorDAO();
+        gson = new Gson();
     }
+        
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -59,16 +49,29 @@ public class ProfesoradoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // ============================================================
-        // ESPACIO PARA MODELADO (FUTURO)
-        // Aquí llamarás a: List<Profesor> lista = profesorDAO.listar();
-        // ============================================================
-        List<Object> listaDummy = new ArrayList<>(); 
-        
-        // Enviamos la lista (aunque esté vacía por ahora)
-        request.setAttribute("listaProfesores", listaDummy);
-        
-        request.getRequestDispatcher("/jsp/Profesorado.jsp").forward(request, response);
+        // 🔐 Validación de sesión (opcional pero recomendable)
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("usuarioActivo") == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        String noEconomico = request.getParameter("noEconomico");
+        String cvu = request.getParameter("cvu");
+
+        if (noEconomico != null) noEconomico = noEconomico.trim();
+        if (cvu != null) cvu = cvu.trim();
+
+        List<Profesor> lista = dao.buscarProfesores(noEconomico, cvu);
+
+        String json = gson.toJson(lista);
+
+        PrintWriter out = response.getWriter();
+        out.print(json);
+        out.flush();
     }
 
     /**
@@ -82,7 +85,8 @@ public class ProfesoradoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED,
+                "Método POST no permitido en este servlet.");
     }
 
     /**
@@ -92,7 +96,7 @@ public class ProfesoradoServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Servlet para filtrado dináico de profesorado";
     }// </editor-fold>
 
 }
