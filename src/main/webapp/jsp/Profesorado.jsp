@@ -49,8 +49,8 @@
                             <th>Nivel SNI</th>
                             <th>Tipo Dedicación</th>
                             <th>Departamento</th>
-                            <th>Correo Institucional</th>
                             <th>Fecha Ingreso</th>
+                            <th>Correo Institucional</th>
                         </tr>
                     </thead>
                     <tbody id="tbodyProfesores">

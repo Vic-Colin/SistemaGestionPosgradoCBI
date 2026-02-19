@@ -1,29 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package uam.azc.sistemagestionposgradocbi.util;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.SQLException;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 public class Conexion {
 
-    private static final String URL =
-        "jdbc:mysql://localhost:3306/mcc_uam_azcapotzalco?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
-
-    private static final String USER = "root";        // cambia si usas otro
-    private static final String PASSWORD = "root";    // cambia si usas otro
-
-    static {
+    public static Connection getConnection() throws SQLException {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Error cargando Driver MySQL", e);
+            // Buscamos el contexto inicial de Tomcat
+            Context initContext = new InitialContext();
+            Context envContext  = (Context) initContext.lookup("java:/comp/env");
+            
+            // Buscamos nuestro recurso por el nombre que le dimos en el context.xml
+            DataSource ds = (DataSource) envContext.lookup("jdbc/mcc_db");
+            
+            // Tomamos una conexión prestada del pool
+            return ds.getConnection();
+            
+        } catch (NamingException e) {
+            System.err.println("Error al buscar el DataSource: " + e.getMessage());
+            throw new SQLException("Error de configuración JNDI en el Pool de Conexiones", e);
         }
-    }
-
-    public static Connection getConnection() throws Exception {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 }

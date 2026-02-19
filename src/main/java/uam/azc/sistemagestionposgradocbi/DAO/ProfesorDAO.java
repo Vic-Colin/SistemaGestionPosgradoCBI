@@ -85,11 +85,11 @@ public class ProfesorDAO implements CrudDAO<Profesor, String> {
             int index = 1;
 
             if (numeroEconomico != null && !numeroEconomico.isEmpty()) {
-                ps.setString(index++, "%" + numeroEconomico + "%");
+                ps.setString(index++,numeroEconomico + "%");
             }
 
             if (cvu != null && !cvu.isEmpty()) {
-                ps.setString(index++, "%" + cvu + "%");
+                ps.setString(index++,cvu + "%");
             }
 
             ResultSet rs = ps.executeQuery();
