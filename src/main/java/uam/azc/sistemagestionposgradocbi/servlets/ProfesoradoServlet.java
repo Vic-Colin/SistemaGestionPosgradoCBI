@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import javax.servlet.http.HttpSession;
-import uam.azc.sistemagestionposgradocbi.DAO.ProfesorDAO;
+import uam.azc.sistemagestionposgradocbi.dao.ProfesorDAO;
 import uam.azc.sistemagestionposgradocbi.modelo.Profesor;
 
 /**
@@ -57,7 +57,7 @@ public class ProfesoradoServlet extends HttpServlet {
         if (cvu == null) cvu = "";
 
         ProfesorDAO dao = new ProfesorDAO();
-        List<Profesor> lista = dao.buscarProfesores(numero, cvu);
+        List<Profesor> lista = dao.buscarPorFiltros(numero, cvu);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
