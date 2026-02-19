@@ -4,34 +4,26 @@
  */
 package uam.azc.sistemagestionposgradocbi.util;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class Conexion {
 
-    private static final String URL = 
-        "jdbc:mysql://localhost:3306/sistema_posgrado_cbi?useSSL=false&serverTimezone=UTC";
-    
-    private static final String USER = "root";
-    private static final String PASSWORD = "1234"; // Cambia por tu contraseña
+    private static final String URL =
+        "jdbc:mysql://localhost:3306/mcc_uam_azcapotzalco?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+
+    private static final String USER = "root";        // cambia si usas otro
+    private static final String PASSWORD = "root";    // cambia si usas otro
 
     static {
         try {
-            // Cargar driver MySQL 8+
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Error al cargar el driver MySQL", e);
+            throw new RuntimeException("Error cargando Driver MySQL", e);
         }
     }
 
-    public static Connection getConnection() {
-        try {
-            return DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e) {
-            throw new RuntimeException("Error al conectar a la base de datos", e);
-        }
+    public static Connection getConnection() throws Exception {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 }
-

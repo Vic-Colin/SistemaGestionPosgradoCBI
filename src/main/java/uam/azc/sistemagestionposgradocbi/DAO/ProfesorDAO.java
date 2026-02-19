@@ -1,13 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package uam.azc.sistemagestionposgradocbi.DAO;
 
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import uam.azc.sistemagestionposgradocbi.modelo.Profesor;
@@ -15,52 +8,69 @@ import uam.azc.sistemagestionposgradocbi.util.Conexion;
 
 public class ProfesorDAO {
 
-    // 🔹 Buscar profesores con filtros dinámicos
-    public List<Profesor> buscarProfesores(String noEconomico, String cvu) {
-    List<Profesor> lista = new ArrayList<>();
+    public List<Profesor> buscarProfesores(String numeroEconomico, String cvu) {
 
-    String sql = "SELECT * FROM profesor WHERE 1=1";
+        List<Profesor> lista = new ArrayList<>();
 
-    if (noEconomico != null && !noEconomico.isEmpty()) {
-        sql += " AND no_economico LIKE ?";
-    }
+        String sql =
+            "SELECT " +
+            "p.numero_economico, " +
+            "p.cvu, " +
+            "p.nombre_completo, " +
+            "ns.nombre AS nivel_sni, " +
+            "td.nombre AS tipo_dedicacion, " +
+            "d.nombre AS departamento, " +
+            "p.fecha_ingreso_nucleo, " +   // 🔥 NUEVO
+            "p.correo_institucional " +
+            "FROM profesor p " +
+            "LEFT JOIN nivel_sni ns ON p.id_nivel_sni = ns.id_nivel_sni " +
+            "INNER JOIN tipo_dedicacion td ON p.id_dedicacion = td.id_dedicacion " +
+            "INNER JOIN departamento d ON p.id_departamento = d.id_departamento " +
+            "WHERE 1=1 ";
 
-    if (cvu != null && !cvu.isEmpty()) {
-        sql += " AND cvu LIKE ?";
-    }
-
-    try (Connection con = Conexion.getConnection();
-         PreparedStatement ps = con.prepareStatement(sql)) {
-
-        int index = 1;
-
-        if (noEconomico != null && !noEconomico.isEmpty()) {
-            ps.setString(index++, "%" + noEconomico + "%");
+        if (numeroEconomico != null && !numeroEconomico.isEmpty()) {
+            sql += " AND p.numero_economico LIKE ?";
         }
 
         if (cvu != null && !cvu.isEmpty()) {
-            ps.setString(index++, "%" + cvu + "%");
+            sql += " AND p.cvu LIKE ?";
         }
 
-        ResultSet rs = ps.executeQuery();
+        try (Connection con = Conexion.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-        while (rs.next()) {
-            Profesor p = new Profesor();
-            p.setNoEconomico(rs.getString("no_economico"));
-            p.setNombreCompleto(rs.getString("nombre_completo"));
-            p.setCvu(rs.getString("cvu"));
-            p.setPrograma(rs.getString("programa"));
-            p.setCorreoInstitucional(rs.getString("correo_institucional"));
-            p.setCategoria(rs.getString("categoria"));
-            lista.add(p);
+            int index = 1;
+
+            if (numeroEconomico != null && !numeroEconomico.isEmpty()) {
+                ps.setString(index++, "%" + numeroEconomico + "%");
+            }
+
+            if (cvu != null && !cvu.isEmpty()) {
+                ps.setString(index++, "%" + cvu + "%");
+            }
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                Profesor p = new Profesor();
+
+                p.setNumeroEconomico(rs.getString("numero_economico"));
+                p.setCvu(rs.getString("cvu"));
+                p.setNombreCompleto(rs.getString("nombre_completo"));
+                p.setNivelSni(rs.getString("nivel_sni"));
+                p.setTipoDedicacion(rs.getString("tipo_dedicacion"));
+                p.setDepartamento(rs.getString("departamento"));
+                p.setFechaIngresoNucleo(rs.getDate("fecha_ingreso_nucleo"));
+                p.setCorreoInstitucional(rs.getString("correo_institucional"));
+
+                lista.add(p);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-    } catch (Exception e) {
-        e.printStackTrace();
+        return lista;
     }
-
-    return lista;
-}
-
-
 }

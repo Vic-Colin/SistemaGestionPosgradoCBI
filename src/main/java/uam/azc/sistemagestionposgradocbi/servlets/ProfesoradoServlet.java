@@ -50,28 +50,21 @@ public class ProfesoradoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // 🔐 Validación de sesión (opcional pero recomendable)
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("usuarioActivo") == null) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
-        }
+        String numero = request.getParameter("numeroEconomico");
+        String cvu = request.getParameter("cvu");
+        
+        if (numero == null) numero = "";
+        if (cvu == null) cvu = "";
+
+        ProfesorDAO dao = new ProfesorDAO();
+        List<Profesor> lista = dao.buscarProfesores(numero, cvu);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        String noEconomico = request.getParameter("noEconomico");
-        String cvu = request.getParameter("cvu");
-
-        if (noEconomico != null) noEconomico = noEconomico.trim();
-        if (cvu != null) cvu = cvu.trim();
-
-        List<Profesor> lista = dao.buscarProfesores(noEconomico, cvu);
-
-        String json = gson.toJson(lista);
-
-        PrintWriter out = response.getWriter();
-        out.print(json);
-        out.flush();
+        Gson gson = new Gson();
+        response.getWriter().write(gson.toJson(lista));
+    
     }
 
     /**

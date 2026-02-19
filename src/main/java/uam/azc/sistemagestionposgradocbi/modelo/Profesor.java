@@ -1,51 +1,27 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package uam.azc.sistemagestionposgradocbi.modelo;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Profesor implements Serializable {
 
-    private String noEconomico;
-    private String nombreCompleto;
+    private String numeroEconomico;
     private String cvu;
-    private String programa;
+    private String nombreCompleto;
+    private String nivelSni;
+    private String tipoDedicacion;
+    private String departamento;
+    private Date fechaIngresoNucleo; 
     private String correoInstitucional;
-    private String categoria;
 
-    // 🔹 Constructor vacío (OBLIGATORIO para Gson y JDBC)
-    public Profesor() {
+    public Profesor() {}
+
+    public String getNumeroEconomico() {
+        return numeroEconomico;
     }
 
-    // 🔹 Constructor completo
-    public Profesor(String noEconomico, String nombreCompleto, String cvu,
-                    String programa, String correoInstitucional, String categoria) {
-        this.noEconomico = noEconomico;
-        this.nombreCompleto = nombreCompleto;
-        this.cvu = cvu;
-        this.programa = programa;
-        this.correoInstitucional = correoInstitucional;
-        this.categoria = categoria;
-    }
-
-    // 🔹 Getters y Setters
-
-    public String getNoEconomico() {
-        return noEconomico;
-    }
-
-    public void setNoEconomico(String noEconomico) {
-        this.noEconomico = noEconomico;
-    }
-
-    public String getNombreCompleto() {
-        return nombreCompleto;
-    }
-
-    public void setNombreCompleto(String nombreCompleto) {
-        this.nombreCompleto = nombreCompleto;
+    public void setNumeroEconomico(String numeroEconomico) {
+        this.numeroEconomico = numeroEconomico;
     }
 
     public String getCvu() {
@@ -56,12 +32,44 @@ public class Profesor implements Serializable {
         this.cvu = cvu;
     }
 
-    public String getPrograma() {
-        return programa;
+    public String getNombreCompleto() {
+        return nombreCompleto;
     }
 
-    public void setPrograma(String programa) {
-        this.programa = programa;
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }
+
+    public String getNivelSni() {
+        return nivelSni;
+    }
+
+    public void setNivelSni(String nivelSni) {
+        this.nivelSni = nivelSni;
+    }
+
+    public String getTipoDedicacion() {
+        return tipoDedicacion;
+    }
+
+    public void setTipoDedicacion(String tipoDedicacion) {
+        this.tipoDedicacion = tipoDedicacion;
+    }
+
+    public String getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(String departamento) {
+        this.departamento = departamento;
+    }
+    
+    public Date getFechaIngresoNucleo() {
+        return fechaIngresoNucleo;
+    }
+
+    public void setFechaIngresoNucleo(Date fechaIngresoNucleo) {
+        this.fechaIngresoNucleo = fechaIngresoNucleo;
     }
 
     public String getCorreoInstitucional() {
@@ -71,13 +79,5 @@ public class Profesor implements Serializable {
     public void setCorreoInstitucional(String correoInstitucional) {
         this.correoInstitucional = correoInstitucional;
     }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
 }
+

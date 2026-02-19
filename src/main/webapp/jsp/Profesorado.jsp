@@ -46,9 +46,11 @@
                             <th>No. Económico</th>
                             <th>Nombre Completo</th>
                             <th>CVU</th>
-                            <th>Programa</th>
+                            <th>Nivel SNI</th>
+                            <th>Tipo Dedicación</th>
+                            <th>Departamento</th>
                             <th>Correo Institucional</th>
-                            <th>Categoría</th>
+                            <th>Fecha Ingreso</th>
                         </tr>
                     </thead>
                     <tbody id="tbodyProfesores">
