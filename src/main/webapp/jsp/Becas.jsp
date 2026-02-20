@@ -30,13 +30,13 @@
             
             <div class="table-controls">
                 <div class="filters-group">
-                    <input type="text" placeholder="Buscar por CVU..." class="search-input" id="filtroBeca">
+                    <input type="text" placeholder="Buscar por CVU..." class="search-input" id="buscarCVU">
                     
-                    <select class="filter-select" id="filtroGeneracionBeca">
+                    <select class="filter-select" id="filtroGeneracion">
                         <option value="">Generación (Todas)</option>
                     </select>
 
-                    <select class="filter-select" id="filtroEstatusBeca">
+                    <select class="filter-select" id="filtroEstatus">
                         <option value="">Estatus Beca (Todos)</option>
                         <option value="Vigente">Vigente</option>
                         <option value="Baja">Baja</option>
@@ -64,29 +64,8 @@
                             <th>Titulación</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>2243804633</td>
-                            <td>Flores Martínez Grecia Nefertari</td>
-                            <td>2072716</td>
-                            <td>24-O</td>
-                            <td>30/11/2026</td>
-                            <td>30/11/2027</td>
-                            <td><span class="status-badge">Vigente</span></td>
-                            <td>-</td>
-                        </tr>
-                        <c:forEach var="beca" items="${listaBecas}">
-                            <tr>
-                                <td>${beca.matricula}</td>
-                                <td>${beca.nombre}</td>
-                                <td>${beca.cvu}</td>
-                                <td>${beca.ingreso}</td>
-                                <td>${beca.finBeca}</td>
-                                <td>${beca.fechaMax}</td>
-                                <td><span class="status-badge">${beca.estatus}</span></td>
-                                <td>${beca.titulacion}</td>
-                            </tr>
-                        </c:forEach>
+                    <tbody id ="tbodyBecas">
+                        <!-- Se llenará dinámicamente -->
                     </tbody>
                 </table>
             </div>

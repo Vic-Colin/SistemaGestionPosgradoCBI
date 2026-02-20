@@ -2,6 +2,7 @@
 package uam.azc.sistemagestionposgradocbi.servlets;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -10,7 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import uam.azc.sistemagestionposgradocbi.DAO.BecaDAO;
+import uam.azc.sistemagestionposgradocbi.dao.BecaDAO;
 import uam.azc.sistemagestionposgradocbi.modelo.Beca;
 
 /**
@@ -20,30 +21,14 @@ import uam.azc.sistemagestionposgradocbi.modelo.Beca;
 @WebServlet(name = "BecaServlet", urlPatterns = {"/BecaServlet"})
 public class BecaServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet BecaServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet BecaServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+    private BecaDAO dao;
+    private Gson gson;
+
+    @Override
+    public void init() throws ServletException {
+        dao = new BecaDAO();
+        // Configurar Gson para que formatee las fechas SQL correctamente
+        gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -58,16 +43,23 @@ public class BecaServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String matricula = request.getParameter("matricula");
-        if (matricula == null) matricula = "";
+        // 1. Recibir los parámetros del filtro
+        String cvu = request.getParameter("cvu");
+        String generacion = request.getParameter("generacion");
+        String estatus = request.getParameter("estatus");
 
-        BecaDAO dao = new BecaDAO();
-        List<Beca> lista = dao.listar(matricula); // Pasamos el filtro al DAO
+        // 2. Normalizar (evitar nulls)
+        if (cvu == null) cvu = "";
+        if (generacion == null) generacion = "";
+        if (estatus == null) estatus = "";
+        
+        // 3. Consultar al DAO
+        List<Beca> lista = dao.buscarPorFiltros(cvu, generacion, estatus);
 
-        String json = new Gson().toJson(lista);
+        // 4. Responder con JSON
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(json);
+        response.getWriter().write(gson.toJson(lista));
     }
 
     /**
@@ -81,7 +73,7 @@ public class BecaServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
     }
 
     /**

@@ -1,25 +1,25 @@
-
 package uam.azc.sistemagestionposgradocbi.modelo;
 
-public class Beca {
-    private int idBeca;
+import java.io.Serializable;
+import java.sql.Date;
+
+public class Beca implements Serializable {
+
     private String matricula;
-    private String nombreAlumno; // Para mostrarlo en la tabla (vía JOIN)
-    private String fechaInicio;
-    private String fechaFinVigencia;
-    private String fechaMaxConahcyt;
+    private String nombreAlumno; // Se obtiene con JOIN
+    private String cvu;
+    private String trimestreIngreso; // Se obtiene con JOIN
+    private Date fechaFinBeca;
+    private Date fechaMaxConahcyt;
     private String estatusBeca;
+    private Date fechaTitulacion; // Se obtiene con JOIN
 
-    // Getters y Setters...
-
-    public int getIdBeca() {
-        return idBeca;
+    public Beca() {
     }
 
-    public void setIdBeca(int idBeca) {
-        this.idBeca = idBeca;
-    }
-
+    // =========================
+    // Getters y Setters
+    // =========================
     public String getMatricula() {
         return matricula;
     }
@@ -36,27 +36,35 @@ public class Beca {
         this.nombreAlumno = nombreAlumno;
     }
 
-    public String getFechaInicio() {
-        return fechaInicio;
+    public String getCvu() {
+        return cvu;
     }
 
-    public void setFechaInicio(String fechaInicio) {
-        this.fechaInicio = fechaInicio;
+    public void setCvu(String cvu) {
+        this.cvu = cvu;
     }
 
-    public String getFechaFinVigencia() {
-        return fechaFinVigencia;
+    public String getTrimestreIngreso() {
+        return trimestreIngreso;
     }
 
-    public void setFechaFinVigencia(String fechaFinVigencia) {
-        this.fechaFinVigencia = fechaFinVigencia;
+    public void setTrimestreIngreso(String trimestreIngreso) {
+        this.trimestreIngreso = trimestreIngreso;
     }
 
-    public String getFechaMaxConahcyt() {
+    public Date getFechaFinBeca() {
+        return fechaFinBeca;
+    }
+
+    public void setFechaFinBeca(Date fechaFinBeca) {
+        this.fechaFinBeca = fechaFinBeca;
+    }
+
+    public Date getFechaMaxConahcyt() {
         return fechaMaxConahcyt;
     }
 
-    public void setFechaMaxConahcyt(String fechaMaxConahcyt) {
+    public void setFechaMaxConahcyt(Date fechaMaxConahcyt) {
         this.fechaMaxConahcyt = fechaMaxConahcyt;
     }
 
@@ -67,5 +75,12 @@ public class Beca {
     public void setEstatusBeca(String estatusBeca) {
         this.estatusBeca = estatusBeca;
     }
-    
+
+    public Date getFechaTitulacion() {
+        return fechaTitulacion;
+    }
+
+    public void setFechaTitulacion(Date fechaTitulacion) {
+        this.fechaTitulacion = fechaTitulacion;
+    }
 }

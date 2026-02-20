@@ -55,6 +55,7 @@
                     </thead>
                     <tbody id="tbodyProfesores">
                         <!-- Se llenará dinámicamente -->
+                        
                     </tbody>
                 </table>
             </div>
