@@ -23,6 +23,17 @@ public class Alumno implements Serializable {
     private String areaConcentracion;
     private String director;
     private String codirector;
+    
+    private String cvu;
+    private String regFechaInicioBeca;
+    private String regFechaFinBeca;
+    private String regFechaMax;
+    private String regEstatusBeca;
+
+    private int idAreaConcentracion; // ID del Área
+    private String numEcoDirector;   // Matrícula/No. Económico del Director
+    private String numEcoCodirector; // Matrícula/No. Económico del Codirector
+    
 
     public Alumno() {}
 
@@ -155,5 +166,70 @@ public class Alumno implements Serializable {
     public void setCodirector(String codirector) {
         this.codirector = codirector;
     }
+
+    public String getCvu() {
+        return cvu;
+    }
+
+    public void setCvu(String cvu) {
+        this.cvu = cvu;
+    }
+
+    public String getRegFechaInicioBeca() {
+        return regFechaInicioBeca;
+    }
+
+    public void setRegFechaInicioBeca(String regFechaInicioBeca) {
+        this.regFechaInicioBeca = regFechaInicioBeca;
+    }
+
+    public String getRegFechaFinBeca() {
+        return regFechaFinBeca;
+    }
+
+    public void setRegFechaFinBeca(String regFechaFinBeca) {
+        this.regFechaFinBeca = regFechaFinBeca;
+    }
+
+    public String getRegFechaMax() {
+        return regFechaMax;
+    }
+
+    public void setRegFechaMax(String regFechaMax) {
+        this.regFechaMax = regFechaMax;
+    }
+
+    public String getRegEstatusBeca() {
+        return regEstatusBeca;
+    }
+
+    public void setRegEstatusBeca(String regEstatusBeca) {
+        this.regEstatusBeca = regEstatusBeca;
+    }
+
+    public int getIdAreaConcentracion() {
+        return idAreaConcentracion;
+    }
+
+    public void setIdAreaConcentracion(int idAreaConcentracion) {
+        this.idAreaConcentracion = idAreaConcentracion;
+    }
+
+    public String getNumEcoDirector() {
+        return numEcoDirector;
+    }
+
+    public void setNumEcoDirector(String numEcoDirector) {
+        this.numEcoDirector = numEcoDirector;
+    }
+
+    public String getNumEcoCodirector() {
+        return numEcoCodirector;
+    }
+
+    public void setNumEcoCodirector(String numEcoCodirector) {
+        this.numEcoCodirector = numEcoCodirector;
+    }
+    
     
 }

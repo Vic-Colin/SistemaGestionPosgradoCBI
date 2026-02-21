@@ -1,5 +1,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%-- Importar la clase Calendar --%>
+<%@ page import="java.util.Calendar" %>
+<%
+    int anio = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+    pageContext.setAttribute("anioActual", anio);
+%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -51,37 +57,48 @@
             <div class="table-controls">
                 <div class="filters-group">
                     <input type="text" placeholder="Matrícula" class="search-input" id="filtroMatricula">
-                    <select class="filter-select" id="filtroTrimIngreso">
+                    <select class="filter-select" id="filtroTrimestre">
                         <option value="">Ingreso (Todos)</option>
-                        <c:forEach var="a" begin="16" end="${anioActual}">
-                            <c:set var="y" value="${anioActual - (a - 16)}" />
-                            <option value="${y}-O">${y}-O</option>
-                            <option value="${y}-P">${y}-P</option>
-                            <option value="${y}-I">${y}-I</option>
+                        <%-- Recorremos desde 0 hasta 16 (años de diferencia) --%>
+                        <c:forEach var="i" begin="0" end="12">
+                            <c:set var="anioLargo" value="${anioActual - i}" />
+                            <c:set var="anioCorto" value="${anioLargo % 100}" />
+                            <%-- Formatear con 0 a la izquierda si es menor a 10 (ej. 09-O) --%>
+                            <c:set var="yy" value="${anioCorto < 10 ? '0' : ''}${anioCorto}" />
+        
+                            <option value="${yy}-O">${yy}-O</option>
+                            <option value="${yy}-P">${yy}-P</option>
+                            <option value="${yy}-I">${yy}-I</option>
                         </c:forEach>
                     </select>
 
-                    <select class="filter-select" id="filtroTrimPierde">
+                    <select class="filter-select" id="filtroPierdeCalidad">
                         <option value="">Pierde Calidad (Todos)</option>
-                        <c:forEach var="f" begin="${anioActual - 5}" end="${anioActual + 7}">
-                            <option value="${f}-O">${f}-O</option>
-                            <option value="${f}-P">${f}-P</option>
-                            <option value="${f}-I">${f}-I</option>
+                        <%-- Recorremos desde -7 hasta 7 respecto al año actual --%>
+                        <c:forEach var="i" begin="0" end="8">
+                            <c:set var="anioLargo" value="${(anioActual + 4) - i}" />
+                            <c:set var="anioCorto" value="${anioLargo % 100}" />
+                            <c:set var="yy" value="${anioCorto < 10 ? '0' : ''}${anioCorto}" />
+        
+                            <option value="${yy}-O">${yy}-O</option>
+                            <option value="${yy}-P">${yy}-P</option>
+                            <option value="${yy}-I">${yy}-I</option>
                         </c:forEach>
                     </select>
 
                     <select class="filter-select" id="filtroAnioTit">
                         <option value="">Año Titulación (Todos)</option>
                         <c:forEach var="i" begin="0" end="10">
-                            <option value="${anioFull - i}">${anioFull - i}</option>
+                            <option value="${anioActual - i}">${anioActual - i}</option>
                         </c:forEach>
                     </select>
                     
-                    <select class="filter-select" id="filtroEstatusUam">
+                    <select class="filter-select" id="filtroEstatus">
                         <option value="">Estatus UAM (Todos)</option>
                         <option value="Vigente">Vigente</option>
                         <option value="Titulado">Titulado</option>
                         <option value="Baja">Baja</option>
+                        <option value="Baja temporal">Baja temporal</option>
                     </select>
                 </div>
                 
@@ -115,30 +132,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>2181800084</td>
-                            <td>Gomez Terán Alejandro</td>
-                            <td>-</td>
-                            <td>alejandrog.teran@gmail.com</td>
-                            <td>-</td>
-                            <td>18-I</td>
-                            <td>2018-01-15</td>
-                            <td>22-I</td>
-                            <td><span class="status-badge">Titulado</span></td>
-                            <td>NO TUVO BECA</td>
-                            <td>-</td>
-                            <td>2024-04-25</td>
-                            <td>Modelo cinemático computacional para la reproducción del alfabeto dactilológico de la lengua de señas mexicana</td>
-                            <td>Sistemas Inteligentes y manejo de la información</td>
-                            <td>Dra. Ángeles Belem Priego</td>
-                            <td>-</td>
-                            <td>
-                                <div style="display: flex; gap: 8px;">
-                                    <button class="btn-action-icon edit" onclick="prepararEdicion(this)">✏️</button>
-                                    <button class="btn-action-icon delete" onclick="confirmarEliminar(this)">🗑️</button>
-                                </div>
-                            </td>
-                        </tr>
+                        <!-- Se llenará dinámicamente -->
                     </tbody>
                 </table>
             </div>
@@ -161,7 +155,7 @@
                         <option value="Vigente">Vigente</option>
                         <option value="Titulado">Titulado</option>
                         <option value="Baja">Baja</option>
-                        <option value="Egresado">Baja Temporal</option>
+                        <option value="Baja temporal">Baja Temporal</option>
                     </select>
                 </div>
                 <span class="btn-close-modal" id="btnCerrarX">&times;</span>
@@ -283,17 +277,27 @@
                             </div>
                             <div class="from-group-slim">
                                 <label class="label-mini">Área de concentración</label>
-                                <input type="text" id="alumArea" placeholder="Área de concentración">
+                                <select id="alumArea">
+                                    <option value="1">Sistemas Inteligentes</option>
+                                    <option value="2">Cómputo Científico</option>
+                                    <option value="3">Procesamiento de Señales</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="from-group-slim">
                                 <label class="label-mini">Director (Asesor)</label>
-                                <input type="text" id="alumDirector" placeholder="Director">
+                                <select id="alumDirector">
+                                    <option value="12345">Ángeles Belem Priego</option>
+                                    <option value="23456">Maricela Claudia Bravo</option>
+                                </select>
                             </div>
                             <div class="from-group-slim">
                                 <label class="label-mini">Codirector (Coasesor)</label>
-                                <input type="text" id="alumCodirector" placeholder="Codirector">
+                                <select id="alumCodirector">
+                                    <option value="12345">Ángeles Belem Priego</option>
+                                    <option value="23456">Maricela Claudia Bravo</option>
+                                </select>
                             </div>
                         </div>
                     </div>

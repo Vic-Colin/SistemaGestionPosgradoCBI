@@ -42,7 +42,18 @@ public class AlumnadoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // 1. Siempre definir el año para los combos del JSP
+        int anioActual = java.time.LocalDate.now().getYear();
+        request.setAttribute("anioActual", anioActual);
+
+        
         String matricula = request.getParameter("matricula");
+        // Si NO hay matrícula (primera vez que carga la página), solo mostramos el JSP
+        if (matricula == null) {
+            request.getRequestDispatcher("jsp/Alumnos.jsp").forward(request, response);
+            return; // Salir para no ejecutar el JSON
+        }
+        
         String trimIngreso = request.getParameter("trimIngreso");
         String trimPierdeCalidad = request.getParameter("trimPierdeCalidad");
         String anioTitulacion = request.getParameter("anioTitulacion");
@@ -87,7 +98,28 @@ public class AlumnadoServlet extends HttpServlet {
             a.setTelefono(request.getParameter("telefono"));
             a.setTrimestreIngreso(request.getParameter("trimIngreso"));
             a.setTrimestrePierdeCalidad(request.getParameter("trimPierde"));
+            // Nuevos campos Beca
+            a.setCvu(request.getParameter("cvu"));
+            a.setEstatusBeca(request.getParameter("estatusBeca"));
+            a.setRegFechaInicioBeca(request.getParameter("fechaInicioBeca"));
+            a.setRegFechaFinBeca(request.getParameter("fechaFinBeca"));
+            a.setRegFechaMax(request.getParameter("fechaMaxBeca"));
 
+            // Nuevos campos Titulación y Tesis
+            a.setNumeroActa(request.getParameter("acta"));
+
+            // Parsear fecha si no viene vacía
+            if(request.getParameter("fechaTit") != null && !request.getParameter("fechaTit").isEmpty()) {
+                a.setFechaTitulacion(java.sql.Date.valueOf(request.getParameter("fechaTit")));
+            }
+
+            a.setTituloTesis(request.getParameter("tituloTesis"));
+            if(request.getParameter("areaTesis") != null && !request.getParameter("areaTesis").isEmpty()){
+                a.setIdAreaConcentracion(Integer.parseInt(request.getParameter("areaTesis")));
+            }
+            a.setNumEcoDirector(request.getParameter("directorTesis"));
+            a.setNumEcoCodirector(request.getParameter("codirectorTesis"));
+            
             if ("crear".equals(accion)) {
                 exito = dao.insertar(a);
             } else if ("editar".equals(accion)) {

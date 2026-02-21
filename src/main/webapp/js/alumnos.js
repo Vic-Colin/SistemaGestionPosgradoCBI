@@ -7,6 +7,7 @@ function init() {
     initModal();
     initTabla();
     initFiltros();
+    cargarAlumnos(); 
 }
 
 // ================== CONFIGURACIÓN DINÁMICA ==================
@@ -27,7 +28,7 @@ function configurarCamposDinamicos() {
     }
 
     if (regPierde) {
-        regPierde.innerHTML = '<option value="" disabled selected>Selecciona...</option>';
+        regPierde.innerHTML = '<option value="" disabled selected>Trimestre pierde calidad...</option>';
         for (let y = anioActualCorto; y <= anioActualCorto + 6; y++) {
             ["O", "P", "I"].forEach(t => {
                 regPierde.add(new Option(`${y}-${t}`, `${y}-${t}`));
@@ -94,43 +95,74 @@ function cerrarModal() {
     modal.style.display = "none";
 }
 
-// ================== TABLA ==================
+// ================== TABLA Y CARGA AJAX ==================
 function initTabla() {
     window.prepararEdicion = prepararEdicion;
     window.confirmarEliminar = confirmarEliminar;
 }
 
+// 🟢 NUEVO: Función para pedir datos al servidor
+function cargarAlumnos() {
+    const params = new URLSearchParams({
+        matricula: document.getElementById("filtroMatricula")?.value.trim() || "",
+        trimIngreso: document.getElementById("filtroTrimestre")?.value || "",
+        trimPierdeCalidad: document.getElementById("filtroPierdeCalidad")?.value || "",
+        anioTitulacion: document.getElementById("filtroAnioTit")?.value || "",
+        estatusUam: document.getElementById("filtroEstatus")?.value || ""
+    });
+
+    fetch(`../AlumnadoServlet?${params.toString()}`)
+        .then(response => {
+            if (!response.ok) throw new Error("Error en red");
+            return response.json();
+        })
+        .then(data => {
+            tablaBody.innerHTML = "";
+            if(data.length === 0){
+                 tablaBody.innerHTML = `<tr><td colspan="17" style="text-align:center;">No se encontraron registros</td></tr>`;
+                 return;
+            }
+            data.forEach(alumno => {
+                tablaBody.innerHTML += renderRow(alumno);
+            });
+        })
+        .catch(err => console.error("Error al cargar alumnos:", err));
+}
+
 function renderRow(d) {
+    const val = (v) => v ? v : '-'; // Función para manejar nulls
     return `
-        <td>${d.matricula}</td>
-        <td>${d.nombre}</td>
-        <td>${d.correoInst}</td>
-        <td>${d.correoAlt}</td>
-        <td>${d.tel}</td>
-        <td>${d.ingreso}</td>
-        <td>${d.fechaIngUam}</td>
-        <td>${d.pierdeCalidad}</td>
-        <td><span class="status-badge">${d.estatus}</span></td>
-        <td>${d.estatusBeca}</td>
-        <td>${d.acta}</td>
-        <td>${d.fechaTit}</td>
-        <td>${d.tituloTesis}</td>
-        <td>${d.area}</td>
-        <td>${d.director}</td>
-        <td>${d.codirector}</td>
-        <td>
-            <div style="display:flex; gap:8px;">
-                <button class="btn-action-icon edit" onclick="prepararEdicion(this)">✏️</button>
-                <button class="btn-action-icon delete" onclick="confirmarEliminar(this)">🗑️</button>
-            </div>
-        </td>
+        <tr>
+            <td>${d.matricula}</td>
+            <td>${d.nombreCompleto}</td>
+            <td>${val(d.correoInstitucional)}</td>
+            <td>${val(d.correoAlternativo)}</td>
+            <td>${val(d.telefono)}</td>
+            <td>${val(d.trimestreIngreso)}</td>
+            <td>${val(d.fechaInicio)}</td>
+            <td>${val(d.trimestrePierdeCalidad)}</td>
+            <td><span class="status-badge">${val(d.estatusUam)}</span></td>
+            <td>${val(d.estatusBeca)}</td>
+            <td>${val(d.numeroActa)}</td>
+            <td>${val(d.fechaTitulacion)}</td>
+            <td>${val(d.tituloTesis)}</td>
+            <td>${val(d.areaConcentracion)}</td>
+            <td>${val(d.director)}</td>
+            <td>${val(d.codirector)}</td>
+            <td>
+                <div style="display:flex; gap:8px;">
+                    <button type="button" class="btn-action-icon edit" onclick="prepararEdicion(this)">✏️</button>
+                    <button type="button" class="btn-action-icon delete" onclick="confirmarEliminar(this)">🗑️</button>
+                </div>
+            </td>
+        </tr>
     `;
 }
 
 function prepararEdicion(btn) {
     const fila = btn.closest("tr");
     document.getElementById("modalTitulo").innerText = "Editar Información del Alumno";
-    document.getElementById("editRowIndex").value = fila.sectionRowIndex;
+    document.getElementById("editRowIndex").value = "1"; // Indica Edición (cualquier valor distinto a -1)
 
     const get = i => fila.cells[i].innerText.trim();
 
@@ -141,128 +173,126 @@ function prepararEdicion(btn) {
         correoAlt: get(3),
         tel: get(4),
         ingreso: get(5),
-        fechaIngUam: get(6),
-        pierdeCalidad: get(7),
-        estatus: get(8),
-        estatusBeca: get(9),
-        acta: get(10),
-        fechaTit: get(11),
-        tituloTesis: get(12),
-        area: get(13),
-        director: get(14),
-        codirector: get(15)
+        pierdeCalidad: get(7)
+        // Por ahora el CRUD de AlumnoDAO solo maneja estos datos básicos.
+        // Si quieres editar la tesis o beca, necesitarás métodos extra en el DAO.
     });
 
+    // Proteger matrícula en edición (es llave primaria)
+    document.getElementById("regMatricula").readOnly = true; 
     modal.style.display = "block";
 }
 
-let filaAEliminar = null;
+let matriculaAEliminar = null;
 function confirmarEliminar(btn) {
-    filaAEliminar = btn.closest("tr");
+    const fila = btn.closest("tr");
+    matriculaAEliminar = fila.cells[0].innerText.trim();
     modalEliminar.style.display = "block";
+    
     document.getElementById("btnConfirmarBorrado").onclick = () => {
-        filaAEliminar.remove();
-        modalEliminar.style.display = "none";
-        aplicarFiltros();
+        // Enviar petición POST al servidor
+        fetch('../AlumnadoServlet', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `accion=eliminar&matricula=${encodeURIComponent(matriculaAEliminar)}`
+        })
+        .then(res => res.text())
+        .then(res => {
+            if (res === "OK") {
+                modalEliminar.style.display = "none";
+                cargarAlumnos(); // Recargar tabla
+            } else {
+                alert("Error al eliminar. Puede que el alumno tenga registros vinculados en otras tablas.");
+            }
+        });
     };
 }
 
-// ================== FORMULARIO ==================
+// ================== FORMULARIO AJAX ==================
 function getAlumnoFromForm() {
-    const val = id => document.getElementById(id)?.value || "-";
-
+    const val = id => document.getElementById(id)?.value || "";
     return {
+        // Datos Personales
         matricula: val("regMatricula"),
         nombre: val("regNombre"),
         correoInst: val("regCorreoInst"),
         correoAlt: val("regCorreoAlt"),
-        tel: val("regTel"),
-        ingreso: val("regIngreso"),
-        fechaIngUam: val("regFechaIngUam"),
-        pierdeCalidad: val("regPierdeCalidad"),
-        estatus: val("regEstatus"),
+        telefono: val("regTel"),
+        trimIngreso: val("regIngreso"),
+        trimPierde: val("regPierdeCalidad"),
+        
+        // Beca
+        cvu: val("regCVU"),
         estatusBeca: val("regEstatusBeca"),
+        fechaInicioBeca: val("regFechaInicioBeca"),
+        fechaFinBeca: val("regFechaFinBeca"),
+        fechaMaxBeca: val("regFechaMax"),
+        
+        // Titulación
         acta: val("regActa"),
         fechaTit: val("regFechaTit"),
+        
+        // Tesis
         tituloTesis: val("alumTituloTesis"),
-        area: val("alumArea"),
-        director: val("alumDirector"),
-        codirector: val("alumCodirector")
+        areaTesis: val("alumArea"),
+        directorTesis: val("alumDirector"),
+        codirectorTesis: val("alumCodirector")
     };
 }
-
 function setFormValues(d) {
+    const map = {
+        matricula: "regMatricula",
+        nombre: "regNombre",
+        correoInst: "regCorreoInst",
+        correoAlt: "regCorreoAlt",
+        tel: "regTel",
+        ingreso: "regIngreso",
+        pierdeCalidad: "regPierdeCalidad"
+    };
     Object.entries(d).forEach(([k, v]) => {
-        const map = {
-            matricula: "regMatricula",
-            nombre: "regNombre",
-            correoInst: "regCorreoInst",
-            correoAlt: "regCorreoAlt",
-            tel: "regTel",
-            ingreso: "regIngreso",
-            fechaIngUam: "regFechaIngUam",
-            pierdeCalidad: "regPierdeCalidad",
-            estatus: "regEstatus",
-            estatusBeca: "regEstatusBeca",
-            acta: "regActa",
-            fechaTit: "regFechaTit",
-            tituloTesis: "alumTituloTesis",
-            area: "alumArea",
-            director: "alumDirector",
-            codirector: "alumCodirector"
-        };
         const el = document.getElementById(map[k]);
-        if (el) el.value = v;
+        if (el && v !== "-") el.value = v;
     });
 }
 
 function guardarAlumno(e) {
     e.preventDefault();
+    const dataObj = getAlumnoFromForm();
+    const isEdit = document.getElementById("editRowIndex").value !== "-1";
+    
+    // Preparar datos para enviar
+    const params = new URLSearchParams(dataObj);
+    params.append("accion", isEdit ? "editar" : "crear");
 
-    const alumno = getAlumnoFromForm();
-    const index = document.getElementById("editRowIndex").value;
-
-    if (index === "-1") {
-        const row = tablaBody.insertRow();
-        row.innerHTML = renderRow(alumno);
-    } else {
-        tablaBody.rows[index].innerHTML = renderRow(alumno);
-    }
-
-    cerrarModal();
-    aplicarFiltros();
+    fetch('../AlumnadoServlet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString()
+    })
+    .then(res => res.text())
+    .then(res => {
+        if (res === "OK") {
+            cerrarModal();
+            cargarAlumnos(); // Refrescar la tabla
+        } else {
+            alert("Ocurrió un error al guardar. Verifica la matrícula (podría estar duplicada).");
+        }
+    })
+    .catch(err => console.error("Error guardando:", err));
 }
 
-// ================== FILTROS ==================
+// ================== FILTROS AJAX ==================
 function initFiltros() {
-    document.getElementById("filtroMatricula")?.addEventListener("input", aplicarFiltros);
-    document.getElementById("filtroTrimestre")?.addEventListener("change", aplicarFiltros);
-    document.getElementById("filtroPierdeCalidad")?.addEventListener("change", aplicarFiltros);
-    document.getElementById("filtroAnioTit")?.addEventListener("change", aplicarFiltros);
-    document.getElementById("filtroEstatus")?.addEventListener("change", aplicarFiltros);
-}
+    // 🟢 MODIFICADO: Ahora los filtros llaman al servidor (Delay)
+    let timeoutFiltros;
+    const triggerFiltro = () => {
+        clearTimeout(timeoutFiltros);
+        timeoutFiltros = setTimeout(cargarAlumnos, 300);
+    };
 
-function aplicarFiltros() {
-    const valMat = document.getElementById("filtroMatricula")?.value.toLowerCase() || "";
-    const valTri = document.getElementById("filtroTrimestre")?.value || "";
-    const valPierde = document.getElementById("filtroPierdeCalidad")?.value || "";
-    const valAnio = document.getElementById("filtroAnioTit")?.value || "";
-    const valEst = document.getElementById("filtroEstatus")?.value || "";
-
-    Array.from(tablaBody.rows).forEach(row => {
-        const txtMat = row.cells[0].innerText.toLowerCase();
-        const txtTri = row.cells[5].innerText;
-        const txtPierde = row.cells[7].innerText;
-        const txtEst = row.cells[8].innerText;
-        const txtFechaTit = row.cells[11].innerText;
-
-        const ok =
-            (valMat === "" || txtMat.includes(valMat)) &&
-            (valTri === "" || txtTri === valTri) &&
-            (valPierde === "" || txtPierde === valPierde) &&
-            (valEst === "" || txtEst.includes(valEst)) &&
-            (valAnio === "" || txtFechaTit.includes(valAnio));
-
-        row.style.display = ok ? "" : "none";
-    });
+    document.getElementById("filtroMatricula")?.addEventListener("input", triggerFiltro);
+    document.getElementById("filtroAnioTit")?.addEventListener("change", cargarAlumnos);
+    document.getElementById("filtroTrimestre")?.addEventListener("change", cargarAlumnos);
+    document.getElementById("filtroPierdeCalidad")?.addEventListener("change", cargarAlumnos);
+    document.getElementById("filtroEstatus")?.addEventListener("change", cargarAlumnos);
 }
