@@ -1,34 +1,62 @@
 document.addEventListener("DOMContentLoaded", () => {
     const inputMatricula = document.getElementById("filtroMatricula");
     const inputTitulo = document.getElementById("filtroTitulo");
-    const inputDirector = document.getElementById("filtroDirector");
-    const tablaBody = document.querySelector("#tablaProyectos tbody");
+    const inputAsesor = document.getElementById("filtroAsesor");
+    const tbody = document.getElementById("tbodyProyectos");
 
-    const aplicarFiltros = () => {
-        const txt = inputDirector.value.toLowerCase().trim();
-        const qTit = inputTitulo.value.toLowerCase();
-        const qMat = inputMatricula.value.toLowerCase();
+    function cargarProyectos() {
+        const matricula = inputMatricula.value.trim();
+        const titulo = inputTitulo.value.trim();
+        const asesor = inputAsesor.value.trim();
 
-        Array.from(tablaBody.rows).forEach(row => {
+        const url = `../ProyectosServlet?matricula=${encodeURIComponent(matricula)}&titulo=${encodeURIComponent(titulo)}&asesor=${encodeURIComponent(asesor)}`;
 
-            const matricula = row.cells[0].textContent.toLowerCase();
-            const titulo = row.cells[2].textContent.toLowerCase();
-            const asesor = (row.cells[3].innerText + row.cells[4].innerText).toLowerCase();
-        
-            const matchTxt = txt === "" || asesor.includes(txt);
-            const matchMat = qMat === "" || matricula.includes(qMat);
-            const matchTit = qTit === "" || titulo.includes(qTit);
-        
-            if (matchTxt && matchMat && matchTit ) {
-                    row.style.display = "";
-                } else {
-                    row.style.display = "none";
+        fetch(url)
+            .then(response => {
+                if (!response.ok) throw new Error("Error en la red");
+                return response.json();
+            })
+            .then(data => {
+                tbody.innerHTML = "";
+                
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No se encontraron proyectos</td></tr>';
+                    return;
                 }
-        });
+
+                data.forEach(p => {
+                    const val = (v) => v ? v : '<span style="color:#aaa;">No asignado</span>';
+                    
+                    const fila = `
+                        <tr>
+                            <td>${p.matricula}</td>
+                            <td>${p.nombreAlumno}</td>
+                            <td><strong>${p.tituloTesis}</strong></td>
+                            <td>${val(p.director)}</td>
+                            <td>${val(p.codirector)}</td>
+                            <td>${p.areaConcentracion}</td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += fila;
+                });
+            })
+            .catch(error => {
+                console.error("Error cargando proyectos:", error);
+                tbody.innerHTML = '<tr><td colspan="6" style="color:red; text-align:center;">Error al cargar datos</td></tr>';
+            });
+    }
+
+    let timeout;
+    const delayCarga = () => {
+        clearTimeout(timeout);
+        timeout = setTimeout(cargarProyectos, 300);
     };
 
+    // Escuchar eventos de teclado en los 3 filtros
+    inputMatricula.addEventListener("input", delayCarga);
+    inputTitulo.addEventListener("input", delayCarga);
+    inputAsesor.addEventListener("input", delayCarga);
 
-    inputMatricula.addEventListener("input", aplicarFiltros);
-    inputTitulo.addEventListener("input", aplicarFiltros);
-    inputDirector.addEventListener("input", aplicarFiltros);
+    // Carga inicial
+    cargarProyectos();
 });

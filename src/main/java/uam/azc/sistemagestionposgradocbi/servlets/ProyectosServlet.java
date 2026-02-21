@@ -1,9 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
+
 package uam.azc.sistemagestionposgradocbi.servlets;
 
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -13,6 +11,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import uam.azc.sistemagestionposgradocbi.dao.ProyectoDAO;
+import uam.azc.sistemagestionposgradocbi.modelo.Proyecto;
 
 /**
  *
@@ -60,10 +60,21 @@ public class ProyectosServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Espacio para el Modelo/DAO en el futuro
-        List<Object> listaProyectos = new ArrayList<>(); 
-        
-        request.setAttribute("listaProyectos", listaProyectos);
-        request.getRequestDispatcher("/jsp/Proyectos.jsp").forward(request, response);
+        String matricula = request.getParameter("matricula");
+        String titulo = request.getParameter("titulo");
+        String asesor = request.getParameter("asesor");
+
+        if (matricula == null) matricula = "";
+        if (titulo == null) titulo = "";
+        if (asesor == null) asesor = "";
+
+        ProyectoDAO dao = new ProyectoDAO();
+        List<Proyecto> lista = dao.buscarPorFiltros(matricula, titulo, asesor);
+
+        String json = new Gson().toJson(lista);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
     }
 
     /**

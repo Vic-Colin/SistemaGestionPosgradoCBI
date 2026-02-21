@@ -38,7 +38,7 @@
 
                 <a href="${pageContext.request.contextPath}/jsp/Becas.jsp" class="menu-card">Becas</a>
                 <a href="${pageContext.request.contextPath}/jsp/Profesorado.jsp" class="menu-card">Profesorado</a>
-                <a href="${pageContext.request.contextPath}/ProyectosServlet" class="menu-card">Tesis</a>
+                <a href="${pageContext.request.contextPath}/jsp/Proyectos.jsp" class="menu-card">Tesis</a>
             </div>
         </main>
 

@@ -38,11 +38,11 @@
                 <div class="filters-group">
                     <input type="text" id="filtroMatricula" placeholder="Matrícula..." class="search-input">
                     <input type="text" id="filtroTitulo" placeholder="Título de tesis" class="search-input">
-                    <input type="text" id="filtroDirector" placeholder="Director/Codirector" class="search-input">
+                    <input type="text" id="filtroAsesor" placeholder="Director/Codirector" class="search-input">
                 </div>
                 
                 <div class="actions-group">
-                    <button class="btn-reporte-top">Generar reporte</button>
+                    <button class="btn-reporte-top">Exportar PDF</button>
                 </div>
             </div>
 
@@ -52,30 +52,14 @@
                         <tr>
                             <th>Matrícula</th>
                             <th>Nombre del Alumno</th>
-                            <th>Título de Tesis (ICR)</th>
+                            <th style="width: 30%;">Título de Tesis (ICR)</th>
                             <th>Director (Asesor)</th>
                             <th>Codirector (Coasesor)</th>
                             <th>Área de Concentración</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- DATOS MOCK PARA FRONTEND -->
-                        <tr>
-                            <td>2203801234</td>
-                            <td>Juan Pérez López</td>
-                            <td>Sistema distribuido para análisis académico</td>
-                            <td>Dra. María García</td>
-                            <td>Dr. Carlos Hernández</td>
-                            <td>Sistemas Distribuidos</td>
-                        </tr>
-                        <tr>
-                            <td>2203805678</td>
-                            <td>Ana Torres Díaz</td>
-                            <td>Modelo predictivo con IA</td>
-                            <td>Dr. Luis Ramírez</td>
-                            <td>Dra. Laura Mendoza</td>
-                            <td>Inteligencia Artificial</td>
-                        </tr>
+                    <tbody id="tbodyProyectos">
+                        <!-- Se llenará dinámicamente -->
                     </tbody>
 
                 </table>
