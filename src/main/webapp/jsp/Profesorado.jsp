@@ -35,7 +35,7 @@
                 </div>
                 
                 <div class="actions-group">
-                    <button class="btn-reporte-top">Generar reporte</button>
+                    <button class="btn-reporte-top">Exportar PDF</button>
                 </div>
             </div>
 

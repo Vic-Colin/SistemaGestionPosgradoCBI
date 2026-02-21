@@ -25,7 +25,7 @@ public class ProyectoDAO implements CrudDAO<Proyecto, String> {
             "ac.nombre AS area " +
             "FROM tesis t " +
             "INNER JOIN alumno a ON t.matricula = a.matricula " +
-            "INNER JOIN area_concentracion ac ON t.id_area_concentracion = ac.id_area " +
+            "LEFT JOIN area_concentracion ac ON t.id_area_concentracion = ac.id_area " +
             "LEFT JOIN profesor pd ON t.numero_economico_profesor_director = pd.numero_economico " +
             "LEFT JOIN profesor pc ON t.numero_economico_profesor_codirector = pc.numero_economico " +
             "WHERE 1=1"

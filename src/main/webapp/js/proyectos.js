@@ -31,10 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         <tr>
                             <td>${p.matricula}</td>
                             <td>${p.nombreAlumno}</td>
-                            <td><strong>${p.tituloTesis}</strong></td>
+                            <td><strong>${val(p.tituloTesis)}</strong></td>
                             <td>${val(p.director)}</td>
                             <td>${val(p.codirector)}</td>
-                            <td>${p.areaConcentracion}</td>
+                            <td>${val(p.areaConcentracion)}</td>
                         </tr>
                     `;
                     tbody.innerHTML += fila;
