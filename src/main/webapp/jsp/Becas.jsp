@@ -57,8 +57,8 @@
                             <th>Matrícula</th>
                             <th>Nombre</th>
                             <th>CVU CONAHCyT</th>
-                            <th>Ingreso</th>
-                            <th>Fin de Beca</th>
+                            <th>Trim. Ingreso</th>
+                            <th>Fecha Fin de Beca</th>
                             <th>Fecha Máx.</th>
                             <th>Estatus Beca</th>
                             <th>Titulación</th>

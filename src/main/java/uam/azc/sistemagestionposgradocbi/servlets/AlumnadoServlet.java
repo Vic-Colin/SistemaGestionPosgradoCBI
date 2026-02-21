@@ -4,14 +4,15 @@
  */
 package uam.azc.sistemagestionposgradocbi.servlets;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Calendar;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
+import uam.azc.sistemagestionposgradocbi.dao.AlumnoDAO;
+import uam.azc.sistemagestionposgradocbi.modelo.Alumno;
 
 /**
  *
@@ -20,30 +21,13 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "AlumnadoServlet", urlPatterns = {"/AlumnadoServlet"})
 public class AlumnadoServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AlumnadoServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AlumnadoServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+    private AlumnoDAO dao;
+    private Gson gson;
+
+    @Override
+    public void init() {
+        dao = new AlumnoDAO();
+        gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -58,18 +42,22 @@ public class AlumnadoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Calendar cal = Calendar.getInstance();
-        int anioFull = cal.get(Calendar.YEAR);
-        int anioCorto = anioFull % 100;
+        String matricula = request.getParameter("matricula");
+        String trimIngreso = request.getParameter("trimIngreso");
+        String trimPierdeCalidad = request.getParameter("trimPierdeCalidad");
+        String anioTitulacion = request.getParameter("anioTitulacion");
+        String estatusUam = request.getParameter("estatusUam");
 
-        // Pasamos los datos necesarios a la vista de forma limpia
-        request.setAttribute("anioActual", anioCorto);
-        request.setAttribute("anioFull", anioFull);
-        
-        // Aquí llamarías a tu Base de Datos
-        // List<Alumno> lista = dao.listar();
-        // request.setAttribute("alumnos", lista);
-        request.getRequestDispatcher("jsp/Alumnos.jsp").forward(request, response);
+        List<Alumno> lista = dao.buscarPorFiltros(
+            matricula == null ? "" : matricula,
+            trimIngreso == null ? "" : trimIngreso,
+            trimPierdeCalidad == null ? "" : trimPierdeCalidad,
+            anioTitulacion == null ? "" : anioTitulacion,
+            estatusUam == null ? "" : estatusUam
+        );
+
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(gson.toJson(lista));
     }
 
     /**
@@ -84,14 +72,31 @@ public class AlumnadoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String accion = request.getParameter("accion"); // Para saber si es create, update o delete
-        
-        // Aquí recibirías los parámetros del formulario:
-        // String matricula = request.getParameter("regMatricula");
-        
-        // Lógica de BD...
-        
-        response.sendRedirect("AlumnadoServlet"); // Recarga la lista
+        String accion = request.getParameter("accion");
+        boolean exito = false;
+
+        if ("eliminar".equals(accion)) {
+            String matricula = request.getParameter("matricula");
+            exito = dao.eliminar(matricula);
+        } else {
+            Alumno a = new Alumno();
+            a.setMatricula(request.getParameter("matricula"));
+            a.setNombreCompleto(request.getParameter("nombre"));
+            a.setCorreoInstitucional(request.getParameter("correoInst"));
+            a.setCorreoAlternativo(request.getParameter("correoAlt"));
+            a.setTelefono(request.getParameter("telefono"));
+            a.setTrimestreIngreso(request.getParameter("trimIngreso"));
+            a.setTrimestrePierdeCalidad(request.getParameter("trimPierde"));
+
+            if ("crear".equals(accion)) {
+                exito = dao.insertar(a);
+            } else if ("editar".equals(accion)) {
+                exito = dao.actualizar(a);
+            }
+        }
+
+        response.setContentType("text/plain");
+        response.getWriter().write(exito ? "OK" : "ERROR");
     }
 
     /**

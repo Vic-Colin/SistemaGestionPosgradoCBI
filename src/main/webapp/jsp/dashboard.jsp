@@ -33,7 +33,7 @@
 
             <div class="button-grid">
                 <div class="button-column">
-                    <a href="${pageContext.request.contextPath}/AlumnadoServlet" class="menu-card">Alumnado</a>
+                    <a href="${pageContext.request.contextPath}/jsp/Alumnos.jsp" class="menu-card">Alumnado</a>
                 </div>
 
                 <a href="${pageContext.request.contextPath}/jsp/Becas.jsp" class="menu-card">Becas</a>

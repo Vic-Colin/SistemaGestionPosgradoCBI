@@ -51,7 +51,7 @@
             <div class="table-controls">
                 <div class="filters-group">
                     <input type="text" placeholder="Matrícula" class="search-input" id="filtroMatricula">
-                    <select class="filter-select" id="filtroTrimestre">
+                    <select class="filter-select" id="filtroTrimIngreso">
                         <option value="">Ingreso (Todos)</option>
                         <c:forEach var="a" begin="16" end="${anioActual}">
                             <c:set var="y" value="${anioActual - (a - 16)}" />
@@ -61,7 +61,7 @@
                         </c:forEach>
                     </select>
 
-                    <select class="filter-select" id="filtroPierdeCalidad">
+                    <select class="filter-select" id="filtroTrimPierde">
                         <option value="">Pierde Calidad (Todos)</option>
                         <c:forEach var="f" begin="${anioActual - 5}" end="${anioActual + 7}">
                             <option value="${f}-O">${f}-O</option>
@@ -77,7 +77,7 @@
                         </c:forEach>
                     </select>
                     
-                    <select class="filter-select" id="filtroEstatus">
+                    <select class="filter-select" id="filtroEstatusUam">
                         <option value="">Estatus UAM (Todos)</option>
                         <option value="Vigente">Vigente</option>
                         <option value="Titulado">Titulado</option>
@@ -100,13 +100,13 @@
                             <th>Correo Inst.</th>
                             <th>Correo Alt.</th>
                             <th>Teléfono</th>
-                            <th>Ingreso</th>
-                            <th>F. Ingreso UAM</th>
-                            <th>Pierde Calidad</th>
+                            <th>Trim. Ingreso</th>
+                            <th>Fecha Ingreso UAM</th>
+                            <th>Trim. Pierde Calidad</th>
                             <th>Estatus UAM</th>
                             <th>Estatus Beca</th>
                             <th>No. Acta</th>
-                            <th>F. Titulación</th>
+                            <th>Fecha Titulación</th>
                             <th>Título de tesis</th>
                             <th>Área de concentración</th>
                             <th>Director (Asesor)</th>
