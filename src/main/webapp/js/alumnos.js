@@ -7,6 +7,7 @@ function init() {
     initModal();
     initTabla();
     initFiltros();
+    cargarCatalogos();
     cargarAlumnos(); 
 }
 
@@ -35,6 +36,36 @@ function configurarCamposDinamicos() {
             });
         }
     }
+}
+
+function cargarCatalogos() {
+    fetch('../AlumnadoServlet?accion=catalogos')
+        .then(response => {
+            if (!response.ok) throw new Error("Error obteniendo catálogos");
+            return response.json();
+        })
+        .then(data => {
+            const selectArea = document.getElementById("alumArea");
+            const selectDirector = document.getElementById("alumDirector");
+            const selectCodirector = document.getElementById("alumCodirector");
+
+            // 1. Limpiar y establecer opción por defecto
+            selectArea.innerHTML = '<option value="" disabled selected>Seleccione un área...</option>';
+            selectDirector.innerHTML = '<option value="" disabled selected>Seleccione director...</option>';
+            selectCodirector.innerHTML = '<option value="" selected>Sin Codirector</option>'; // Este puede quedar vacío
+
+            // 2. Llenar áreas de concentración
+            data.areas.forEach(area => {
+                selectArea.add(new Option(area.nombre, area.idArea));
+            });
+
+            // 3. Llenar directores y codirectores
+            data.profesores.forEach(prof => {
+                selectDirector.add(new Option(prof.nombreCompleto, prof.numeroEconomico));
+                selectCodirector.add(new Option(prof.nombreCompleto, prof.numeroEconomico));
+            });
+        })
+        .catch(err => console.error("Error al cargar catálogos:", err));
 }
 
 // ================== ACORDEÓN ====================
@@ -100,7 +131,7 @@ function initTabla() {
     window.prepararEdicion = prepararEdicion;
     window.confirmarEliminar = confirmarEliminar;
 }
-
+window.alumnosData = [];
 // 🟢 NUEVO: Función para pedir datos al servidor
 function cargarAlumnos() {
     const params = new URLSearchParams({
@@ -117,6 +148,7 @@ function cargarAlumnos() {
             return response.json();
         })
         .then(data => {
+            window.alumnosData = data;
             tablaBody.innerHTML = "";
             if(data.length === 0){
                  tablaBody.innerHTML = `<tr><td colspan="17" style="text-align:center;">No se encontraron registros</td></tr>`;

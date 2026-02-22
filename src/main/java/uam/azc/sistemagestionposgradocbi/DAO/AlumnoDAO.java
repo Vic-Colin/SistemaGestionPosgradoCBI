@@ -4,6 +4,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import uam.azc.sistemagestionposgradocbi.modelo.Alumno;
+import uam.azc.sistemagestionposgradocbi.modelo.AreaConcentracion;
+import uam.azc.sistemagestionposgradocbi.modelo.Profesor;
 import uam.azc.sistemagestionposgradocbi.util.Conexion;
 
 public class AlumnoDAO implements CrudDAO<Alumno, String> {
@@ -194,6 +196,42 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
         } catch (SQLException e) { e.printStackTrace(); return false; }
     }
 
+    // ==========================================
+    // 3. MÉTODOS PARA OBTENER CATÁLOGOS (Selects)
+    // ==========================================
+    public List<AreaConcentracion> obtenerAreas() {
+        List<AreaConcentracion> lista = new ArrayList<>();
+        String sql = "SELECT id_area, nombre FROM area_concentracion";
+        try (Connection con = Conexion.getConnection(); 
+             PreparedStatement ps = con.prepareStatement(sql); 
+             ResultSet rs = ps.executeQuery()) {
+            while(rs.next()){
+                AreaConcentracion a = new AreaConcentracion();
+                a.setIdArea(rs.getInt("id_area"));
+                a.setNombre(rs.getString("nombre"));
+                lista.add(a);
+            }
+        } catch(SQLException e) { e.printStackTrace(); }
+        return lista;
+    }
+
+    public List<Profesor> obtenerProfesores() {
+        List<Profesor> lista = new ArrayList<>();
+        // Traemos solo lo necesario para el select, ordenado alfabéticamente
+        String sql = "SELECT numero_economico, nombre_completo FROM profesor ORDER BY nombre_completo";
+        try (Connection con = Conexion.getConnection(); 
+             PreparedStatement ps = con.prepareStatement(sql); 
+             ResultSet rs = ps.executeQuery()) {
+            while(rs.next()){
+                Profesor p = new Profesor();
+                p.setNumeroEconomico(rs.getString("numero_economico"));
+                p.setNombreCompleto(rs.getString("nombre_completo"));
+                lista.add(p);
+            }
+        } catch(SQLException e) { e.printStackTrace(); }
+        return lista;
+    }
+    
     @Override
     public Alumno buscarPorId(String id) { return null; /* Implementar si necesitas cargar datos al modal de edición */ }
 }

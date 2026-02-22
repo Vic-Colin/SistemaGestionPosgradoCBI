@@ -7,6 +7,7 @@ package uam.azc.sistemagestionposgradocbi.servlets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,6 +43,22 @@ public class AlumnadoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        String accion = request.getParameter("accion");
+        if ("catalogos".equals(accion)) {
+            List<uam.azc.sistemagestionposgradocbi.modelo.AreaConcentracion> areas = dao.obtenerAreas();
+            List<uam.azc.sistemagestionposgradocbi.modelo.Profesor> profesores = dao.obtenerProfesores();
+            
+            // Empaquetamos ambas listas en un Map para enviarlas juntas como un solo JSON
+            java.util.Map<String, Object> catalogos = new java.util.HashMap<>();
+            catalogos.put("areas", areas);
+            catalogos.put("profesores", profesores);
+            
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write(gson.toJson(catalogos));
+            return; // Salimos para no ejecutar el resto del doGet
+        }
+        
         // 1. Siempre definir el año para los combos del JSP
         int anioActual = java.time.LocalDate.now().getYear();
         request.setAttribute("anioActual", anioActual);

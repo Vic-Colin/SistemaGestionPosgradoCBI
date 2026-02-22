@@ -278,9 +278,6 @@
                             <div class="from-group-slim">
                                 <label class="label-mini">Área de concentración</label>
                                 <select id="alumArea">
-                                    <option value="1">Sistemas Inteligentes</option>
-                                    <option value="2">Cómputo Científico</option>
-                                    <option value="3">Procesamiento de Señales</option>
                                 </select>
                             </div>
                         </div>
@@ -288,15 +285,11 @@
                             <div class="from-group-slim">
                                 <label class="label-mini">Director (Asesor)</label>
                                 <select id="alumDirector">
-                                    <option value="12345">Ángeles Belem Priego</option>
-                                    <option value="23456">Maricela Claudia Bravo</option>
                                 </select>
                             </div>
                             <div class="from-group-slim">
                                 <label class="label-mini">Codirector (Coasesor)</label>
                                 <select id="alumCodirector">
-                                    <option value="12345">Ángeles Belem Priego</option>
-                                    <option value="23456">Maricela Claudia Bravo</option>
                                 </select>
                             </div>
                         </div>

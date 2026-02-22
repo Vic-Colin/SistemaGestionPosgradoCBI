@@ -35,6 +35,7 @@
                 <button type="submit" class="btn-submit">ENTRAR</button>
             </form>
         </div>
+        <div class="watermark-logo-index"> </div>
     </div>
     <div class="bottom-bar"></div>
     <div id="errorModal" class="modalerror">
