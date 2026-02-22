@@ -57,6 +57,18 @@ public class AlumnadoServlet extends HttpServlet {
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(gson.toJson(catalogos));
             return; // Salimos para no ejecutar el resto del doGet
+        }else if ("buscar".equals(accion)) {
+            // 🔴 NUEVA LÓGICA PARA CARGAR DATOS COMPLETOS AL EDITAR
+            String matricula = request.getParameter("matricula");
+            Alumno alumno = dao.buscarPorId(matricula);
+            
+            // Usamos response.reset() para asegurar que no haya basura HTML mezclada con el JSON
+            response.reset(); 
+            response.setContentType("application/json;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.print(gson.toJson(alumno));
+            out.flush();
+            return;
         }
         
         // 1. Siempre definir el año para los combos del JSP

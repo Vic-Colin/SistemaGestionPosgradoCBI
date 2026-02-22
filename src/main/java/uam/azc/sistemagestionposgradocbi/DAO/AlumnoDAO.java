@@ -233,5 +233,55 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
     }
     
     @Override
-    public Alumno buscarPorId(String id) { return null; /* Implementar si necesitas cargar datos al modal de edición */ }
+    public Alumno buscarPorId(String matricula) {
+        Alumno a = null;
+        String sql = "SELECT a.matricula, a.nombre_completo, a.correo_institucional, a.correo_alternativo, a.telefono, " +
+                     "a.trimestre_ingreso, a.fecha_inicio, a.trimestre_pierde_calidad, a.numero_acta, a.fecha_titulacion, a.cvu, " +
+                     "ea.nombre AS estatus_uam, " +
+                     "b.estatus_beca, b.fecha_inicio AS beca_inicio, b.fecha_fin_vigencia AS beca_fin, b.fecha_max_conahcyt AS beca_max, " +
+                     "t.titulo AS titulo_tesis, t.id_area_concentracion, t.numero_economico_profesor_director, t.numero_economico_profesor_codirector " +
+                     "FROM alumno a " +
+                     "LEFT JOIN estatus_alumno ea ON a.id_estatus = ea.id_estatus " +
+                     "LEFT JOIN beca b ON a.matricula = b.matricula " +
+                     "LEFT JOIN tesis t ON a.matricula = t.matricula " +
+                     "WHERE a.matricula = ?";
+
+        try (Connection con = Conexion.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, matricula);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    a = new Alumno();
+                    
+                    // Datos Generales y Académicos
+                    a.setMatricula(rs.getString("matricula"));
+                    a.setNombreCompleto(rs.getString("nombre_completo"));
+                    a.setCorreoInstitucional(rs.getString("correo_institucional"));
+                    a.setCorreoAlternativo(rs.getString("correo_alternativo"));
+                    a.setTelefono(rs.getString("telefono"));
+                    a.setTrimestreIngreso(rs.getString("trimestre_ingreso"));
+                    a.setFechaInicio(rs.getDate("fecha_inicio"));
+                    a.setTrimestrePierdeCalidad(rs.getString("trimestre_pierde_calidad"));
+                    a.setNumeroActa(rs.getString("numero_acta"));
+                    a.setFechaTitulacion(rs.getDate("fecha_titulacion"));
+                    a.setCvu(rs.getString("cvu"));
+                    a.setEstatusUam(rs.getString("estatus_uam"));
+                    
+                    // Datos de Beca (Mapeados como String para evitar conflictos de parseo en JSON)
+                    a.setEstatusBeca(rs.getString("estatus_beca"));
+                    a.setRegFechaInicioBeca(rs.getString("beca_inicio"));
+                    a.setRegFechaFinBeca(rs.getString("beca_fin"));
+                    a.setRegFechaMax(rs.getString("beca_max"));
+                    
+                    // Datos de Tesis (Incluye los IDs necesarios para los Selects)
+                    a.setTituloTesis(rs.getString("titulo_tesis"));
+                    a.setIdAreaConcentracion(rs.getInt("id_area_concentracion"));
+                    a.setNumEcoDirector(rs.getString("numero_economico_profesor_director"));
+                    a.setNumEcoCodirector(rs.getString("numero_economico_profesor_codirector"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return a;
+    }
 }

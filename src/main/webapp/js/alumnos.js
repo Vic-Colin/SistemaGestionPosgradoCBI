@@ -18,21 +18,23 @@ function configurarCamposDinamicos() {
 
     const regIngreso = document.getElementById("regIngreso");
     const regPierde = document.getElementById("regPierdeCalidad");
-
+    const pad = (n) => n < 10 ? '0' + n : n;
     if (regIngreso) {
         regIngreso.innerHTML = '<option value="" disabled selected>Trimestre Ingreso...</option>';
         for (let y = anioActualCorto; y >= 16; y--) {
             ["O", "P", "I"].forEach(t => {
-                regIngreso.add(new Option(`${y}-${t}`, `${y}-${t}`));
+                let valor = `${pad(y)}-${t}`;
+                regIngreso.add(new Option(valor, valor));
             });
         }
     }
 
     if (regPierde) {
         regPierde.innerHTML = '<option value="" disabled selected>Trimestre pierde calidad...</option>';
-        for (let y = anioActualCorto; y <= anioActualCorto + 6; y++) {
+        for (let y = anioActualCorto - 5; y <= anioActualCorto + 8; y++) {
             ["O", "P", "I"].forEach(t => {
-                regPierde.add(new Option(`${y}-${t}`, `${y}-${t}`));
+                let valor = `${pad(y)}-${t}`;
+                regPierde.add(new Option(valor, valor));
             });
         }
     }
@@ -191,28 +193,90 @@ function renderRow(d) {
     `;
 }
 
+function seleccionarOpcionRobusta(selectId, valorBuscado) {
+    if (!valorBuscado) return;
+    const select = document.getElementById(selectId);
+    if (!select) return;
+
+    // Limpiamos el valor buscado: quitamos espacios, guiones y pasamos a Mayúsculas
+    const limpiar = (t) => String(t).replace(/-/g, '').trim().toUpperCase();
+    const buscadoLimpio = limpiar(valorBuscado);
+
+    for (let option of select.options) {
+        if (limpiar(option.value) === buscadoLimpio || 
+            limpiar(option.text) === buscadoLimpio) {
+            select.value = option.value;
+            return;
+        }
+    }
+}
+
 function prepararEdicion(btn) {
     const fila = btn.closest("tr");
-    document.getElementById("modalTitulo").innerText = "Editar Información del Alumno";
-    document.getElementById("editRowIndex").value = "1"; // Indica Edición (cualquier valor distinto a -1)
+    const matricula = fila.cells[0].innerText.trim();
 
-    const get = i => fila.cells[i].innerText.trim();
+    // Consultar al servidor los datos completos del alumno
+    fetch(`../AlumnadoServlet?accion=buscar&matricula=${matricula}`)
+        .then(response => {
+            if(!response.ok) throw new Error("Error en la red");
+            return response.text(); 
+        })
+        .then(text => {
+            // Limpieza de seguridad del JSON por si el servidor envía algún salto de línea
+            const cleanJson = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+            const alumno = JSON.parse(cleanJson);
 
-    setFormValues({
-        matricula: get(0),
-        nombre: get(1),
-        correoInst: get(2),
-        correoAlt: get(3),
-        tel: get(4),
-        ingreso: get(5),
-        pierdeCalidad: get(7)
-        // Por ahora el CRUD de AlumnoDAO solo maneja estos datos básicos.
-        // Si quieres editar la tesis o beca, necesitarás métodos extra en el DAO.
-    });
+            if (!alumno) return;
 
-    // Proteger matrícula en edición (es llave primaria)
-    document.getElementById("regMatricula").readOnly = true; 
-    modal.style.display = "block";
+            document.getElementById("modalTitulo").innerText = "Editar Información del Alumno";
+            document.getElementById("editRowIndex").value = "1"; // Indica Edición
+
+            // --- 1. Datos Generales ---
+            document.getElementById("regMatricula").value = alumno.matricula || "";
+            document.getElementById("regMatricula").readOnly = true; 
+            document.getElementById("regNombre").value = alumno.nombreCompleto || "";
+            document.getElementById("regCorreoInst").value = alumno.correoInstitucional || "";
+            document.getElementById("regCorreoAlt").value = alumno.correoAlternativo || "";
+            document.getElementById("regTel").value = alumno.telefono || "";
+            //document.getElementById("regEstatus").value = alumno.estatusUam || "Vigente";
+            seleccionarOpcionRobusta("regEstatus", alumno.estatusUam);
+
+            // --- 2. Datos Académicos ---
+            document.getElementById("regIngreso").value = alumno.trimestreIngreso || "";
+            //document.getElementById("regPierdeCalidad").value = alumno.trimestrePierdeCalidad || "";
+            seleccionarOpcionRobusta("regPierdeCalidad", alumno.trimestrePierdeCalidad);
+            document.getElementById("regFechaIngUam").value = alumno.fechaInicio || "";
+
+            // --- 3. Beca SECIHTI ---
+            document.getElementById("regCVU").value = alumno.cvu || "";
+            document.getElementById("regEstatusBeca").value = alumno.estatusBeca || "NO TUVO BECA";
+            document.getElementById("regFechaInicioBeca").value = alumno.regFechaInicioBeca || "";
+            document.getElementById("regFechaFinBeca").value = alumno.regFechaFinBeca || "";
+            document.getElementById("regFechaMax").value = alumno.regFechaMax || "";
+
+            // --- 4. Titulación ---
+            document.getElementById("regActa").value = alumno.numeroActa || "";
+            document.getElementById("regFechaTit").value = alumno.fechaTitulacion || "";
+
+            // --- 5. Proyecto de Tesis ---
+            document.getElementById("alumTituloTesis").value = alumno.tituloTesis || "";
+            // Asignación de llaves foráneas a los selects dinámicos
+            document.getElementById("alumArea").value = alumno.idAreaConcentracion || "";
+            document.getElementById("alumDirector").value = alumno.numEcoDirector || "";
+            document.getElementById("alumCodirector").value = alumno.numEcoCodirector || "";
+
+            // Mostrar modal
+            modal.style.display = "block";
+
+            // Forzar actualización visual de acordeones si es necesario
+            const bodies = document.querySelectorAll(".accordion-body");
+            bodies.forEach(body => {
+                if (body.style.maxHeight && body.style.maxHeight !== "0px") {
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            });
+        })
+        .catch(err => console.error("Error al obtener detalle del alumno:", err));
 }
 
 let matriculaAEliminar = null;

@@ -30,8 +30,8 @@
             
             <div class="table-controls">
                 <div class="filters-group">
-                    <input type="text" placeholder="CVU..." class="search-input" id="buscarCVU">
                     <input type="text" placeholder="No. Económico..." class="search-input" id="buscarNoEconomico">
+                    <input type="text" placeholder="CVU..." class="search-input" id="buscarCVU">
                 </div>
                 
                 <div class="actions-group">
