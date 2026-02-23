@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <td>${beca.nombreAlumno}</td>
                             <td>${val(beca.cvu)}</td>
                             <td>${val(beca.trimestreIngreso)}</td>
+                            <td>${val(beca.fechaInicio)}</td>
                             <td>${val(beca.fechaFinBeca)}</td>
                             <td>${val(beca.fechaMaxConahcyt)}</td>
                             <td><span class="${claseEstatus}">${val(beca.estatusBeca)}</span></td>

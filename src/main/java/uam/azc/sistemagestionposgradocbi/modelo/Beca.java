@@ -9,6 +9,7 @@ public class Beca implements Serializable {
     private String nombreAlumno; // Se obtiene con JOIN
     private String cvu;
     private String trimestreIngreso; // Se obtiene con JOIN
+    private Date fechaInicio;
     private Date fechaFinBeca;
     private Date fechaMaxConahcyt;
     private String estatusBeca;
@@ -52,6 +53,16 @@ public class Beca implements Serializable {
         this.trimestreIngreso = trimestreIngreso;
     }
 
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    
+    
     public Date getFechaFinBeca() {
         return fechaFinBeca;
     }

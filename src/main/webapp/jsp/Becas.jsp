@@ -39,9 +39,10 @@
                     <select class="filter-select" id="filtroEstatus">
                         <option value="">Estatus Beca (Todos)</option>
                         <option value="Vigente">Vigente</option>
-                        <option value="Baja">Baja</option>
+                        <option value="Suspendida">Suspendida</option>
+                        <option value="Baja de beca">Baja de beca</option>
                         <option value="No tuvo beca">No tuvo beca</option>
-                        <option value="Concluida">Concluida</option>
+                        <option value="Fin de vigencia">Fin de vigencia</option>
                     </select>
                 </div>
                 
@@ -58,6 +59,7 @@
                             <th>Nombre</th>
                             <th>CVU CONAHCyT</th>
                             <th>Trim. Ingreso</th>
+                            <th>Fecha Inicio de Beca</th>
                             <th>Fecha Fin de Beca</th>
                             <th>Fecha Máx.</th>
                             <th>Estatus Beca</th>

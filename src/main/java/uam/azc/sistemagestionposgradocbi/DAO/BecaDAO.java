@@ -26,12 +26,11 @@ public class BecaDAO implements CrudDAO<Beca, String> {
         // SQL con JOIN a la tabla alumno para obtener nombres y datos académicos
         StringBuilder sql = new StringBuilder(
                 "SELECT b.matricula, a.nombre_completo, a.cvu, a.trimestre_ingreso, " +
-                "b.fecha_fin_vigencia AS fin_beca, b.fecha_max_conahcyt, " +
+                "b.fecha_inicio, b.fecha_fin_vigencia AS fin_beca, b.fecha_max_conahcyt, " +
                 "b.estatus_beca, a.fecha_titulacion " +
                 "FROM beca b " +
                 "INNER JOIN alumno a ON b.matricula = a.matricula " +
-                "WHERE 1=1"+
-                "ORDER BY b.matricula ASC"
+                "WHERE 1=1"
         );
 
         // Construcción dinámica de la consulta
@@ -66,6 +65,7 @@ public class BecaDAO implements CrudDAO<Beca, String> {
                     b.setNombreAlumno(rs.getString("nombre_completo"));
                     b.setCvu(rs.getString("cvu"));
                     b.setTrimestreIngreso(rs.getString("trimestre_ingreso"));
+                    b.setFechaInicio(rs.getDate("fecha_inicio"));
                     b.setFechaFinBeca(rs.getDate("fin_beca"));
                     b.setFechaMaxConahcyt(rs.getDate("fecha_max_conahcyt"));
                     b.setEstatusBeca(rs.getString("estatus_beca"));
