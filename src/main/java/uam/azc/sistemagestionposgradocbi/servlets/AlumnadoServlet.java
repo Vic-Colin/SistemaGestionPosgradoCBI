@@ -131,7 +131,6 @@ public class AlumnadoServlet extends HttpServlet {
             // Nuevos campos Beca
             a.setCvu(request.getParameter("cvu"));
             a.setEstatusBeca(request.getParameter("estatusBeca"));
-            a.setRegFechaInicioBeca(request.getParameter("fechaInicioBeca"));
             a.setRegFechaFinBeca(request.getParameter("fechaFinBeca"));
             a.setRegFechaMax(request.getParameter("fechaMaxBeca"));
 

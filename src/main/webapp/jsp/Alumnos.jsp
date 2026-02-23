@@ -226,18 +226,15 @@
                             <div class="form-group-slim" style="flex: 1;">
                                 <label class="label-mini">Estatus Beca*:</label>
                                 <select id="regEstatusBeca">
-                                    <option value="NO TUVO BECA" selected>Sin Beca</option>
+                                    <option value="NO TUVO BECA" selected>NO TUVO BECA</option>
                                     <option value="VIGENTE">VIGENTE</option>
-                                    <option value="CONCLUIDA">CONCLUIDA</option>
+                                    <option value="FIN DE VIGENCIA">CONCLUIDA</option>
                                     <option value="SUSPENDIDA">SUSPENDIDA</option>
+                                    <option value="BAJA DE BECA">BAJA DE BECA</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group-slim">
-                                <label class="label-mini">Inicio de Beca:</label>
-                                <input type="date" id="regFechaInicioBeca">
-                            </div>
                             <div class="form-group-slim">
                                 <label class="label-mini">Fin de Beca:</label>
                                 <input type="date" id="regFechaFinBeca">

@@ -59,7 +59,6 @@
                             <th>Nombre</th>
                             <th>CVU CONAHCyT</th>
                             <th>Trim. Ingreso</th>
-                            <th>Fecha Inicio de Beca</th>
                             <th>Fecha Fin de Beca</th>
                             <th>Fecha Máx.</th>
                             <th>Estatus Beca</th>

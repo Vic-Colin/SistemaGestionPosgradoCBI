@@ -252,7 +252,6 @@ function prepararEdicion(btn) {
             // --- 3. Beca SECIHTI ---
             document.getElementById("regCVU").value = alumno.cvu || "";
             document.getElementById("regEstatusBeca").value = alumno.estatusBeca || "NO TUVO BECA";
-            document.getElementById("regFechaInicioBeca").value = alumno.regFechaInicioBeca || "";
             document.getElementById("regFechaFinBeca").value = alumno.regFechaFinBeca || "";
             document.getElementById("regFechaMax").value = alumno.regFechaMax || "";
 
