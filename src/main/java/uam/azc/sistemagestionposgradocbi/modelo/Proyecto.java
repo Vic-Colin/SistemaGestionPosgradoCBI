@@ -6,6 +6,7 @@ public class Proyecto implements Serializable {
 
     private String matricula;
     private String nombreAlumno;
+    private String estatusUam;
     private String tituloTesis;
     private String director;
     private String codirector;
@@ -22,6 +23,9 @@ public class Proyecto implements Serializable {
 
     public String getNombreAlumno() { return nombreAlumno; }
     public void setNombreAlumno(String nombreAlumno) { this.nombreAlumno = nombreAlumno; }
+    
+    public String getEstatusUam() { return estatusUam;  }
+    public void setEstatusUam(String estatusUam) { this.estatusUam = estatusUam;}
 
     public String getTituloTesis() { return tituloTesis; }
     public void setTituloTesis(String tituloTesis) { this.tituloTesis = tituloTesis; }

@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <tr>
                             <td>${p.matricula}</td>
                             <td>${p.nombreAlumno}</td>
+                            <td><span class="status-badge">${val(p.estatusUam)}</span></td>
                             <td><strong>${val(p.tituloTesis)}</strong></td>
                             <td>${val(p.director)}</td>
                             <td>${val(p.codirector)}</td>

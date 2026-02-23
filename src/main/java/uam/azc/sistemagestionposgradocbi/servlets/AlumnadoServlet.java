@@ -121,6 +121,7 @@ public class AlumnadoServlet extends HttpServlet {
         } else {
             Alumno a = new Alumno();
             a.setMatricula(request.getParameter("matricula"));
+            a.setCurp(request.getParameter("curp"));
             a.setNombreCompleto(request.getParameter("nombre"));
             a.setCorreoInstitucional(request.getParameter("correoInst"));
             a.setCorreoAlternativo(request.getParameter("correoAlt"));

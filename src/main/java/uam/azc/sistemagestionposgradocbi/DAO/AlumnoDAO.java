@@ -17,7 +17,7 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
         List<Alumno> lista = new ArrayList<>();
         
         StringBuilder sql = new StringBuilder(
-            "SELECT a.matricula, a.nombre_completo, a.correo_institucional, a.correo_alternativo, a.telefono, " +
+            "SELECT a.matricula, a.curp, a.nombre_completo, a.correo_institucional, a.correo_alternativo, a.telefono, " +
             "a.trimestre_ingreso, a.fecha_inicio, a.trimestre_pierde_calidad, a.numero_acta, a.fecha_titulacion, " +
             "ea.nombre AS estatus_uam, b.estatus_beca, t.titulo AS titulo_tesis, ac.nombre AS area_concentracion, " +
             "pd.nombre_completo AS director, pc.nombre_completo AS codirector " +
@@ -49,6 +49,7 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
                 while (rs.next()) {
                     Alumno a = new Alumno();
                     a.setMatricula(rs.getString("matricula"));
+                    a.setCurp(rs.getString("curp"));
                     a.setNombreCompleto(rs.getString("nombre_completo"));
                     a.setCorreoInstitucional(rs.getString("correo_institucional"));
                     a.setCorreoAlternativo(rs.getString("correo_alternativo"));
@@ -91,16 +92,17 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, 1, CURDATE(), ?, ?)";
             try (PreparedStatement psA = con.prepareStatement(sqlAlumno)) {
                 psA.setString(1, a.getMatricula());
-                psA.setString(2, a.getCvu());
-                psA.setString(3, a.getNombreCompleto());
-                psA.setString(4, a.getCorreoInstitucional());
-                psA.setString(5, a.getCorreoAlternativo());
-                psA.setString(6, a.getTelefono());
-                psA.setString(7, a.getTrimestreIngreso());
-                psA.setString(8, a.getTrimestrePierdeCalidad());
-                psA.setString(9, a.getNumeroActa());
+                psA.setString(2, a.getCurp());
+                psA.setString(3, a.getCvu());
+                psA.setString(4, a.getNombreCompleto());
+                psA.setString(5, a.getCorreoInstitucional());
+                psA.setString(6, a.getCorreoAlternativo());
+                psA.setString(7, a.getTelefono());
+                psA.setString(8, a.getTrimestreIngreso());
+                psA.setString(9, a.getTrimestrePierdeCalidad());
+                psA.setString(10, a.getNumeroActa());
                 // Manejo de fecha nula para titulación
-                if(a.getFechaTitulacion() != null) psA.setDate(10, a.getFechaTitulacion()); else psA.setNull(10, Types.DATE);
+                if(a.getFechaTitulacion() != null) psA.setDate(11, a.getFechaTitulacion()); else psA.setNull(10, Types.DATE);
                 psA.executeUpdate();
             }
 
@@ -157,11 +159,19 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
             con.setAutoCommit(false);
 
             // 1. Update Alumno
-            String sqlAlumno = "UPDATE alumno SET cvu=?, nombre_completo=?, correo_institucional=?, correo_alternativo=?, telefono=?, trimestre_ingreso=?, trimestre_pierde_calidad=?, numero_acta=?, fecha_titulacion=? WHERE matricula=?";
+            String sqlAlumno = "UPDATE alumno SET curp=?, cvu=?, nombre_completo=?, correo_institucional=?, correo_alternativo=?, telefono=?, trimestre_ingreso=?, trimestre_pierde_calidad=?, numero_acta=?, fecha_titulacion=? WHERE matricula=?";
             try (PreparedStatement ps = con.prepareStatement(sqlAlumno)) {
-                ps.setString(1, a.getCvu());
-                // ... setear los demás ...
-                ps.setString(10, a.getMatricula());
+                ps.setString(1, a.getCurp()); // 🔴 NUEVO
+                ps.setString(2, a.getCvu());
+                ps.setString(3, a.getNombreCompleto());
+                ps.setString(4, a.getCorreoInstitucional());
+                ps.setString(5, a.getCorreoAlternativo());
+                ps.setString(6, a.getTelefono());
+                ps.setString(7, a.getTrimestreIngreso());
+                ps.setString(8, a.getTrimestrePierdeCalidad());
+                ps.setString(9, a.getNumeroActa());
+                if(a.getFechaTitulacion() != null) ps.setDate(10, a.getFechaTitulacion()); else ps.setNull(10, Types.DATE);
+                ps.setString(11, a.getMatricula());
                 ps.executeUpdate();
             }
 
@@ -235,7 +245,7 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
     @Override
     public Alumno buscarPorId(String matricula) {
         Alumno a = null;
-        String sql = "SELECT a.matricula, a.nombre_completo, a.correo_institucional, a.correo_alternativo, a.telefono, " +
+        String sql = "SELECT a.matricula,a.curp, a.nombre_completo, a.correo_institucional, a.correo_alternativo, a.telefono, " +
                      "a.trimestre_ingreso, a.fecha_inicio, a.trimestre_pierde_calidad, a.numero_acta, a.fecha_titulacion, a.cvu, " +
                      "ea.nombre AS estatus_uam, " +
                      "b.estatus_beca, b.fecha_inicio AS beca_inicio, b.fecha_fin_vigencia AS beca_fin, b.fecha_max_conahcyt AS beca_max, " +
@@ -254,6 +264,7 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
                     
                     // Datos Generales y Académicos
                     a.setMatricula(rs.getString("matricula"));
+                    a.setCurp(rs.getString("curp"));
                     a.setNombreCompleto(rs.getString("nombre_completo"));
                     a.setCorreoInstitucional(rs.getString("correo_institucional"));
                     a.setCorreoAlternativo(rs.getString("correo_alternativo"));

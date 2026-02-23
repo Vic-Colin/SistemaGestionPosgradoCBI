@@ -30,7 +30,8 @@ public class BecaDAO implements CrudDAO<Beca, String> {
                 "b.estatus_beca, a.fecha_titulacion " +
                 "FROM beca b " +
                 "INNER JOIN alumno a ON b.matricula = a.matricula " +
-                "WHERE 1=1"
+                "WHERE 1=1"+
+                "ORDER BY b.matricula ASC"
         );
 
         // Construcción dinámica de la consulta

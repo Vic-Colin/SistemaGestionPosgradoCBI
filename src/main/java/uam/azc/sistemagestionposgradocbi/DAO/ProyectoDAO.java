@@ -20,11 +20,14 @@ public class ProyectoDAO implements CrudDAO<Proyecto, String> {
         List<Proyecto> lista = new ArrayList<>();
         
         StringBuilder sql = new StringBuilder(
-            "SELECT t.matricula, a.nombre_completo AS alumno, t.titulo, " +
+            "SELECT t.matricula, a.nombre_completo AS alumno,"+
+            "e.nombre AS estatus_uam, " +
+            "t.titulo, " +
             "pd.nombre_completo AS director, pc.nombre_completo AS codirector, " +
             "ac.nombre AS area " +
             "FROM tesis t " +
             "INNER JOIN alumno a ON t.matricula = a.matricula " +
+            "INNER JOIN estatus_alumno e ON a.id_estatus = e.id_estatus " +
             "LEFT JOIN area_concentracion ac ON t.id_area_concentracion = ac.id_area " +
             "LEFT JOIN profesor pd ON t.numero_economico_profesor_director = pd.numero_economico " +
             "LEFT JOIN profesor pc ON t.numero_economico_profesor_codirector = pc.numero_economico " +
@@ -62,6 +65,7 @@ public class ProyectoDAO implements CrudDAO<Proyecto, String> {
                     Proyecto p = new Proyecto();
                     p.setMatricula(rs.getString("matricula"));
                     p.setNombreAlumno(rs.getString("alumno"));
+                    p.setEstatusUam(rs.getString("estatus_uam"));
                     p.setTituloTesis(rs.getString("titulo"));
                     p.setDirector(rs.getString("director"));
                     p.setCodirector(rs.getString("codirector")); // Puede ser null

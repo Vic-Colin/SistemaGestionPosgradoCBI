@@ -168,6 +168,7 @@ function renderRow(d) {
     return `
         <tr>
             <td>${d.matricula}</td>
+            <td>${val(d.curp)}</td>
             <td>${d.nombreCompleto}</td>
             <td>${val(d.correoInstitucional)}</td>
             <td>${val(d.correoAlternativo)}</td>
@@ -234,6 +235,7 @@ function prepararEdicion(btn) {
             // --- 1. Datos Generales ---
             document.getElementById("regMatricula").value = alumno.matricula || "";
             document.getElementById("regMatricula").readOnly = true; 
+            document.getElementById("regCurp").value = alumno.curp || "";
             document.getElementById("regNombre").value = alumno.nombreCompleto || "";
             document.getElementById("regCorreoInst").value = alumno.correoInstitucional || "";
             document.getElementById("regCorreoAlt").value = alumno.correoAlternativo || "";
@@ -310,6 +312,7 @@ function getAlumnoFromForm() {
     return {
         // Datos Personales
         matricula: val("regMatricula"),
+        curp: val("regCurp"),
         nombre: val("regNombre"),
         correoInst: val("regCorreoInst"),
         correoAlt: val("regCorreoAlt"),

@@ -113,6 +113,7 @@
                     <thead>
                         <tr>
                             <th>Matrícula</th>
+                            <th>Curp</th>
                             <th>Nombre</th>
                             <th>Correo Inst.</th>
                             <th>Correo Alt.</th>
@@ -174,6 +175,10 @@
                     <div class="from-group-slim">
                         <label class="label-mini">Matrícula:*</label>
                         <input type="text" id="regMatricula" placeholder="Matrícula" required style="flex: 2;">
+                    </div>
+                    <div class="form-group-slim">
+                        <label class="label-mini">Curp:*</label>
+                        <input type="text" id="regCurp" placeholder="CURP" required style="flex: 1;">
                     </div>
                 </div>
                 <div class="form-row">

@@ -52,6 +52,7 @@
                         <tr>
                             <th>Matrícula</th>
                             <th>Nombre del Alumno</th>
+                            <th>Estatus UAM</th>
                             <th style="width: 30%;">Título de Tesis (ICR)</th>
                             <th>Director (Asesor)</th>
                             <th>Codirector (Coasesor)</th>

@@ -6,6 +6,7 @@ import java.sql.Date;
 public class Alumno implements Serializable {
     // Datos nativos del alumno
     private String matricula;
+    private String curp;
     private String nombreCompleto;
     private String correoInstitucional;
     private String correoAlternativo;
@@ -47,6 +48,16 @@ public class Alumno implements Serializable {
         this.matricula = matricula;
     }
 
+    public String getCurp() {
+        return curp;
+    }
+
+    public void setCurp(String curp) {
+        this.curp = curp;
+    }
+
+    
+    
     public String getNombreCompleto() {
         return nombreCompleto;
     }
