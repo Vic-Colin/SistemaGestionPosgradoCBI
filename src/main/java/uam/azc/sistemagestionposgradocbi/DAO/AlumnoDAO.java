@@ -85,11 +85,11 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
         Connection con = null;
         try {
             con = Conexion.getConnection();
-            con.setAutoCommit(false); // 🔴 INICIA TRANSACCIÓN
+            con.setAutoCommit(false); // INICIA TRANSACCIÓN
 
-            // 1. Insertar en ALUMNO (Se corrigió la query agregando 'curp' y su '?')
+            // 1. INSERTAR EN ALUMNO (Mapeando el Estatus UAM de String a ID)
             String sqlAlumno = "INSERT INTO alumno (matricula, curp, cvu, nombre_completo, correo_institucional, correo_alternativo, telefono, trimestre_ingreso, trimestre_pierde_calidad, id_generacion, id_estatus, fecha_inicio, numero_acta, fecha_titulacion) " +
-                               "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, CURDATE(), ?, ?)";
+                               "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1, COALESCE((SELECT id_estatus FROM estatus_alumno WHERE nombre = ? LIMIT 1), 1), CURDATE(), ?, ?)";
             try (PreparedStatement psA = con.prepareStatement(sqlAlumno)) {
                 psA.setString(1, a.getMatricula());
                 psA.setString(2, a.getCurp());
@@ -100,28 +100,29 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
                 psA.setString(7, a.getTelefono());
                 psA.setString(8, a.getTrimestreIngreso());
                 psA.setString(9, a.getTrimestrePierdeCalidad());
-                psA.setString(10, a.getNumeroActa());
-                
-                if(a.getFechaTitulacion() != null) psA.setDate(11, a.getFechaTitulacion()); 
-                else psA.setNull(11, Types.DATE);
-                
+                psA.setString(10, a.getEstatusUam()); // 🔴 Mandamos el String (ej. "Baja")
+                psA.setString(11, a.getNumeroActa());
+                if(a.getFechaTitulacion() != null) psA.setDate(12, a.getFechaTitulacion()); else psA.setNull(12, Types.DATE);
                 psA.executeUpdate();
             }
 
-            // 2. Insertar en BECA
+            // Variables seguras para Beca
+            String fFin = (a.getRegFechaFinBeca() == null || a.getRegFechaFinBeca().isEmpty()) ? null : a.getRegFechaFinBeca();
+            String fMax = (a.getRegFechaMax() == null || a.getRegFechaMax().isEmpty()) ? null : a.getRegFechaMax();
+
+            // 2. INSERTAR EN BECA
             if (a.getEstatusBeca() != null && !a.getEstatusBeca().equals("NO TUVO BECA")) {
                 String sqlBeca = "INSERT INTO beca (matricula, estatus_beca, fecha_fin_vigencia, fecha_max_conahcyt) VALUES (?, ?, ?, ?)";
                 try (PreparedStatement psB = con.prepareStatement(sqlBeca)) {
                     psB.setString(1, a.getMatricula());
-                    psB.setString(2, a.getEstatusBeca());
-                    // Control de fechas vacías desde JS
-                    psB.setString(3, (a.getRegFechaFinBeca() == null || a.getRegFechaFinBeca().isEmpty()) ? null : a.getRegFechaFinBeca());
-                    psB.setString(4, (a.getRegFechaMax() == null || a.getRegFechaMax().isEmpty()) ? null : a.getRegFechaMax());
+                    psB.setString(2, a.getEstatusBeca()); // 🔴 String directo ("VIGENTE", etc.)
+                    psB.setString(3, fFin);
+                    psB.setString(4, fMax);
                     psB.executeUpdate();
                 }
             }
 
-            // 3. Insertar en TESIS
+            // 3. INSERTAR EN TESIS
             if (a.getTituloTesis() != null && !a.getTituloTesis().isEmpty()) {
                 String sqlTesis = "INSERT INTO tesis (matricula, titulo, id_area_concentracion, numero_economico_profesor_director, numero_economico_profesor_codirector) VALUES (?, ?, ?, ?, ?)";
                 try (PreparedStatement psT = con.prepareStatement(sqlTesis)) {
@@ -134,14 +135,12 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
                 }
             }
 
-            con.commit(); // 🟢 CONFIRMA TRANSACCIÓN
+            con.commit(); // CONFIRMA TRANSACCIÓN
             return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
-            if (con != null) {
-                try { con.rollback(); } catch (SQLException ex) { ex.printStackTrace(); } 
-            }
+            if (con != null) { try { con.rollback(); } catch (SQLException ex) { ex.printStackTrace(); } }
             return false;
         } finally {
             if (con != null) { try { con.setAutoCommit(true); con.close(); } catch (SQLException e) { e.printStackTrace(); } }
@@ -155,8 +154,8 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
             con = Conexion.getConnection();
             con.setAutoCommit(false);
 
-            // 1. UPDATE ALUMNO
-            String sqlAlumno = "UPDATE alumno SET curp=?, cvu=?, nombre_completo=?, correo_institucional=?, correo_alternativo=?, telefono=?, trimestre_ingreso=?, trimestre_pierde_calidad=?, numero_acta=?, fecha_titulacion=? WHERE matricula=?";
+            // 1. UPDATE ALUMNO (Mapeando el Estatus UAM de String a ID mediante subconsulta)
+            String sqlAlumno = "UPDATE alumno SET curp=?, cvu=?, nombre_completo=?, correo_institucional=?, correo_alternativo=?, telefono=?, trimestre_ingreso=?, trimestre_pierde_calidad=?, id_estatus=COALESCE((SELECT id_estatus FROM estatus_alumno WHERE nombre = ? LIMIT 1), id_estatus), numero_acta=?, fecha_titulacion=? WHERE matricula=?";
             try (PreparedStatement ps = con.prepareStatement(sqlAlumno)) {
                 ps.setString(1, a.getCurp());
                 ps.setString(2, (a.getCvu() != null && !a.getCvu().isEmpty()) ? a.getCvu() : null);
@@ -166,67 +165,53 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
                 ps.setString(6, a.getTelefono());
                 ps.setString(7, a.getTrimestreIngreso());
                 ps.setString(8, a.getTrimestrePierdeCalidad());
-                ps.setString(9, a.getNumeroActa());
-                if(a.getFechaTitulacion() != null) ps.setDate(10, a.getFechaTitulacion()); else ps.setNull(10, Types.DATE);
-                ps.setString(11, a.getMatricula());
+                ps.setString(9, a.getEstatusUam()); // 🔴 Mandamos el String (ej. "Titulado")
+                ps.setString(10, a.getNumeroActa());
+                if(a.getFechaTitulacion() != null) ps.setDate(11, a.getFechaTitulacion()); else ps.setNull(11, Types.DATE);
+                ps.setString(12, a.getMatricula());
                 ps.executeUpdate();
             }
 
-            // Variables seguras para fechas (evita error si vienen vacías de JS)
             String fFin = (a.getRegFechaFinBeca() == null || a.getRegFechaFinBeca().isEmpty()) ? null : a.getRegFechaFinBeca();
             String fMax = (a.getRegFechaMax() == null || a.getRegFechaMax().isEmpty()) ? null : a.getRegFechaMax();
 
-            // 2. UPSERT EN BECA (Actualiza o Inserta dependiendo si ya existía)
-            if (a.getEstatusBeca() != null && !a.getEstatusBeca().equals("NO TUVO BECA")) {
-                String updateBeca = "UPDATE beca SET estatus_beca=?, fecha_fin_vigencia=?, fecha_max_conahcyt=? WHERE matricula=?";
-                try (PreparedStatement psUpdateB = con.prepareStatement(updateBeca)) {
-                    psUpdateB.setString(1, a.getEstatusBeca());
-                    psUpdateB.setString(2, fFin);
-                    psUpdateB.setString(3, fMax);
-                    psUpdateB.setString(4, a.getMatricula());
-                    int filas = psUpdateB.executeUpdate();
-                    
-                    if (filas == 0) { // El alumno no tenía beca registrada previamente, la insertamos
-                        String insertBeca = "INSERT INTO beca (matricula, estatus_beca, fecha_inicio, fecha_fin_vigencia, fecha_max_conahcyt) VALUES (?, ?, ?, ?, ?)";
-                        try (PreparedStatement psInsB = con.prepareStatement(insertBeca)) {
-                            psInsB.setString(1, a.getMatricula());
-                            psInsB.setString(2, a.getEstatusBeca());
-                            psInsB.setString(3, fFin);
-                            psInsB.setString(4, fMax);
-                            psInsB.executeUpdate();
-                        }
-                    }
+            // 2. UPSERT EN BECA (Previene el error de "Matrícula Duplicada")
+            if (a.getEstatusBeca() != null && !a.getEstatusBeca().isEmpty()) {
+                String upsertBeca = "INSERT INTO beca (matricula, fecha_fin_vigencia, fecha_max_conahcyt, estatus_beca) " +
+                                    "VALUES (?, ?, ?, ?) " +
+                                    "ON DUPLICATE KEY UPDATE " +
+                                    "estatus_beca=VALUES(estatus_beca)," +
+                                    "fecha_fin_vigencia=VALUES(fecha_fin_vigencia), fecha_max_conahcyt=VALUES(fecha_max_conahcyt)";
+                try (PreparedStatement psB = con.prepareStatement(upsertBeca)) {
+                    psB.setString(1, a.getMatricula());
+                    psB.setString(2, fFin);
+                    psB.setString(3, fMax);
+                    psB.setString(4, a.getEstatusBeca()); // 🔴 String directo ("CONCLUIDA", etc.)
+
+                    psB.executeUpdate();
                 }
             } else {
-                // Si ahora dice "Sin Beca", borramos el registro si es que lo tenía
                 try (PreparedStatement psDelB = con.prepareStatement("DELETE FROM beca WHERE matricula=?")) {
                     psDelB.setString(1, a.getMatricula());
                     psDelB.executeUpdate();
                 }
             }
 
-            // 3. UPSERT EN TESIS
+            // 3. UPSERT EN TESIS (Previene el error de "Matrícula Duplicada")
             if (a.getTituloTesis() != null && !a.getTituloTesis().isEmpty()) {
-                String updateTesis = "UPDATE tesis SET titulo=?, id_area_concentracion=?, numero_economico_profesor_director=?, numero_economico_profesor_codirector=? WHERE matricula=?";
-                try (PreparedStatement psUpdateT = con.prepareStatement(updateTesis)) {
-                    psUpdateT.setString(1, a.getTituloTesis());
-                    if (a.getIdAreaConcentracion() > 0) psUpdateT.setInt(2, a.getIdAreaConcentracion()); else psUpdateT.setNull(2, Types.INTEGER);
-                    if (a.getNumEcoDirector() != null && !a.getNumEcoDirector().isEmpty()) psUpdateT.setString(3, a.getNumEcoDirector()); else psUpdateT.setNull(3, Types.VARCHAR);
-                    if (a.getNumEcoCodirector() != null && !a.getNumEcoCodirector().isEmpty()) psUpdateT.setString(4, a.getNumEcoCodirector()); else psUpdateT.setNull(4, Types.VARCHAR);
-                    psUpdateT.setString(5, a.getMatricula());
-                    
-                    int filasTesis = psUpdateT.executeUpdate();
-                    if (filasTesis == 0) { // No tenía tesis, se inserta nueva
-                        String insertTesis = "INSERT INTO tesis (matricula, titulo, id_area_concentracion, numero_economico_profesor_director, numero_economico_profesor_codirector) VALUES (?, ?, ?, ?, ?)";
-                        try (PreparedStatement psInsT = con.prepareStatement(insertTesis)) {
-                            psInsT.setString(1, a.getMatricula());
-                            psInsT.setString(2, a.getTituloTesis());
-                            if (a.getIdAreaConcentracion() > 0) psInsT.setInt(3, a.getIdAreaConcentracion()); else psInsT.setNull(3, Types.INTEGER);
-                            if (a.getNumEcoDirector() != null && !a.getNumEcoDirector().isEmpty()) psInsT.setString(4, a.getNumEcoDirector()); else psInsT.setNull(4, Types.VARCHAR);
-                            if (a.getNumEcoCodirector() != null && !a.getNumEcoCodirector().isEmpty()) psInsT.setString(5, a.getNumEcoCodirector()); else psInsT.setNull(5, Types.VARCHAR);
-                            psInsT.executeUpdate();
-                        }
-                    }
+                String upsertTesis = "INSERT INTO tesis (matricula, titulo, id_area_concentracion, numero_economico_profesor_director, numero_economico_profesor_codirector) " +
+                                     "VALUES (?, ?, ?, ?, ?) " +
+                                     "ON DUPLICATE KEY UPDATE " +
+                                     "titulo=VALUES(titulo), id_area_concentracion=VALUES(id_area_concentracion), " +
+                                     "numero_economico_profesor_director=VALUES(numero_economico_profesor_director), " +
+                                     "numero_economico_profesor_codirector=VALUES(numero_economico_profesor_codirector)";
+                try (PreparedStatement psT = con.prepareStatement(upsertTesis)) {
+                    psT.setString(1, a.getMatricula());
+                    psT.setString(2, a.getTituloTesis());
+                    if (a.getIdAreaConcentracion() > 0) psT.setInt(3, a.getIdAreaConcentracion()); else psT.setNull(3, Types.INTEGER);
+                    if (a.getNumEcoDirector() != null && !a.getNumEcoDirector().isEmpty()) psT.setString(4, a.getNumEcoDirector()); else psT.setNull(4, Types.VARCHAR);
+                    if (a.getNumEcoCodirector() != null && !a.getNumEcoCodirector().isEmpty()) psT.setString(5, a.getNumEcoCodirector()); else psT.setNull(5, Types.VARCHAR);
+                    psT.executeUpdate();
                 }
             } else {
                  try (PreparedStatement psDelT = con.prepareStatement("DELETE FROM tesis WHERE matricula=?")) {
@@ -239,14 +224,15 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
             return true;
 
         } catch (SQLException e) {
-            e.printStackTrace(); // Revisa la consola de tu servidor si algo sigue fallando
+            e.printStackTrace();
             if (con != null) { try { con.rollback(); } catch (SQLException ex) { ex.printStackTrace(); } }
             return false;
         } finally {
             if (con != null) { try { con.setAutoCommit(true); con.close(); } catch (SQLException e) { e.printStackTrace(); } }
         }
     }
-
+    
+    
     @Override
     public boolean eliminar(String matricula) {
         String sql = "DELETE FROM alumno WHERE matricula = ?";

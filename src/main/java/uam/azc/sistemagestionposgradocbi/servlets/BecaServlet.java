@@ -74,6 +74,10 @@ public class BecaServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        request.setCharacterEncoding("UTF-8"); 
+        
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
     }
 
     /**

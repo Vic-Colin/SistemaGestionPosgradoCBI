@@ -153,10 +153,10 @@
                 <div class="estatus-top-right">
                     <label class="label-mini">Estatus UAM:</label>
                     <select id="regEstatus" class="select-estatus-uam">
-                        <option value="Vigente">Vigente</option>
-                        <option value="Titulado">Titulado</option>
-                        <option value="Baja">Baja</option>
-                        <option value="Baja temporal">Baja Temporal</option>
+                        <option value="VIGENTE">Vigente</option>
+                        <option value="TITULADO">Titulado</option>
+                        <option value="BAJA">Baja</option>
+                        <option value="BAJA TEMPORAL">Baja Temporal</option>
                     </select>
                 </div>
                 <span class="btn-close-modal" id="btnCerrarX">&times;</span>
@@ -225,12 +225,13 @@
                             </div>
                             <div class="form-group-slim" style="flex: 1;">
                                 <label class="label-mini">Estatus Beca*:</label>
-                                <select id="regEstatusBeca">
-                                    <option value="NO TUVO BECA" selected>NO TUVO BECA</option>
-                                    <option value="VIGENTE">VIGENTE</option>
-                                    <option value="FIN DE VIGENCIA">CONCLUIDA</option>
-                                    <option value="SUSPENDIDA">SUSPENDIDA</option>
-                                    <option value="BAJA DE BECA">BAJA DE BECA</option>
+                                <select id="regEstatusBeca" placeholder="Selecciona Estatus Beca">
+                                    <option value="" selected>Estatus Beca...</option>'
+                                    <option value="NO TUVO BECA">No tuvo beca</option>
+                                    <option value="VIGENTE">Vigente</option>
+                                    <option value="FIN DE VIGENCIA">Fin de vigencia</option>
+                                    <option value="SUSPENDIDA">Suspendida</option>
+                                    <option value="BAJA DE BECA">Baja de beca</option>
                                 </select>
                             </div>
                         </div>

@@ -89,6 +89,10 @@ public class ProyectosServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        request.setCharacterEncoding("UTF-8"); 
+        
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
     }
 
     /**

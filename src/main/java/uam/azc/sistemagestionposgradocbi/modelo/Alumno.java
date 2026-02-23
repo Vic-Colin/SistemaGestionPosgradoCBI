@@ -26,7 +26,6 @@ public class Alumno implements Serializable {
     private String codirector;
     
     private String cvu;
-    private String regFechaInicioBeca;
     private String regFechaFinBeca;
     private String regFechaMax;
     private String regEstatusBeca;
@@ -184,14 +183,6 @@ public class Alumno implements Serializable {
 
     public void setCvu(String cvu) {
         this.cvu = cvu;
-    }
-
-    public String getRegFechaInicioBeca() {
-        return regFechaInicioBeca;
-    }
-
-    public void setRegFechaInicioBeca(String regFechaInicioBeca) {
-        this.regFechaInicioBeca = regFechaInicioBeca;
     }
 
     public String getRegFechaFinBeca() {

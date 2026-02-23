@@ -111,7 +111,10 @@ public class AlumnadoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8"); 
         
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         String accion = request.getParameter("accion");
         boolean exito = false;
 
@@ -128,6 +131,7 @@ public class AlumnadoServlet extends HttpServlet {
             a.setTelefono(request.getParameter("telefono"));
             a.setTrimestreIngreso(request.getParameter("trimIngreso"));
             a.setTrimestrePierdeCalidad(request.getParameter("trimPierde"));
+            a.setEstatusUam(request.getParameter("estatusUam"));
             // Nuevos campos Beca
             a.setCvu(request.getParameter("cvu"));
             a.setEstatusBeca(request.getParameter("estatusBeca"));

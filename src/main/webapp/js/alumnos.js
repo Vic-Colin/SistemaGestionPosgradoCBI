@@ -251,7 +251,7 @@ function prepararEdicion(btn) {
 
             // --- 3. Beca SECIHTI ---
             document.getElementById("regCVU").value = alumno.cvu || "";
-            document.getElementById("regEstatusBeca").value = alumno.estatusBeca || "NO TUVO BECA";
+            document.getElementById("regEstatusBeca").value = alumno.estatusBeca || "";
             document.getElementById("regFechaFinBeca").value = alumno.regFechaFinBeca || "";
             document.getElementById("regFechaMax").value = alumno.regFechaMax || "";
 
@@ -318,11 +318,11 @@ function getAlumnoFromForm() {
         telefono: val("regTel"),
         trimIngreso: val("regIngreso"),
         trimPierde: val("regPierdeCalidad"),
+        estatusUam: val("regEstatus"),
         
         // Beca
         cvu: val("regCVU"),
         estatusBeca: val("regEstatusBeca"),
-        fechaInicioBeca: val("regFechaInicioBeca"),
         fechaFinBeca: val("regFechaFinBeca"),
         fechaMaxBeca: val("regFechaMax"),
         
