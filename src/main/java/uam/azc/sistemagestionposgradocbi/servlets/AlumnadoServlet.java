@@ -137,13 +137,16 @@ public class AlumnadoServlet extends HttpServlet {
             a.setEstatusBeca(request.getParameter("estatusBeca"));
             a.setRegFechaFinBeca(request.getParameter("fechaFinBeca"));
             a.setRegFechaMax(request.getParameter("fechaMaxBeca"));
-
+            
+            
             // Nuevos campos Titulación y Tesis
             a.setNumeroActa(request.getParameter("acta"));
 
-            // Parsear fecha si no viene vacía
-            if(request.getParameter("fechaTit") != null && !request.getParameter("fechaTit").isEmpty()) {
-                a.setFechaTitulacion(java.sql.Date.valueOf(request.getParameter("fechaTit")));
+            String fechaTitStr = request.getParameter("fechaTit");
+            if (fechaTitStr != null && !fechaTitStr.trim().isEmpty()) {
+                a.setFechaTitulacion(java.sql.Date.valueOf(fechaTitStr));
+            } else {
+                a.setFechaTitulacion(null); // Fuerza el Nulo si el usuario vació la fecha
             }
 
             a.setTituloTesis(request.getParameter("tituloTesis"));

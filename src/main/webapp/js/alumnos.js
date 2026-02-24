@@ -285,6 +285,13 @@ function confirmarEliminar(btn) {
     const fila = btn.closest("tr");
     matriculaAEliminar = fila.cells[0].innerText.trim();
     modalEliminar.style.display = "block";
+    modalEliminar.style.zIndex = "10000";
+    
+    const modalContent = modalEliminar.querySelector('.modal-content');
+    if(modalContent) {
+        modalContent.style.margin = "15% auto";
+    }
+    
     
     document.getElementById("btnConfirmarBorrado").onclick = () => {
         // Enviar petición POST al servidor

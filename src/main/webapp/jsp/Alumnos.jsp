@@ -302,7 +302,8 @@
                     <button type="button" class="btn-cancelar" id="btnCancelarModal">Cancelar</button>
                     <button type="submit" class="btn-guardar">Guardar Expediente Completo</button>
                 </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
     
