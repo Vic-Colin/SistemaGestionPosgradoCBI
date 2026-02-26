@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import uam.azc.sistemagestionposgradocbi.modelo.Usuario;
 
 /**
  *
@@ -73,41 +74,34 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
-    response.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
 
-    String usuario = request.getParameter("usuario");
-    String password = request.getParameter("password");
-    
-    System.out.println("Usuario recibido: [" + usuario + "]");
-    System.out.println("Password recibido: [" + password + "]");
-    
-    if (usuario != null) usuario = usuario.trim();
-    if (password != null) password = password.trim();
+        String usuario = request.getParameter("usuario");
+        String password = request.getParameter("password");
+        
+        if (usuario != null) usuario = usuario.trim();
+        if (password != null) password = password.trim();
 
-    PrintWriter out = response.getWriter();
+        PrintWriter out = response.getWriter();
 
-    boolean valido = validarUsuario(usuario, password);
+        // 🔴 USAMOS EL DAO EN LUGAR DE CREDENCIALES ESTÁTICAS
+        uam.azc.sistemagestionposgradocbi.dao.UsuarioDAO dao = new uam.azc.sistemagestionposgradocbi.dao.UsuarioDAO();
+        Usuario userLogueado = dao.validarLogin(usuario, password);
 
-    if (valido) {
-        HttpSession session = request.getSession();
-        session.setAttribute("usuarioActivo", usuario);
-        out.print("{\"success\": true}");
-    } else {
-        out.print("{\"success\": false, \"message\": \"Usuario o contraseña incorrectos\"}");
+        if (userLogueado != null) {
+            // El usuario existe y la contraseña es correcta
+            HttpSession session = request.getSession();
+            session.setAttribute("usuarioActivo", userLogueado.getNombreUsuario());
+            session.setAttribute("rolUsuario", userLogueado.getRol()); // Guardamos también su rol por si lo necesitas luego
+            out.print("{\"success\": true}");
+        } else {
+            // Credenciales inválidas
+            out.print("{\"success\": false, \"message\": \"Usuario o contraseña incorrectos\"}");
+        }
+
+        out.flush();
+        out.close();
     }
-
-    out.flush();
-    out.close();
-}
-
-    private boolean validarUsuario(String usuario, String password) {
-
-    if (usuario == null || password == null) {
-        return false;
-    }
-
-    return "admin".equals(usuario) && "1234".equals(password);
-}
     
 
     /**

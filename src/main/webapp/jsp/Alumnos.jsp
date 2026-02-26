@@ -104,7 +104,7 @@
                 
                 <div class="actions-group" style="flex-direction: column; gap: 10px; align-items: flex-end;">
                     <button type="button" class="btn-nuevo" id="btnAbrirModal" style="width: 200px; margin: 0; display: flex; justify-content: center; align-items: center;">+ Nuevo Alumno</button>
-                    <button class="btn-reporte-top" style="width: 200px; margin: 0; display: flex; justify-content: center; align-items: center;">Generar reporte</button>
+                    <button class="btn-reporte-top" id="btnExportarPDF" style="width: 200px; margin: 0; display: flex; justify-content: center; align-items: center;">Exportar PDF</button>
                 </div>
             </div>
 
@@ -317,6 +317,8 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/alumnos.js"></script>
 </body>
 </html>

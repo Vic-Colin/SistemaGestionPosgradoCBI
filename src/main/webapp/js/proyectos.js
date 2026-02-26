@@ -47,6 +47,25 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     }
 
+// ================== EXPORTAR A PDF ==================
+document.getElementById("btnExportarPDF")?.addEventListener("click", () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('l', 'pt', 'letter'); 
+
+    doc.setFontSize(16);
+    doc.text("Reporte de Proyectos y Tesis - Posgrado CBI", 40, 40);
+
+    doc.autoTable({
+        html: '#tablaProyectos',
+        startY: 50,
+        theme: 'grid',
+        styles: { fontSize: 8, cellPadding: 3 },
+        headStyles: { fillColor: [205, 3, 46] }
+    });
+
+    doc.save("Reporte_Proyectos.pdf");
+});
+
     let timeout;
     const delayCarga = () => {
         clearTimeout(timeout);

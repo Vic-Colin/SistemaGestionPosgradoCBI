@@ -52,6 +52,24 @@ document.addEventListener("DOMContentLoaded", function () {
         timeout = setTimeout(cargarProfesores, 300);
     }
 
+// ================== EXPORTAR A PDF ==================
+document.getElementById("btnExportarPDF")?.addEventListener("click", () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('l', 'pt', 'letter'); 
+
+    doc.setFontSize(16);
+    doc.text("Reporte de Profesorado - Posgrado CBI", 40, 40);
+
+    doc.autoTable({
+        html: '#tablaProfesores',
+        startY: 50,
+        theme: 'grid',
+        styles: { fontSize: 9, cellPadding: 3 },
+        headStyles: { fillColor: [205, 3, 46] }
+    });
+
+    doc.save("Reporte_Profesorado.pdf");
+});
     // Event Listeners
     if (inputCVU) inputCVU.addEventListener("input", cargarConDelay);
     if (inputNoEco) inputNoEco.addEventListener("input", cargarConDelay);

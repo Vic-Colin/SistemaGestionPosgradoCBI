@@ -394,7 +394,32 @@ function initFiltros() {
         clearTimeout(timeoutFiltros);
         timeoutFiltros = setTimeout(cargarAlumnos, 300);
     };
+// ================== EXPORTAR A PDF ==================
+document.getElementById("btnExportarPDF")?.addEventListener("click", () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('l', 'pt', 'legal'); // Horizontal, puntos, tamaño legal
 
+    doc.setFontSize(16);
+    doc.text("Reporte de Alumnado - Posgrado CBI", 40, 40);
+
+    doc.autoTable({
+        html: '#tablaAlumnos', // Lee tu tabla automáticamente
+        startY: 50,
+        theme: 'grid',
+        styles: { fontSize: 6, cellPadding: 2, overflow: 'linebreak' },
+        headStyles: { fillColor: [205, 3, 46] }, // Rojo UAM
+        didParseCell: function(data) {
+            // Ocultamos la columna 17 (Acciones) para que no salga en el PDF
+            if (data.column.index === 17) {
+                data.cell.styles.cellWidth = 0;
+                data.cell.styles.fontSize = 0;
+                data.cell.text = '';
+            }
+        }
+    });
+
+    doc.save("Reporte_Alumnos_MCC.pdf");
+});
     document.getElementById("filtroMatricula")?.addEventListener("input", triggerFiltro);
     document.getElementById("filtroAnioTit")?.addEventListener("change", cargarAlumnos);
     document.getElementById("filtroTrimestre")?.addEventListener("change", cargarAlumnos);

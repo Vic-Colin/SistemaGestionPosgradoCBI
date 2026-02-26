@@ -69,8 +69,7 @@ public class ProfesorDAO implements CrudDAO<Profesor, String> {
             "LEFT JOIN nivel_sni ns ON p.id_nivel_sni = ns.id_nivel_sni " +
             "INNER JOIN tipo_dedicacion td ON p.id_dedicacion = td.id_dedicacion " +
             "INNER JOIN departamento d ON p.id_departamento = d.id_departamento " +
-            "WHERE 1=1 "+
-            "ORDER BY p.numero_economico ASC";
+            "WHERE 1=1 ";
 
         if (numeroEconomico != null && !numeroEconomico.isEmpty()) {
             sql += " AND p.numero_economico LIKE ? ";

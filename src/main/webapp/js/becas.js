@@ -82,7 +82,24 @@ document.addEventListener("DOMContentLoaded", () => {
         clearTimeout(timeout);
         timeout = setTimeout(cargarBecas, 300); // Espera 300ms después de dejar de escribir
     };
+// ================== EXPORTAR A PDF ==================
+document.getElementById("btnExportarPDF")?.addEventListener("click", () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('l', 'pt', 'letter'); // Horizontal, tamaño carta
 
+    doc.setFontSize(16);
+    doc.text("Reporte de Becas SECIHTI - Posgrado CBI", 40, 40);
+
+    doc.autoTable({
+        html: '#tablaBecas',
+        startY: 50,
+        theme: 'grid',
+        styles: { fontSize: 9, cellPadding: 3 },
+        headStyles: { fillColor: [205, 3, 46] } // Rojo UAM
+    });
+
+    doc.save("Reporte_Becas.pdf");
+});
     inputCVU.addEventListener("input", delayCarga);
     selectGeneracion.addEventListener("change", cargarBecas);
     selectEstatus.addEventListener("change", cargarBecas);
