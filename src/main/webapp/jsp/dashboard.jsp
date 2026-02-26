@@ -29,7 +29,7 @@
 
         <main class="dashboard-content">
             <h1 class="main-title-dash">Sistema de Posgrado de la División de CBI</h1>
-            <h2 class="welcome-user">Bienvenido </h2>
+            <h2 class="welcome-user">Bienvenido, ${sessionScope.rolUsuario} (${sessionScope.usuarioActivo})</h2>
 
             <div class="button-grid">
                 <div class="button-column">
