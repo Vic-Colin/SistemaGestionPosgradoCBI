@@ -62,7 +62,7 @@ public class Alumno implements Serializable {
     /**
     * Establece la matrícula del alumno
     *
-    * @param matrícula del alumno
+    * @param matricula del alumno
     */
     public void setMatricula(String matricula) {
         this.matricula = matricula;
