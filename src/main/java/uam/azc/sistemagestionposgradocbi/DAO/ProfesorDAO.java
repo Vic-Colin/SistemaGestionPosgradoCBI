@@ -6,19 +6,37 @@ import java.util.List;
 import uam.azc.sistemagestionposgradocbi.modelo.Profesor;
 import uam.azc.sistemagestionposgradocbi.util.Conexion;
 
+/**
+ * DAO encargado de la administración del profesorado.
+ *
+ * Permite operaciones CRUD y consultas filtradas
+ * por número económico o CVU.
+ *
+ * Integra información proveniente de:
+ * - nivel_sni
+ * - departamento
+ * - tipo_dedicacion
+ *
+ * @author Vania Alejandra Contreras Torres
+ */
 public class ProfesorDAO implements CrudDAO<Profesor, String> {
 
-    // =========================
-    // LISTAR TODOS
-    // =========================
+    /**
+    * Obtiene todos los profesores registrados.
+    *
+    * @return lista de profesores
+    */
     @Override
     public List<Profesor> listar() {
         return buscarPorFiltros("", "");
     }
 
-    // =========================
-    // BUSCAR POR ID
-    // =========================
+    /**
+    * Busca un profesor mediante su número económico.
+    *
+    * @param numeroEconomico identificador del profesor
+    * @return objeto Profesor o null si no existe
+    */
     @Override
     public Profesor buscarPorId(String numeroEconomico) {
 
@@ -48,9 +66,17 @@ public class ProfesorDAO implements CrudDAO<Profesor, String> {
         return null;
     }
 
-    // =========================
-    // FILTROS DINÁMICOS
-    // =========================
+    /**
+    * Realiza búsqueda dinámica de profesores.
+    *
+    * Permite filtrar por:
+    * - Número económico
+    * - CVU
+    *
+    * @param numeroEconomico identificador parcial o completo
+    * @param cvu clave CVU del investigador
+    * @return lista filtrada de profesores
+    */
     public List<Profesor> buscarPorFiltros(String numeroEconomico, String cvu) {
 
         List<Profesor> lista = new ArrayList<>();
@@ -117,9 +143,12 @@ public class ProfesorDAO implements CrudDAO<Profesor, String> {
         return lista;
     }
 
-    // =========================
-    // INSERTAR
-    // =========================
+    /**
+    * Inserta un nuevo profesor en la base de datos.
+    *
+    * @param p profesor a registrar
+    * @return true si la inserción fue exitosa
+    */
     @Override
     public boolean insertar(Profesor p) {
 
@@ -149,9 +178,12 @@ public class ProfesorDAO implements CrudDAO<Profesor, String> {
         return false;
     }
 
-    // =========================
-    // ACTUALIZAR
-    // =========================
+    /**
+    * Actualiza la información de un profesor existente.
+    *
+    * @param p profesor con datos modificados
+    * @return true si la actualización fue exitosa
+    */
     @Override
     public boolean actualizar(Profesor p) {
 
@@ -177,9 +209,12 @@ public class ProfesorDAO implements CrudDAO<Profesor, String> {
         return false;
     }
 
-    // =========================
-    // ELIMINAR
-    // =========================
+    /**
+    * Elimina un profesor mediante su número económico.
+    *
+    * @param numeroEconomico identificador del profesor
+    * @return true si fue eliminado correctamente
+    */
     @Override
     public boolean eliminar(String numeroEconomico) {
 

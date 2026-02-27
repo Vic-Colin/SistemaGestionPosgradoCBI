@@ -19,8 +19,12 @@ import uam.azc.sistemagestionposgradocbi.dao.ProfesorDAO;
 import uam.azc.sistemagestionposgradocbi.modelo.Profesor;
 
 /**
+ * Controlador encargado del filtrado dinámico
+ * del profesorado.
  *
- * @author CASH
+ * Responde solicitudes GET en formato JSON.
+ *
+ * @author Victor Enrique Colin Olivares
  */
 @WebServlet(name = "ProfesoradoServlet", urlPatterns = {"/ProfesoradoServlet"})
 public class ProfesoradoServlet extends HttpServlet {
@@ -30,6 +34,10 @@ public class ProfesoradoServlet extends HttpServlet {
     private ProfesorDAO dao;
     private Gson gson;
 
+    /**
+    * Inicializa DAO y configuración Gson
+    * para manejo correcto de fechas.
+    */
     @Override
     public void init() throws ServletException {
         dao = new ProfesorDAO();
@@ -37,15 +45,12 @@ public class ProfesoradoServlet extends HttpServlet {
     }
         
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    * Obtiene listado de profesorado aplicando filtros
+    * enviados desde el cliente vía AJAX.
+    *
+    * Responde en formato JSON.
+    */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

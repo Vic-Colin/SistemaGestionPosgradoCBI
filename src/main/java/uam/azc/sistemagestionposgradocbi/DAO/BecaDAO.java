@@ -6,21 +6,47 @@ import java.util.List;
 import uam.azc.sistemagestionposgradocbi.modelo.Beca;
 import uam.azc.sistemagestionposgradocbi.util.Conexion;
 
-// Implementamos CrudDAO usando la matrícula como clave primaria
+/**
+ * DAO responsable de la consulta de información
+ * relacionada con becas CONAHCYT asociadas a alumnos.
+ *
+ * Permite filtrado dinámico por:
+ * - CVU
+ * - Generación
+ * - Estatus de beca
+ *
+ * Utiliza JOIN con la tabla alumno.
+ *
+ * @author Vania Alejandra Contreras Torres
+ */
 public class BecaDAO implements CrudDAO<Beca, String> {
 
-    // =========================
-    // LISTAR TODOS
-    // =========================
+    /**
+    * Recupera todas las becas registradas.
+    *
+    * Internamente reutiliza el método de búsqueda
+    * utilizando filtros vacíos.
+    *
+    * @return lista completa de becas
+    */
     @Override
     public List<Beca> listar() {
         // Reutilizamos el método de búsqueda con filtros vacíos
         return buscarPorFiltros("", "", "");
     }
 
-    // =========================
-    // FILTROS DINÁMICOS
-    // =========================
+    /**
+    * Realiza una búsqueda dinámica de becas
+    * aplicando filtros opcionales.
+    *
+    * Permite consultar información combinada
+    * entre alumno y beca.
+    *
+    * @param cvu CVU del alumno
+    * @param generacion trimestre de ingreso
+    * @param estatus estatus actual de la beca
+    * @return lista de becas que cumplen los filtros
+    */
     public List<Beca> buscarPorFiltros(String cvu, String generacion, String estatus) {
         List<Beca> lista = new ArrayList<>();
         // SQL con JOIN a la tabla alumno para obtener nombres y datos académicos
@@ -78,15 +104,35 @@ public class BecaDAO implements CrudDAO<Beca, String> {
         return lista;
     }
 
-    // =========================
-    // MÉTODOS CRUDDAO (Por implementar si los necesitas luego)
-    // =========================
+    /**
+    * Método no implementado.
+    *
+    * @throws UnsupportedOperationException
+    */
     @Override
     public Beca buscarPorId(String id) { throw new UnsupportedOperationException("Not supported yet."); }
+    
+    /**
+    * Método no implementado.
+    *
+    * @throws UnsupportedOperationException
+    */
     @Override
     public boolean insertar(Beca objeto) { throw new UnsupportedOperationException("Not supported yet."); }
+    
+    /**
+    * Método no implementado.
+    *
+    * @throws UnsupportedOperationException
+    */
     @Override
     public boolean actualizar(Beca objeto) { throw new UnsupportedOperationException("Not supported yet."); }
+    
+    /**
+    * Método no implementado.
+    *
+    * @throws UnsupportedOperationException
+    */
     @Override
     public boolean eliminar(String id) { throw new UnsupportedOperationException("Not supported yet."); }
 }

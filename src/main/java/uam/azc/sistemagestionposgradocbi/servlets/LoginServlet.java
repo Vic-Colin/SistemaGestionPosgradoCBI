@@ -15,8 +15,12 @@ import javax.servlet.http.HttpSession;
 import uam.azc.sistemagestionposgradocbi.modelo.Usuario;
 
 /**
+ * Servlet responsable del proceso de autenticación
+ * de usuarios del sistema.
  *
- * @author CASH
+ * Administra sesiones HTTP.
+ *
+ * @author Victor Enrique Colin Olivares
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
@@ -63,13 +67,14 @@ public class LoginServlet extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    * Procesa la autenticación del usuario.
+    *
+    * Valida credenciales mediante UsuarioDAO
+    * y crea sesión HTTP activa.
+    *
+    * @param request solicitud HTTP
+    * @param response respuesta HTTP
+    */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

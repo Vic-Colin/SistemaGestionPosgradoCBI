@@ -16,8 +16,20 @@ import uam.azc.sistemagestionposgradocbi.dao.AlumnoDAO;
 import uam.azc.sistemagestionposgradocbi.modelo.Alumno;
 
 /**
+ * Servlet controlador encargado de la gestión
+ * del módulo de alumnado.
  *
- * @author CASH
+ * Funciones:
+ * - Consulta
+ * - Alta
+ * - Edición
+ * - Eliminación
+ * - Obtención de catálogos
+ *
+ * Arquitectura:
+ * MVC (Controller Layer)
+ *
+ * @author Victor Enrique Colin Olivares
  */
 @WebServlet(name = "AlumnadoServlet", urlPatterns = {"/AlumnadoServlet"})
 public class AlumnadoServlet extends HttpServlet {
@@ -25,21 +37,27 @@ public class AlumnadoServlet extends HttpServlet {
     private AlumnoDAO dao;
     private Gson gson;
 
+    /**
+    * Inicializa recursos del servlet.
+    *
+    * Instancia el DAO y el conversor JSON.
+    */
     @Override
     public void init() {
         dao = new AlumnoDAO();
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    * Atiende solicitudes GET del módulo alumnado.
+    *
+    * Acciones soportadas:
+    * - catalogos
+    * - buscar alumno
+    *
+    * @param request solicitud HTTP
+    * @param response respuesta HTTP
+    */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -101,13 +119,12 @@ public class AlumnadoServlet extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    * Procesa operaciones de creación,
+    * edición y eliminación de alumnos.
+    *
+    * @param request solicitud HTTP
+    * @param response respuesta HTTP
+    */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

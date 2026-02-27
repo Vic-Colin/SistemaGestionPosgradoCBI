@@ -9,6 +9,13 @@ import javax.sql.DataSource;
 
 public class Conexion {
 
+    /**
+    * Obtiene una conexión desde el pool configurado
+    * en el servidor Tomcat mediante JNDI.
+    *
+    * @return conexión activa a la base de datos
+    * @throws SQLException si ocurre error de conexión
+    */
     public static Connection getConnection() throws SQLException {
         try {
             // Buscamos el contexto inicial de Tomcat

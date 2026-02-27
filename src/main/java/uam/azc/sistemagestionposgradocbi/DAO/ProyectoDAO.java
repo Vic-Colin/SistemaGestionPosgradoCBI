@@ -6,16 +6,46 @@ import java.util.List;
 import uam.azc.sistemagestionposgradocbi.modelo.Proyecto;
 import uam.azc.sistemagestionposgradocbi.util.Conexion;
 
+/**
+ * DAO encargado de recuperar información de proyectos
+ * de tesis asociados a alumnos del posgrado.
+ *
+ * Realiza consultas mediante múltiples JOIN
+ * entre alumno, profesor y área de concentración.
+ *
+ * Principalmente utilizado para consultas
+ * y visualización.
+ *
+ * @author Vania Alejandra Contreras Torres
+ */
 public class ProyectoDAO implements CrudDAO<Proyecto, String> {
 
+    /**
+    * Recupera todos los proyectos registrados.
+    *
+    * Internamente reutiliza el método de búsqueda
+    * utilizando filtros vacíos.
+    *
+    * @return lista completa de proyectos
+    */
     @Override
     public List<Proyecto> listar() {
         return buscarPorFiltros("", "", "");
     }
 
-    // =========================
-    // FILTROS DINÁMICOS
-    // =========================
+    /**
+    * Consulta proyectos de tesis aplicando filtros dinámicos.
+    *
+    * Permite buscar por:
+    * - matrícula
+    * - título de tesis
+    * - asesor o codirector
+    *
+    * @param matricula matrícula del alumno
+    * @param titulo título parcial de tesis
+    * @param asesor nombre del asesor
+    * @return lista de proyectos encontrados
+    */
     public List<Proyecto> buscarPorFiltros(String matricula, String titulo, String asesor) {
         List<Proyecto> lista = new ArrayList<>();
         
@@ -79,9 +109,31 @@ public class ProyectoDAO implements CrudDAO<Proyecto, String> {
         return lista;
     }
 
-    // Métodos CrudDAO restantes por implementar
+        /**
+    * Método no implementado.
+    *
+    * @throws UnsupportedOperationException
+    */
     @Override public Proyecto buscarPorId(String id) { return null; }
+    
+    /**
+    * Método no implementado.
+    *
+    * @throws UnsupportedOperationException
+    */
     @Override public boolean insertar(Proyecto objeto) { return false; }
+    
+    /**
+    * Método no implementado.
+    *
+    * @throws UnsupportedOperationException
+    */
     @Override public boolean actualizar(Proyecto objeto) { return false; }
+    
+    /**
+    * Método no implementado.
+    *
+    * @throws UnsupportedOperationException
+    */
     @Override public boolean eliminar(String id) { return false; }
 }

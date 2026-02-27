@@ -7,8 +7,30 @@ import java.sql.SQLException;
 import uam.azc.sistemagestionposgradocbi.modelo.Usuario;
 import uam.azc.sistemagestionposgradocbi.util.Conexion;
 
+/**
+ * DAO responsable de la autenticación de usuarios
+ * del sistema.
+ *
+ * Valida credenciales utilizando hash SHA-256
+ * almacenado en la base de datos.
+ *
+ * Seguridad:
+ * - No almacena contraseñas en texto plano.
+ *
+ * @author Vania Alejandra Contreras Torres
+ */
 public class UsuarioDAO {
 
+    /**
+    * Valida las credenciales de acceso del usuario.
+    *
+    * La contraseña se compara utilizando SHA-256
+    * directamente en la base de datos.
+    *
+    * @param nombreUsuario nombre de usuario
+    * @param password contraseña en texto plano
+    * @return Usuario autenticado o null si falla
+    */
     public Usuario validarLogin(String nombreUsuario, String password) {
         Usuario usuario = null;
         

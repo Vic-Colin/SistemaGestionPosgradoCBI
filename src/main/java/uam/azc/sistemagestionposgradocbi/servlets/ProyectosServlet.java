@@ -15,8 +15,13 @@ import uam.azc.sistemagestionposgradocbi.dao.ProyectoDAO;
 import uam.azc.sistemagestionposgradocbi.modelo.Proyecto;
 
 /**
+ * Servlet controlador para consultas de proyectos
+ * de tesis del posgrado.
  *
- * @author CASH
+ * Permite filtrado por:
+ * matrícula, título o asesor.
+ *
+ * @author Victor Enrique Colin Olivares
  */
 @WebServlet(name = "ProyectosServlet", urlPatterns = {"/ProyectosServlet"})
 public class ProyectosServlet extends HttpServlet {
@@ -47,15 +52,12 @@ public class ProyectosServlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    * Obtiene listado de proyectos aplicando filtros
+    * enviados desde el cliente vía AJAX.
+    *
+    * Responde en formato JSON.
+    */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

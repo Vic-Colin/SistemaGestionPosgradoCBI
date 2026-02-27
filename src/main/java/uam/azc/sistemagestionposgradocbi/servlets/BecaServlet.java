@@ -15,8 +15,13 @@ import uam.azc.sistemagestionposgradocbi.dao.BecaDAO;
 import uam.azc.sistemagestionposgradocbi.modelo.Beca;
 
 /**
+ * Servlet encargado de atender solicitudes HTTP
+ * relacionadas con la consulta de becas.
  *
- * @author CASH
+ * Devuelve información en formato JSON
+ * para consumo AJAX.
+ *
+ * @author Victor Enrique Colin Olivares
  */
 @WebServlet(name = "BecaServlet", urlPatterns = {"/BecaServlet"})
 public class BecaServlet extends HttpServlet {
@@ -24,6 +29,10 @@ public class BecaServlet extends HttpServlet {
     private BecaDAO dao;
     private Gson gson;
 
+    /**
+    * Inicializa DAO y configuración Gson
+    * para manejo correcto de fechas.
+    */
     @Override
     public void init() throws ServletException {
         dao = new BecaDAO();
@@ -31,15 +40,12 @@ public class BecaServlet extends HttpServlet {
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    * Obtiene listado de becas aplicando filtros
+    * enviados desde el cliente vía AJAX.
+    *
+    * Responde en formato JSON.
+    */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

@@ -8,11 +8,43 @@ import uam.azc.sistemagestionposgradocbi.modelo.AreaConcentracion;
 import uam.azc.sistemagestionposgradocbi.modelo.Profesor;
 import uam.azc.sistemagestionposgradocbi.util.Conexion;
 
+/**
+ * DAO encargado de la gestión de persistencia
+ * de la entidad Alumno.
+ *
+ * Implementa operaciones CRUD y consultas
+ * complejas mediante JOINs con:
+ *  - beca
+ *  - tesis
+ *  - profesor
+ *  - area_concentracion
+ *
+ * Maneja transacciones JDBC para garantizar
+ * integridad de datos.
+ *
+ * Patrón aplicado:
+ * Data Access Object (DAO)
+ *
+ * Dependencias:
+ * Conexion
+ * Alumno
+ * Profesor
+ * AreaConcentracion
+ *
+ * @author Vania Alejandra Contreras Torres
+ */
 public class AlumnoDAO implements CrudDAO<Alumno, String> {
 
-    // ==========================================
-    // 1. LECTURA Y FILTROS MÚLTIPLES
-    // ==========================================
+    /**
+    * Busca alumnos aplicando filtros dinámicos.
+    *
+    * @param matricula matrícula parcial o completa
+    * @param trimIngreso trimestre de ingreso
+    * @param trimPierdeCalidad trimestre pérdida calidad
+    * @param anioTitulacion año de titulación
+    * @param estatusUam estatus académico
+    * @return lista de alumnos filtrados
+    */
     public List<Alumno> buscarPorFiltros(String matricula, String trimIngreso, String trimPierdeCalidad, String anioTitulacion, String estatusUam) {
         List<Alumno> lista = new ArrayList<>();
         
@@ -72,14 +104,25 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
         return lista;
     }
 
+    /**
+    * Recupera todos los alumnos registrados.
+    *
+    * Internamente reutiliza el método de búsqueda
+    * utilizando filtros vacíos.
+    *
+    * @return lista completa de alumnos
+    */
     @Override
     public List<Alumno> listar() {
         return buscarPorFiltros("", "", "", "", "");
     }
 
-    // ==========================================
-    // 2. MÉTODOS CRUD PARA AGREGAR, EDITAR Y ELIMINAR
-    // ==========================================
+    /**
+    * Inserta un nuevo alumno en la base de datos.
+    *
+    * @param a alumno a registrar
+    * @return true si la inserción fue exitosa
+    */
     @Override
     public boolean insertar(Alumno a) {
         Connection con = null;
@@ -146,6 +189,12 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
         }
     }
 
+    /**
+    * Actualiza la información de un alumno existente.
+    *
+    * @param a alumno con datos modificados
+    * @return true si la actualización fue exitosa
+    */
     @Override
     public boolean actualizar(Alumno a) {
         Connection con = null;
@@ -259,6 +308,12 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
         }
     }
     
+    /**
+    * Elimina un alumno mediante su matricula.
+    *
+    * @param matricula identificador del alumno
+    * @return true si fue eliminado correctamente
+    */
     @Override
     public boolean eliminar(String matricula) {
         // La sintaxis {CALL ...} es el estándar de JDBC para Procedimientos Almacenados
@@ -296,9 +351,11 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
         }
     }
 
-    // ==========================================
-    // 3. MÉTODOS PARA OBTENER CATÁLOGOS (Selects)
-    // ==========================================
+    /**
+    * Regresa todas las áreas de concentración que existen
+    * 
+    * @return lista completa de las areas de concentración
+    */
     public List<AreaConcentracion> obtenerAreas() {
         List<AreaConcentracion> lista = new ArrayList<>();
         String sql = "SELECT id_area, nombre FROM area_concentracion";
@@ -315,6 +372,11 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
         return lista;
     }
 
+    /**
+    * Regresa todos los profesores que existen
+    * 
+    * @return lista completa de los profesores
+    */
     public List<Profesor> obtenerProfesores() {
         List<Profesor> lista = new ArrayList<>();
         // Traemos solo lo necesario para el select, ordenado alfabéticamente
@@ -332,6 +394,12 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
         return lista;
     }
     
+    /**
+    * Busca un alumno mediante su matricula.
+    *
+    * @param matricula identificador del alumno
+    * @return objeto Alumno o null si no existe
+    */
     @Override
     public Alumno buscarPorId(String matricula) {
         Alumno a = null;

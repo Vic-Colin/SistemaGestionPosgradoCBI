@@ -9,6 +9,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
 
+/**
+ * Listener encargado de liberar recursos JDBC
+ * cuando la aplicación es detenida.
+ *
+ * Previene fugas de memoria del driver MySQL.
+ *
+ * Ejecuta:
+ * - Shutdown del cleanup thread
+ * - Desregistro de drivers JDBC
+ */
 @WebListener
 public class DbCleanupListener implements ServletContextListener {
 
