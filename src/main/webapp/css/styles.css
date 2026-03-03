@@ -239,13 +239,39 @@ html, body {
 .alumnos-table th { padding: 15px; text-align: left; font-size: 13px; color: #333; }
 .alumnos-table td { padding: 12px 15px; border-bottom: 1px solid #eee; font-size: 14px; color: #555; }
 
+/* --- ETIQUETAS DE ESTATUS UAM --- */
 .status-badge {
-    background: #e3f2fd;
-    color: #1976d2;
     padding: 4px 10px;
     border-radius: 15px;
     font-weight: bold;
     font-size: 11px;
+    display: inline-block;
+    text-align: center;
+}
+
+/* Verde para Titulado */
+.status-titulado { 
+    background: #e8f5e9; 
+    color: #2e7d32; 
+    border: 1px solid #4caf50; 
+}
+/* Amarillo para Vigente */
+.status-vigente { 
+    background: #fff9b5; 
+    color: #d1b702; 
+    border: 1px solid #fbc02d; 
+}
+/* Rojo para Baja */
+.status-baja { 
+    background: #ffebee; 
+    color: #c62828; 
+    border: 1px solid #e53935; 
+}
+/* Naranja para Baja Temporal */
+.status-baja-temporal { 
+    background: #fff0db; 
+    color: #ef6c00; 
+    border: 1px solid #fb8c00; 
 }
 
 .btn-action {

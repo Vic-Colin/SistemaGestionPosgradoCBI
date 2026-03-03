@@ -27,11 +27,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 data.forEach(p => {
                     const val = (v) => v ? v : '<span style="color:#aaa;">No asignado</span>';
                     
+                    //Función para determinar el color de la etiqueta
+                    const getClaseEstatusUam = (estatus) => {
+                        if (!estatus) return "";
+                        const e = estatus.toUpperCase();
+                        if (e === "TITULADO") return "status-titulado";
+                        if (e === "VIGENTE") return "status-vigente";
+                        if (e === "BAJA") return "status-baja";
+                        if (e === "BAJA TEMPORAL") return "status-baja-temporal";
+                        return "";
+                    };
+                    
                     const fila = `
                         <tr>
                             <td>${p.matricula}</td>
                             <td>${p.nombreAlumno}</td>
-                            <td><span class="status-badge">${val(p.estatusUam)}</span></td>
+                            <td><span class="status-badge ${getClaseEstatusUam(p.estatusUam)}">${val(p.estatusUam)}</span></td>
                             <td><strong>${val(p.tituloTesis)}</strong></td>
                             <td>${val(p.director)}</td>
                             <td>${val(p.codirector)}</td>

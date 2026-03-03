@@ -165,6 +165,17 @@ function cargarAlumnos() {
 
 function renderRow(d) {
     const val = (v) => v ? v : '-'; // Función para manejar nulls
+    
+    const getClaseEstatusUam = (estatus) => {
+        if (!estatus) return "";
+        const e = estatus.toUpperCase();
+        if (e === "TITULADO") return "status-titulado";
+        if (e === "VIGENTE") return "status-vigente";
+        if (e === "BAJA") return "status-baja";
+        if (e === "BAJA TEMPORAL") return "status-baja-temporal";
+        return "";
+    };
+    
     return `
         <tr>
             <td>${d.matricula}</td>
@@ -176,7 +187,7 @@ function renderRow(d) {
             <td>${val(d.trimestreIngreso)}</td>
             <td>${val(d.fechaInicio)}</td>
             <td>${val(d.trimestrePierdeCalidad)}</td>
-            <td><span class="status-badge">${val(d.estatusUam)}</span></td>
+            <td><span class="status-badge ${getClaseEstatusUam(d.estatusUam)}">${val(d.estatusUam)}</span></td>
             <td>${val(d.estatusBeca)}</td>
             <td>${val(d.numeroActa)}</td>
             <td>${val(d.fechaTitulacion)}</td>
