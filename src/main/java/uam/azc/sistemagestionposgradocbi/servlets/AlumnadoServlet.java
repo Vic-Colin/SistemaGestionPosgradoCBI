@@ -76,7 +76,7 @@ public class AlumnadoServlet extends HttpServlet {
             response.getWriter().write(gson.toJson(catalogos));
             return; // Salimos para no ejecutar el resto del doGet
         }else if ("buscar".equals(accion)) {
-            // 🔴 NUEVA LÓGICA PARA CARGAR DATOS COMPLETOS AL EDITAR
+            //CARGAR DATOS COMPLETOS AL EDITAR
             String matricula = request.getParameter("matricula");
             Alumno alumno = dao.buscarPorId(matricula);
             
