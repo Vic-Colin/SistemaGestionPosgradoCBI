@@ -147,7 +147,6 @@ public class AlumnadoServlet extends HttpServlet {
             a.setCorreoAlternativo(request.getParameter("correoAlt"));
             a.setTelefono(request.getParameter("telefono"));
             a.setTrimestreIngreso(request.getParameter("trimIngreso"));
-            //a.setTrimestrePierdeCalidad(request.getParameter("trimPierde"));
             a.setEstatusUam(request.getParameter("estatusUam"));
             
             // CALCULAR AUTOMÁTICAMENTE el trimestre pierde calidad
