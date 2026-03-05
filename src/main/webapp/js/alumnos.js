@@ -371,10 +371,48 @@ function setFormValues(d) {
     });
 }
 
+function calcularTrimestrePierdeCalidad(trimestreIngreso) {
+    if (!trimestreIngreso) return "";
+    
+    const [anioStr, trim] = trimestreIngreso.split("-");
+    const anio = parseInt(anioStr);
+    
+    // Convertir trimestre a número
+    const numTrim = trim === "O" ? 1 : trim === "P" ? 2 : 3;
+    const totalIngreso = (anio * 3) + numTrim;
+    const trim22I = (22 * 3) + 3; // 69
+    
+    // Determinar cuántos trimestres agregar
+    const trimestresAAgregar = totalIngreso >= trim22I ? 13 : 18;
+    const totalFinal = totalIngreso + trimestresAAgregar;
+    
+    // Convertir de nuevo a formato YY-T
+    let anioFinal = Math.floor(totalFinal / 3);
+    let numTrimFinal = totalFinal % 3;
+    if (numTrimFinal === 0) { anioFinal--; numTrimFinal = 3; }
+    
+    const trimFinal = numTrimFinal === 1 ? "O" : numTrimFinal === 2 ? "P" : "I";
+    return `${String(anioFinal % 100).padStart(2, '0')}-${trimFinal}`;
+}
+
+// Evento para llenar automáticamente al cambiar el ingreso
+document.getElementById("regIngreso")?.addEventListener("change", function() {
+    const pierdeCalidad = calcularTrimestrePierdeCalidad(this.value);
+    const selectPierde = document.getElementById("regPierdeCalidad");
+    if (selectPierde && pierdeCalidad) {
+        selectPierde.value = pierdeCalidad;
+    }
+});
+
 function guardarAlumno(e) {
     e.preventDefault();
     const dataObj = getAlumnoFromForm();
     const isEdit = document.getElementById("editRowIndex").value !== "-1";
+    
+     const trimIngreso = dataObj.trimIngreso;
+    if (trimIngreso && !dataObj.trimPierde) {
+        dataObj.trimPierde = calcularTrimestrePierdeCalidad(trimIngreso);
+    }
     
     // Preparar datos para enviar
     const params = new URLSearchParams(dataObj);
