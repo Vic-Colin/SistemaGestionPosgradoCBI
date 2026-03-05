@@ -147,8 +147,14 @@ public class AlumnadoServlet extends HttpServlet {
             a.setCorreoAlternativo(request.getParameter("correoAlt"));
             a.setTelefono(request.getParameter("telefono"));
             a.setTrimestreIngreso(request.getParameter("trimIngreso"));
-            a.setTrimestrePierdeCalidad(request.getParameter("trimPierde"));
+            //a.setTrimestrePierdeCalidad(request.getParameter("trimPierde"));
             a.setEstatusUam(request.getParameter("estatusUam"));
+            
+            // CALCULAR AUTOMÁTICAMENTE el trimestre pierde calidad
+            String trimIngreso = request.getParameter("trimIngreso");
+            String trimPierdeCalidad = dao.calcularTrimestrePierdeCalidad(trimIngreso);
+            a.setTrimestrePierdeCalidad(trimPierdeCalidad);
+            
             // Nuevos campos Beca
             a.setCvu(request.getParameter("cvu"));
             a.setEstatusBeca(request.getParameter("estatusBeca"));
