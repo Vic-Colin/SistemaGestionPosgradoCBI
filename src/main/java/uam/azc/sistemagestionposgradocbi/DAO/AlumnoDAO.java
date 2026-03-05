@@ -452,4 +452,76 @@ public class AlumnoDAO implements CrudDAO<Alumno, String> {
         }
         return a;
     }
+    
+    /**
+ * Calcula automáticamente el trimestre en que pierde calidad estudiantil
+ * basado en el trimestre de ingreso.
+ * 
+ * Regla:
+ * - Si ingreso >= 22I (2022 Invierno): +12 trimestres (12 base + 2 pandemia)
+ * - Si ingreso < 22I: +18 trimestres (extensión por pandemia)
+ * 
+ * Formato: "YY-T" donde YY=año corto (00-99), T=O/P/I
+ * 
+ * @param trimestreIngreso formato "YY-T" (ej: "23-O", "22-I")
+ * @return trimestre de pérdida de calidad o null si hay error
+ */
+    public String calcularTrimestrePierdeCalidad(String trimestreIngreso) {
+    if (trimestreIngreso == null || trimestreIngreso.trim().isEmpty()) {
+        return null;
+    }
+    
+    try {
+        // Separar año y trimestre (ej: "23-O" → 23, O)
+        String[] partes = trimestreIngreso.trim().split("-");
+        if (partes.length != 2) return null;
+        
+        int anioCorto = Integer.parseInt(partes[0]);
+        String trim = partes[1].toUpperCase().trim();
+        
+        // Convertir trimestre a número (O=1, P=2, I=3)
+        int numTrim;
+        switch (trim) {
+            case "O": numTrim = 1; break;  // Otoño
+            case "P": numTrim = 2; break;  // Primavera  
+            case "I": numTrim = 3; break;  // Invierno
+            default: return null;
+        }
+         // Calcular total de trimestres desde referencia año 0
+        // 22I = (22 * 3) + 3 = 69 trimestres
+        int totalTrimestresIngreso = (anioCorto * 3) + numTrim;
+        int trim22I = (22 * 3) + 3; // 69
+        
+        // Determinar cuántos trimestres agregar según regla
+        int trimestresAAgregar = (totalTrimestresIngreso >= trim22I) ? 13 : 18;
+        
+        // Calcular el trimestre final
+        int totalTrimestresFinal = totalTrimestresIngreso + trimestresAAgregar;
+        
+        // Convertir de nuevo a formato YY-T
+        int anioCortoFinal = totalTrimestresFinal / 3;
+        int numTrimFinal = totalTrimestresFinal % 3;
+        
+        // Ajustar si el residuo es 0 (último trimestre del año anterior)
+        if (numTrimFinal == 0) {
+            anioCortoFinal--;
+            numTrimFinal = 3;
+        }
+         // Convertir número a letra
+        String trimFinal;
+        switch (numTrimFinal) {
+            case 1: trimFinal = "O"; break;
+            case 2: trimFinal = "P"; break;
+            case 3: trimFinal = "I"; break;
+            default: trimFinal = "O";
+        }
+        
+        // Formatear con 2 dígitos (ej: "27-P")
+        return String.format("%02d-%s", anioCortoFinal % 100, trimFinal);
+        
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
+}
 }
