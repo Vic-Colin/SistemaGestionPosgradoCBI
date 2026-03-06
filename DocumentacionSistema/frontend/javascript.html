@@ -1,65 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-<title>Documentación Java Script - Vistas del Sistema</title>
-<style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación JavaScript - Sistema de Gestión de Posgrado CBI</title>
+    <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             margin: 0;
-            padding: 20px;
+            padding: 40px;
             background-color: #f4f4f4;
         }
         .container {
             max-width: 1200px;
             margin: 0 auto;
             background: white;
-            padding: 30px;
+            padding: 40px;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-         h1 {
+        h1 {
             color: #CD032E;
             border-bottom: 3px solid #CD032E;
-            padding-bottom: 10px;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
         }
         h2 {
             color: #333;
             background: #f9f9f9;
-            padding: 10px;
-            border-left: 4px solid #CD032E;
-            margin-top: 30px;
+            padding: 15px;
+            border-left: 5px solid #CD032E;
+            margin-top: 40px;
+            border-radius: 4px;
         }
         h3 {
             color: #555;
-            margin-top: 20px;
+            margin-top: 25px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
         }
-        .jsp-info {
+        .descripcion {
             background: #fff;
+            padding: 20px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            padding: 15px;
-            margin: 10px 0;
-        } 
-        .jsp-info strong {
-            color: #CD032E;
+            margin: 15px 0;
         }
-        .feature-list {
+        .funcionalidades {
             background: #f9f9f9;
-            padding: 10px 20px;
+            padding: 20px;
+            margin: 15px 0;
             border-radius: 5px;
+        }
+        .funcionalidades ul {
             margin: 10px 0;
+            padding-left: 25px;
         }
-        .feature-list ul {
-            margin: 5px 0;
-            padding-left: 20px;
+        .funcionalidades li {
+            margin: 8px 0;
         }
-        .feature-list li {
-            margin: 5px 0;
+        .dependencias {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #4caf50;
         }
-         code {
+        .servlets {
+            background: #fff3e0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #ff9800;
+        }
+        code {
             background: #f4f4f4;
-            padding: 2px 6px;
+            padding: 3px 8px;
             border-radius: 3px;
             font-family: 'Courier New', monospace;
             color: #d63384;
@@ -68,41 +85,359 @@
             display: inline-block;
             background: #CD032E;
             color: white;
-            padding: 3px 8px;
+            padding: 4px 10px;
             border-radius: 3px;
             font-size: 0.85em;
-            margin: 2px;
+            margin: 3px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        table th {
+            background-color: #CD032E;
+            color: white;
+        }
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .nota {
+            background: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            border-radius: 5px;
+            margin: 20px 0;
         }
     </style>
 </head>
+<body>
+    <div class="container">
+        <h1>Documentación JavaScript</h1>
+        <p><strong>Sistema de Gestión de Posgrado CBI - UAM Azcapotzalco</strong></p>
+        <p>Esta documentación describe los módulos JavaScript que gestionan la interacción del frontend con los servlets del backend mediante peticiones AJAX.</p>
 
+        <div class="dependencias">
+            <strong>Dependencias Externas:</strong>
+            <ul>
+                <li><code>jsPDF v2.5.1</code> - Generación de documentos PDF</li>
+                <li><code>jsPDF-AutoTable v3.5.31</code> - Tablas en PDF</li>
+            </ul>
+        </div>
 
-<h2>alumnos.js</h2>
-<ul>
-<li>Encargado de enviar los datos de los filtros a los Servlets y control del modulo de Registrar y Editar informacion del alumno</li>
-<li>Control de filtros y exportar a PDF de la tabla</li>
-</ul>
+        <!-- ==================== ALUMNOS.JS ==================== -->
+        <h2>alumnos.js</h2>
+        <div class="descripcion">
+            <p><strong>Propósito:</strong> Módulo principal para la gestión completa del alumnado del posgrado. Maneja operaciones CRUD, filtrado dinámico, modales de registro/edición y exportación de reportes.</p>
+        </div>
 
-<h3>becas.js</h3>
-<ul>
-<li>Encargado de enviar los datos de los filtros a los Servlets</li>
-<li>Control de filtros y exportar a PDF de la tabla</li>
-</ul>
+        <div class="funcionalidades">
+            <h3>Funcionalidades Principales:</h3>
+            <ul>
+                <li><strong>Configuración dinámica de campos:</strong> Genera automáticamente los selects de trimestres (ingreso y pierde calidad) basados en el año actual</li>
+                <li><strong>Carga de catálogos:</strong> Obtiene áreas de concentración y profesores desde <code>AlumnadoServlet</code> para llenar selects dinámicos</li>
+                <li><strong>Sistema de acordeones:</strong> Permite expandir/colapsar secciones opcionales (Beca, Titulación, Tesis)</li>
+                <li><strong>Gestión de modales:</strong> Controla apertura/cierre de modales para registro, edición y confirmación de eliminación</li>
+                <li><strong>Renderizado de tabla:</strong> Genera filas dinámicamente con formato de estatus UAM (colores por estado)</li>
+                <li><strong>Filtros en tiempo real:</strong> Búsqueda con debounce (300ms) por matrícula, trimestre, estatus, año de titulación</li>
+                <li><strong>Edición robusta:</strong> Función <code>seleccionarOpcionRobusta()</code> para manejar diferencias de formato en selects</li>
+                <li><strong>Exportación a PDF:</strong> Genera reportes en tamaño legal con encabezado institucional (rojo UAM #CD032E)</li>
+            </ul>
+        </div>
 
-<h4>profesorado.js</h4>
-<ul>
-<li>Encargado de enviar los datos de los filtros a los Servlets</li>
-<li>Control de filtros y exportar a PDF de la tabla</li>
-</ul>
+        <div class="servlets">
+            <h3>Servlets Conectados:</h3>
+            <table>
+                <tr>
+                    <th>Endpoint</th>
+                    <th>Método</th>
+                    <th>Propósito</th>
+                </tr>
+                <tr>
+                    <td><code>../AlumnadoServlet?accion=catalogos</code></td>
+                    <td>GET</td>
+                    <td>Obtener áreas y profesores para selects</td>
+                </tr>
+                <tr>
+                    <td><code>../AlumnadoServlet?accion=buscar&matricula=XXX</code></td>
+                    <td>GET</td>
+                    <td>Cargar datos completos para edición</td>
+                </tr>
+                <tr>
+                    <td><code>../AlumnadoServlet</code></td>
+                    <td>GET</td>
+                    <td>Consultar alumnos con filtros</td>
+                </tr>
+                <tr>
+                    <td><code>../AlumnadoServlet</code></td>
+                    <td>POST</td>
+                    <td>Crear, editar o eliminar alumno</td>
+                </tr>
+            </table>
+        </div>
 
-<h5>proyectos.js</h5>
-<ul>
-<li>Encargado de enviar los datos de los filtros a los Servlets</li>
-<li>Control de filtros y exportar a PDF de la tabla</li>
-</ul>
+        <div class="nota">
+            <strong>Nota:</strong> Incluye validación de sesión implícita mediante redirección en caso de timeout.
+        </div>
 
-<h6>index.js</h6>
-<ul>
-<li>Encargado de enviar al menu principal validando los datos de ingreso</li>
-<li>Control de acceso al usuario</li>
-</ul>
+        <p><strong>Etiquetas:</strong> 
+            <span class="tag">CRUD</span>
+            <span class="tag">AJAX</span>
+            <span class="tag">PDF</span>
+            <span class="tag">Filtros</span>
+            <span class="tag">Modales</span>
+        </p>
+
+        <!-- ==================== BECAS.JS ==================== -->
+        <h2>becas.js</h2>
+        <div class="descripcion">
+            <p><strong>Propósito:</strong> Módulo especializado en la consulta y seguimiento de becas CONAHCYT/SECIHTI asociadas a alumnos del posgrado.</p>
+        </div>
+
+        <div class="funcionalidades">
+            <h3>Funcionalidades Principales:</h3>
+            <ul>
+                <li><strong>Generación dinámica de generaciones:</strong> Crea opciones de trimestres para los últimos 10 años automáticamente</li>
+                <li><strong>Filtrado múltiple:</strong> Permite buscar por CVU, generación (trimestre de ingreso) y estatus de beca</li>
+                <li><strong>Debounce optimizado:</strong> Espera 300ms después de dejar de escribir para evitar peticiones excesivas</li>
+                <li><strong>Formato condicional:</strong> Aplica clases CSS según el estatus de la beca para visualización con colores</li>
+                <li><strong>Manejo de nulos:</strong> Función auxiliar <code>val()</code> para mostrar "-" cuando los datos son null</li>
+                <li><strong>Exportación a PDF:</strong> Reporte en tamaño carta con encabezado institucional</li>
+                <li><strong>Mensajes de error:</strong> Muestra mensaje en la tabla si falla la carga de datos</li>
+            </ul>
+        </div>
+
+        <div class="servlets">
+            <h3>Servlets Conectados:</h3>
+            <table>
+                <tr>
+                    <th>Endpoint</th>
+                    <th>Método</th>
+                    <th>Propósito</th>
+                </tr>
+                <tr>
+                    <td><code>../BecaServlet?cvu=XXX&generacion=YY-T&estatus=ZZZ</code></td>
+                    <td>GET</td>
+                    <td>Consultar becas con filtros combinados</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="nota">
+            <strong>Nota:</strong> Los datos de beca se obtienen mediante JOIN con la tabla <code>alumno</code> para incluir nombre y trimestre de ingreso.
+        </div>
+
+        <p><strong>Etiquetas:</strong> 
+            <span class="tag">CONAHCYT</span>
+            <span class="tag">Filtros</span>
+            <span class="tag">AJAX</span>
+            <span class="tag">PDF</span>
+            <span class="tag">Debounce</span>
+        </p>
+
+        <!-- ==================== PROFESORADO.JS ==================== -->
+        <h2>profesorado.js</h2>
+        <div class="descripcion">
+            <p><strong>Propósito:</strong> Módulo para la consulta y filtrado del personal académico del Núcleo Académico del Posgrado.</p>
+        </div>
+
+        <div class="funcionalidades">
+            <h3>Funcionalidades Principales:</h3>
+            <ul>
+                <li><strong>Búsqueda dual:</strong> Permite filtrar simultáneamente por número económico y CVU</li>
+                <li><strong>Debounce compartido:</strong> Función <code>cargarConDelay()</code> que optimiza peticiones para ambos inputs</li>
+                <li><strong>Visualización completa:</strong> Muestra 8 columnas con información académica del profesor</li>
+                <li><strong>Manejo de valores opcionales:</strong> Usa operador <code>|| "-"</code> para campos que pueden ser null</li>
+                <li><strong>Exportación a PDF:</strong> Reporte en tamaño carta con estilo institucional</li>
+                <li><strong>Validación de elementos:</strong> Verifica existencia de inputs antes de agregar event listeners</li>
+            </ul>
+        </div>
+
+        <div class="servlets">
+            <h3>Servlets Conectados:</h3>
+            <table>
+                <tr>
+                    <th>Endpoint</th>
+                    <th>Método</th>
+                    <th>Propósito</th>
+                </tr>
+                <tr>
+                    <td><code>../ProfesoradoServlet?cvu=XXX&numeroEconomico=YYY</code></td>
+                    <td>GET</td>
+                    <td>Consultar profesores con filtros</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="nota">
+            <strong>Nota:</strong> Los datos incluyen JOINs con tablas <code>nivel_sni</code>, <code>tipo_dedicacion</code> y <code>departamento</code>.
+        </div>
+
+        <p><strong>Etiquetas:</strong> 
+            <span class="tag">Profesores</span>
+            <span class="tag">SNI</span>
+            <span class="tag">Filtros</span>
+            <span class="tag">AJAX</span>
+            <span class="tag">PDF</span>
+        </p>
+
+        <!-- ==================== PROYECTOS.JS ==================== -->
+        <h2>proyectos.js</h2>
+        <div class="descripcion">
+            <p><strong>Propósito:</strong> Módulo para la consulta de proyectos de tesis e investigación asociados a alumnos del posgrado.</p>
+        </div>
+
+        <div class="funcionalidades">
+            <h3>Funcionalidades Principales:</h3>
+            <ul>
+                <li><strong>Búsqueda tricriterio:</strong> Filtra por matrícula, título de tesis o nombre de asesor (director/codirector)</li>
+                <li><strong>Búsqueda OR en asesores:</strong> El SQL busca coincidencia en director <strong>O</strong> codirector</li>
+                <li><strong>Formato de estatus UAM:</strong> Función <code>getClaseEstatusUam()</code> para badges de colores</li>
+                <li><strong>Encoding de parámetros:</strong> Usa <code>encodeURIComponent()</code> para manejar caracteres especiales en títulos</li>
+                <li><strong>Debounce individual:</strong> Cada input tiene su propio temporizador de 300ms</li>
+                <li><strong>Exportación a PDF:</strong> Reporte con título destacado en negritas</li>
+                <li><strong>Manejo de "No asignado":</strong> Muestra texto en gris cuando no hay codirector</li>
+            </ul>
+        </div>
+
+        <div class="servlets">
+            <h3>Servlets Conectados:</h3>
+            <table>
+                <tr>
+                    <th>Endpoint</th>
+                    <th>Método</th>
+                    <th>Propósito</th>
+                </tr>
+                <tr>
+                    <td><code>../ProyectosServlet?matricula=XXX&titulo=YYY&asesor=ZZZ</code></td>
+                    <td>GET</td>
+                    <td>Consultar proyectos de tesis con filtros</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="nota">
+            <strong>Nota:</strong> Los datos se obtienen mediante múltiples JOINs: <code>tesis</code>, <code>alumno</code>, <code>profesor</code>, <code>area_concentracion</code>, <code>estatus_alumno</code>.
+        </div>
+
+        <p><strong>Etiquetas:</strong> 
+            <span class="tag">Tesis</span>
+            <span class="tag">Proyectos</span>
+            <span class="tag">Filtros</span>
+            <span class="tag">AJAX</span>
+            <span class="tag">PDF</span>
+        </p>
+
+        <!-- ==================== INDEX.JS ==================== -->
+        <h2>index.js</h2>
+        <div class="descripcion">
+            <p><strong>Propósito:</strong> Módulo de autenticación que gestiona el inicio de sesión y control de acceso al sistema.</p>
+        </div>
+
+        <div class="funcionalidades">
+            <h3>Funcionalidades Principales:</h3>
+            <ul>
+                <li><strong>Prevención de envío tradicional:</strong> Usa <code>event.preventDefault()</code> para manejar el formulario vía AJAX</li>
+                <li><strong>Validación de credenciales:</strong> Envía usuario y contraseña a <code>LoginServlet</code> mediante POST</li>
+                <li><strong>Manejo de respuesta JSON:</strong> Procesa <code>{"success": true/false, "message": "..."}</code></li>
+                <li><strong>Redirección condicional:</strong> Si es exitoso, redirige a <code>jsp/dashboard.jsp</code></li>
+                <li><strong>Modal de error:</strong> Muestra mensaje de error en modal con animación fade-in</li>
+                <li><strong>Cierre de modal:</strong> Permite cerrar con botón X o click fuera del modal</li>
+                <li><strong>Reset de formulario:</strong> Limpia campos y enfoca usuario después de error</li>
+                <li><strong>Validación de existencia:</strong> Verifica que el formulario exista antes de agregar listeners</li>
+            </ul>
+        </div>
+
+        <div class="servlets">
+            <h3>Servlets Conectados:</h3>
+            <table>
+                <tr>
+                    <th>Endpoint</th>
+                    <th>Método</th>
+                    <th>Propósito</th>
+                </tr>
+                <tr>
+                    <td><code>LoginServlet</code></td>
+                    <td>POST</td>
+                    <td>Autenticar usuario y crear sesión HTTP</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="nota">
+            <strong>Nota:</strong> La sesión se valida en el backend con <code>session.getAttribute("usuarioActivo")</code> en páginas protegidas como <code>dashboard.jsp</code>.
+        </div>
+
+        <p><strong>Etiquetas:</strong> 
+            <span class="tag">Login</span>
+            <span class="tag">Seguridad</span>
+            <span class="tag">Sesión</span>
+            <span class="tag">AJAX</span>
+            <span class="tag">Validación</span>
+        </p>
+
+        <!-- ==================== RESUMEN ==================== -->
+        <h2>Resumen de Módulos</h2>
+        <table>
+            <tr>
+                <th>Módulo</th>
+                <th>Función Principal</th>
+                <th>Servlet</th>
+                <th>Exporta PDF</th>
+            </tr>
+            <tr>
+                <td><code>alumnos.js</code></td>
+                <td>Gestión CRUD de alumnado</td>
+                <td><code>AlumnadoServlet</code></td>
+                <td>Sí</td>
+            </tr>
+            <tr>
+                <td><code>becas.js</code></td>
+                <td>Consulta de becas CONAHCYT</td>
+                <td><code>BecaServlet</code></td>
+                <td> Sí</td>
+            </tr>
+            <tr>
+                <td><code>profesorado.js</code></td>
+                <td>Consulta de profesores</td>
+                <td><code>ProfesoradoServlet</code></td>
+                <td>Sí</td>
+            </tr>
+            <tr>
+                <td><code>proyectos.js</code></td>
+                <td>Consulta de proyectos de tesis</td>
+                <td><code>ProyectosServlet</code></td>
+                <td> Sí</td>
+            </tr>
+            <tr>
+                <td><code>index.js</code></td>
+                <td>Autenticación de usuarios</td>
+                <td><code>LoginServlet</code></td>
+                <td> No</td>
+            </tr>
+        </table>
+
+        <div class="nota">
+            <strong> Patrón Común:</strong> Todos los módulos (excepto index.js) implementan:
+            <ul>
+                <li>Carga inicial automática con <code>DOMContentLoaded</code></li>
+                <li>Filtrado con debounce de 300ms</li>
+                <li>Exportación a PDF con jsPDF + AutoTable</li>
+                <li>Manejo de errores con mensajes en consola y UI</li>
+                <li>Uso de Fetch API para peticiones AJAX</li>
+            </ul>
+        </div>
+
+        <footer style="margin-top: 50px; padding-top: 20px; border-top: 2px solid #CD032E; text-align: center; color: #666;">
+            <p><strong>Sistema de Gestión de Posgrado CBI</strong><br>
+            UAM Azcapotzalco - División de Ciencias Básicas e Ingeniería<br>
+            Documentación técnica - 2026</p>
+        </footer>
+    </div>
+</body>
+</html>
