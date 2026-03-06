@@ -1,47 +1,219 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Documentación JSP</title>
+<title>Documentación JSP - Vistas del Sistema</title>
+<style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+         h1 {
+            color: #CD032E;
+            border-bottom: 3px solid #CD032E;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #333;
+            background: #f9f9f9;
+            padding: 10px;
+            border-left: 4px solid #CD032E;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .jsp-info {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        } 
+        .jsp-info strong {
+            color: #CD032E;
+        }
+        .feature-list {
+            background: #f9f9f9;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .feature-list ul {
+            margin: 5px 0;
+            padding-left: 20px;
+        }
+        .feature-list li {
+            margin: 5px 0;
+        }
+         code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+        .tag {
+            display: inline-block;
+            background: #CD032E;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            margin: 2px;
+        }
+    </style>
 </head>
 
 <body>
+<div class="container">
+        <h1>Documentación de Vistas JSP</h1>
+        <p><strong>Sistema de Gestión de Posgrado CBI - UAM Azcapotzalco</strong></p>
 
-<h1>Vistas JSP</h1>
+        <h2>index.jsp</h2>
+        <div class="jsp-info">
+            <p><strong>Propósito:</strong> Página de autenticación y login del sistema.</p>
+            <div class="feature-list">
+                <strong>Características:</strong>
+                 <ul>
+                    <li>Formulario de autenticación de usuarios</li>
+                    <li>Invoca al <code>LoginServlet</code> para validación de credenciales</li>
+                    <li>Validación mediante hash SHA-256 de contraseñas</li>
+                    <li>Creación de sesión HTTP tras autenticación exitosa</li>
+                    <li>Redirección al dashboard según rol de usuario</li>
+                    <li>Diseño responsive con logos institucionales UAM y CBI</li>
+                </ul>
+                 </div>
+            <p><strong>Elementos:</strong> <span class="tag">Login</span> <span class="tag">Autenticación</span> <span class="tag">Seguridad</span></p>
+        </div>
 
-<h2>index.jsp</h2>
-<p>
-Permite la autenticación de usuarios del sistema.
-Invoca al LoginController.
-</p>
+        <h2>dashboard.jsp</h2>
+        <div class="jsp-info">
+            <p><strong>Propósito:</strong> Menú principal del sistema que proporciona acceso a todos los módulos.</p>
+            <div class="feature-list">
+                <strong>Características:</strong>
+                <ul>
+                    <li>Verificación de sesión activa (redirige a index.jsp si no hay sesión)</li>
+                    <li>Visualización del nombre de usuario y rol activo</li>
+                    <li>Acceso rápido a módulos: Alumnado, Becas, Profesorado y Tesis</li>
+                    <li>Botón de cierre de sesión (<code>LogoutServlet</code>)</li>
+                    <li>Marca de agua con logo institucional</li>
+                    <li>Diseño con navegación superior roja institucional</li>
+                </ul>
+            </div>
+              <p><strong>Elementos:</strong> <span class="tag">Dashboard</span> <span class="tag">Navegación</span> <span class="tag">Menú Principal</span></p>
+        </div>
 
-<h2>Alumnos.jsp</h2>
-<p>
-Muestra el listado de alumnos registrados.
-Recibe datos desde AlumnadoSerlvet.
-</p>
+        <h2>Alumnos.jsp</h2>
+        <div class="jsp-info">
+            <p><strong>Propósito:</strong> Gestión completa del módulo de alumnado del posgrado.</p>
+            <div class="feature-list">
+                <strong>Características:</strong>
+                <ul>
+                    <li>Listado dinámico de alumnos con filtrado en tiempo real</li>
+                    <li>Consulta de datos desde <code>AlumnadoServlet</code></li>
+                    <li>Formulario modal para registro y edición de alumnos</li>
+                    <li>Campos: datos personales, académicos, beca SECIHTI, titulación y proyecto de tesis</li>
+                    <li>Filtros por: matrícula, trimestre de ingreso, trimestre pierde calidad, año de titulación, estatus UAM</li>
+                    <li>Exportación de reportes a PDF (jsPDF + autoTable)</li>
+                    <li>Confirmación de eliminación de registros</li>
+                    <li>Carga dinámica de catálogos (áreas de concentración, profesores)</li>
+                    <li>Acordeones para secciones opcionales (beca, titulación, tesis)</li>
+                    <li>Validación de campos obligatorios</li>
+                </ul>
+            </div>
+              <p><strong>Elementos:</strong> <span class="tag">CRUD</span> <span class="tag">Filtros</span> <span class="tag">PDF</span> <span class="tag">Modal</span></p>
+        </div>
 
-<h3>Becas.jsp</h3>
-<p>
-Muestra el listado de los alumnos relacionado con las Becas.
-Recibe datos desde BecaServlet.
-</p>
+        <h3>Becas.jsp</h3>
+        <div class="jsp-info">
+            <p><strong>Propósito:</strong> Consulta y seguimiento de becas SECIHTI/CONAHCYT.</p>
+            <div class="feature-list">
+                <strong>Características:</strong>
+                <ul>
+                    <li>Listado de alumnos con información de becas</li>
+                    <li>Datos desde <code>BecaServlet</code> con JOIN a tabla alumno</li>
+                    <li>Filtros por: CVU, generación (trimestre de ingreso), estatus de beca</li>
+                    <li>Visualización de fechas: fin de beca, fecha máxima CONAHCYT, titulación</li>
+                    <li>Exportación de reportes a PDF</li>
+                    <li>Búsqueda en tiempo real con debounce (300ms)</li>
+                    <li>Generación dinámica de opciones de generación (últimos 10 años)</li>
+                </ul>
+            </div>
+             <p><strong>Elementos:</strong> <span class="tag">Becas</span> <span class="tag">CONAHCYT</span> <span class="tag">Filtros</span> <span class="tag">PDF</span></p>
+        </div>
 
-<h4>Profesorado.jsp</h4>
-<p>
-Muestra el listado de profesores registrados.
-Recibe datos desde ProfesoradoServlet.
-</p>
+        <h4>Profesorado.jsp</h4>
+        <div class="jsp-info">
+            <p><strong>Propósito:</strong> Consulta del personal académico del núcleo de posgrado.</p>
+            <div class="feature-list">
+                <strong>Características:</strong>
+                <ul>
+                    <li>Listado de profesores registrados</li>
+                    <li>Datos desde <code>ProfesoradoServlet</code></li>
+                    <li>Filtros por: número económico y CVU</li>
+                    <li>Visualización de: nivel SNI, tipo de dedicación, departamento, fecha de ingreso, correo institucional</li>
+                    <li>Exportación de reportes a PDF</li>
+                    <li>Búsqueda en tiempo real con debounce</li>
+                    <li>Encabezado de tabla con estilo rojo institucional</li>
+                </ul>
+            </div>
+            <p><strong>Elementos:</strong> <span class="tag">Profesores</span> <span class="tag">SNI</span> <span class="tag">Filtros</span> <span class="tag">PDF</span></p>
+        </div>
+         <h5>Proyectos.jsp</h5>
+        <div class="jsp-info">
+            <p><strong>Propósito:</strong> Consulta de proyectos de tesis e investigación del posgrado.</p>
+            <div class="feature-list">
+                <strong>Características:</strong>
+                <ul>
+                    <li>Listado de proyectos de tesis registrados</li>
+                    <li>Datos desde <code>ProyectosServlet</code> con múltiples JOIN</li>
+                    <li>Filtros por: matrícula, título de tesis, director/codirector</li>
+                    <li>Visualización de: estatus UAM del alumno, área de concentración</li>
+                    <li>Exportación de reportes a PDF</li>
+                    <li>Búsqueda en tiempo real con debounce</li>
+                    <li>Indicadores visuales de estatus (colores por estado)</li>
+                </ul>
+            </div>
+            <p><strong>Elementos:</strong> <span class="tag">Tesis</span> <span class="tag">Proyectos</span> <span class="tag">Filtros</span> <span class="tag">PDF</span></p>
+        </div>
+<h2>Relación entre Componentes</h2>
+        <div class="jsp-info">
+            <p><strong>Arquitectura MVC:</strong></p>
+            <ul>
+                <li><strong>Modelo:</strong> Clases Java en <code>uam.azc.sistemagestionposgradocbi.modelo</code></li>
+                <li><strong>Vista:</strong> Archivos JSP (documentados arriba)</li>
+                <li><strong>Controlador:</strong> Servlets en <code>uam.azc.sistemagestionposgradocbi.servlets</code></li>
+                <li><strong>DAO:</strong> Acceso a datos en <code>uam.azc.sistemagestionposgradocbi.DAO</code></li>
+            </ul>
+        </div>
+<h2>Tecnologías Utilizadas</h2>
+        <div class="jsp-info">
+            <ul>
+                <li><strong>Backend:</strong> Java EE 8, Servlets, JSP, JSTL, JDBC, MySQL</li>
+                <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript (ES6)</li>
+                <li><strong>Librerías:</strong> Gson (JSON), jsPDF + autoTable (PDF), Bootstrap (estilos)</li>
+                <li><strong>Servidor:</strong> Apache Tomcat</li>
+                <li><strong>Base de Datos:</strong> MySQL (mcc_uam_azcapotzalco)</li>
+            </ul>
+        </div>
 
-<h5>Proyectos.jsp</h5>
-<p>
-Muestra el listado de los proyectos de los alumnos registrados.
-Recibe datos desde ProyectosServlet.
-</p>
-
-<h6>dashboard.jsp</h6>
-<p>
-Muestra el menu principal que da acceso a los demas modulos.
-</p>
-
+        <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #CD032E; text-align: center; color: #666;">
+            <p><strong>Sistema de Gestión de Posgrado CBI</strong><br>
+            UAM Azcapotzalco - División de Ciencias Básicas e Ingeniería<br>
+            Documentación técnica - 2026</p>
+        </footer>
+    </div>
 </body>
 </html>

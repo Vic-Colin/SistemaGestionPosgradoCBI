@@ -6,7 +6,7 @@ import javax.ws.rs.core.Response;
 
 /**
  *
- * @author 
+ * @author Vania Alejandra Contreras Torres
  */
 @Path("rest")
 public class JakartaEE8Resource {

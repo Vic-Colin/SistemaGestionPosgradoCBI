@@ -47,7 +47,9 @@ public class Alumno implements Serializable {
     private String numEcoDirector;   // Matrícula/No. Económico del Director
     private String numEcoCodirector; // Matrícula/No. Económico del Codirector
     
-
+/**
+ * Constructor por defecto de la clase Alumno.
+ */
     public Alumno() {}
 
     /**
