@@ -1,41 +1,146 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Documentación Sistema Gestión Posgrado CBI</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #CD032E;
+            border-bottom: 3px solid #CD032E;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            background: #f9f9f9;
+            padding: 15px;
+            border-left: 5px solid #CD032E;
+            margin-top: 40px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .card {
+            background: white;
+            border: 2px solid #CD032E;
+            border-radius: 12px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 140px;
+        }
+        .card .icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        .card h3 {
+            color: #CD032E;
+            margin: 0 0 10px 0;
+            font-size: 1.4em;
+            transition: color 0.3s ease;
+        }
+        .card p {
+            margin: 0;
+            color: #666;
+            font-size: 0.95em;
+            transition: color 0.3s ease;
+        }
+        .card:hover {
+            background: #CD032E;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(205, 3, 46, 0.3);
+        }
+        .card:hover h3, 
+        .card:hover p {
+            color: white;
+        }
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #CD032E;
+            text-align: center;
+            color: #666;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="container">
+        <h1>🎓 Sistema de Gestión de Posgrado CBI</h1>
+        
+        <h2>📚 Documentación Técnica</h2>
 
-<h1>Sistema de Gestión de Posgrado CBI</h1>
+        <div class="grid-cards">
+            <a href="backend/javadoc/apidocs/index.html" class="card">
+                <div class="icon">☕</div>
+                <h3>Backend (JavaDoc)</h3>
+                <p>Documentación de clases, métodos y lógica en Java</p>
+            </a>
 
-<h2>Documentación Técnica</h2>
+            <a href="frontend/jsp.html" class="card">
+                <div class="icon">🖥️</div>
+                <h3>Vistas JSP</h3>
+                <p>Interfaces, páginas del sistema y vistas de usuario</p>
+            </a>
 
-<ul>
-<li><a href="backend/javadoc/apidocs/index.html">
-Documentación Backend (JavaDoc)
-</a></li>
+            <a href="frontend/javascript.html" class="card">
+                <div class="icon">📜</div>
+                <h3>JavaScript</h3>
+                <p>Lógica del frontend, módulos y peticiones AJAX</p>
+            </a>
 
-<li><a href="frontend/jsp.html">
-Vistas JSP
-</a></li>
+            <a href="frontend/css.html" class="card">
+                <div class="icon">🎨</div>
+                <h3>CSS</h3>
+                <p>Guía de estilos, colores, tipografía y componentes</p>
+            </a>
 
-<li><a href="frontend/javascript.html">
-JavaScript
-</a></li>
+            <a href="arquitectura/mvc.html" class="card">
+                <div class="icon">🏗️</div>
+                <h3>Arquitectura MVC</h3>
+                <p>Estructura general, patrones de diseño y flujo</p>
+            </a>
 
-<li><a href="frontend/css.html">
-CSS
-</a></li>
+            <a href="manual/manual_usuario.html" class="card">
+                <div class="icon">📖</div>
+                <h3>Manual de Usuario</h3>
+                <p>Guía paso a paso para el uso del sistema</p>
+            </a>
+        </div>
 
-<li><a href="arquitectura/mvc.html">
-Arquitectura MVC
-</a></li>
-
-<li><a href="manual/manual_usuario.html">
-Manual de Usuario
-</a></li>
-
-</ul>
-
+        <footer>
+            <p><strong>Sistema de Gestión de Posgrado CBI</strong><br>
+            UAM Azcapotzalco - División de Ciencias Básicas e Ingeniería<br>
+            Documentación técnica - 2026</p>
+        </footer>
+    </div>
 </body>
 </html>
