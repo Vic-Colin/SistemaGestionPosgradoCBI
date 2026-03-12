@@ -1,8 +1,530 @@
-<h1>Manual de Usuario</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Usuario - Sistema de Gestión de Posgrado CBI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<h2>Inicio de sesión</h2>
-1. Introducir usuario.
-2. Presionar ingresar.
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
 
-<h2>Consulta de alumnos</h2>
-Seleccionar menú alumnos.
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+        }
+
+        header {
+            background: linear-gradient(135deg, #CD032E 0%, #8B0000 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .indice {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #CD032E;
+        }
+
+        .indice h2 {
+            color: #CD032E;
+            margin-bottom: 15px;
+        }
+
+        .indice ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .indice li {
+            margin: 10px 0;
+        }
+
+        .indice a {
+            color: #CD032E;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .indice a:hover {
+            text-decoration: underline;
+        }
+
+        section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #CD032E;
+            border-bottom: 3px solid #CD032E;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        h3 {
+            color: #333;
+            margin: 20px 0 15px 0;
+            font-size: 1.5rem;
+        }
+
+        .paso {
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #CD032E;
+            border-radius: 4px;
+        }
+
+        .paso strong {
+            color: #CD032E;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .imagen-container {
+            text-align: center;
+            margin: 25px 0;
+            padding: 20px;
+            background: #f4f4f4;
+            border-radius: 8px;
+            border: 2px dashed #CD032E;
+        }
+
+        .imagen-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .imagen-container p {
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+        }
+
+        .nota {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .nota strong {
+            color: #856404;
+        }
+
+        .importante {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .importante strong {
+            color: #721c24;
+        }
+
+        ul.lista {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        ul.lista li {
+            margin: 8px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #333;
+            color: white;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Manual de Usuario</h1>
+        <p>Sistema de Gestión de Posgrado CBI - UAM Azcapotzalco</p>
+    </header>
+
+    <div class="container">
+        <div class="indice">
+            <h2>📋 Índice de Contenidos</h2>
+            <ul>
+                <li><a href="#inicio">1. Inicio de Sesión</a></li>
+                <li><a href="#dashboard">2. Menú Principal (Dashboard)</a></li>
+                <li><a href="#alumnos">3. Módulo de Alumnos</a></li>
+                <li><a href="#becas">4. Módulo de Becas</a></li>
+                <li><a href="#profesorado">5. Módulo de Profesorado</a></li>
+                <li><a href="#proyectos">6. Módulo de Proyectos/Tesis</a></li>
+                <li><a href="#reportes">7. Generación de Reportes PDF</a></li>
+            </ul>
+        </div>
+
+        <!-- INICIO DE SESIÓN -->
+        <section id="inicio">
+            <h2>1. Inicio de Sesión</h2>
+            
+            <h3>Acceso al Sistema</h3>
+            
+            <div class="paso">
+                <strong>Paso 1: Abrir el sistema</strong>
+                Accede a la página principal del sistema desde tu navegador web.
+            </div>
+
+            <div class="paso">
+                <strong>Paso 2: Ingresar credenciales</strong>
+                En la pantalla de login, introduce:
+                <ul class="lista">
+                    <li><strong>Usuario:</strong> Tu nombre de usuario asignado</li>
+                    <li><strong>Contraseña:</strong> Tu contraseña personal</li>
+                </ul>
+            </div>
+
+            <div class="paso">
+                <strong>Paso 3: Ingresar al sistema</strong>
+                Presiona el botón <strong>"Entrar"</strong> o presiona la tecla Enter.
+            </div>
+
+            <div class="imagen-container">
+                <img src="imagenes/login.png" alt="Pantalla de inicio de sesión">
+                <p>Figura 1: Pantalla de inicio de sesión del sistema</p>
+            </div>
+
+            <div class="nota">
+                <strong>Nota:</strong> Si olvidaste tu contraseña, contacta al administrador del sistema.
+            </div>
+
+            <div class="importante">
+                <strong>Importante:</strong> Asegúrate de cerrar sesión al finalizar tu trabajo para proteger la información.
+            </div>
+        </section>
+
+        <!-- DASHBOARD -->
+        <section id="dashboard">
+            <h2>2. Menú Principal (Dashboard)</h2>
+            
+            <h3>Acceso a los Módulos</h3>
+            
+            <div class="paso">
+                <strong>Paso 1: Visualizar el menú principal</strong>
+                Después de iniciar sesión, verás la pantalla principal con los siguientes módulos disponibles:
+                <ul class="lista">
+                    <li><strong>Alumnado</strong> - Gestión de estudiantes</li>
+                    <li><strong>Becas</strong> - Consulta de becas SECIHTI</li>
+                    <li><strong>Profesorado</strong> - Consulta de profesores</li>
+                    <li><strong>Tesis</strong> - Proyectos de investigación</li>
+                </ul>
+            </div>
+
+            <div class="paso">
+                <strong>Paso 2: Seleccionar un módulo</strong>
+                Haz clic en el botón del módulo que deseas consultar.
+            </div>
+
+            <div class="imagen-container">
+                <img src="imagenes/dashboard.png" alt="Menú principal del sistema">
+                <p>Figura 2: Menú principal con acceso a todos los módulos</p>
+            </div>
+
+            <div class="paso">
+                <strong>Cerrar Sesión</strong>
+                Para salir del sistema, presiona el botón <strong>"SALIR"</strong> ubicado en la parte superior derecha.
+            </div>
+        </section>
+
+        <!-- MÓDULO DE ALUMNOS -->
+        <section id="alumnos">
+            <h2>3. Módulo de Alumnos</h2>
+            
+            <h3>Consulta y Registro de Alumnos</h3>
+            
+            <div class="paso">
+                <strong>Paso 1: Acceder al módulo</strong>
+                Desde el menú principal, haz clic en <strong>"Alumnado"</strong>.
+            </div>
+
+            <div class="paso">
+                <strong>Paso 2: Consultar alumnos</strong>
+                Utiliza los filtros de búsqueda:
+                <ul class="lista">
+                    <li><strong>Matrícula:</strong> Busca por número de matrícula</li>
+                    <li><strong>Trimestre de Ingreso:</strong> Filtra por periodo de ingreso</li>
+                    <li><strong>Trimestre Pierde Calidad:</strong> Filtra por periodo límite</li>
+                    <li><strong>Año de Titulación:</strong> Busca por año de titulación</li>
+                    <li><strong>Estatus UAM:</strong> Filtra por estado académico (Vigente, Titulado, Baja,Baja Temporal.)</li>
+                </ul>
+            </div>
+
+            <div class="paso">
+                <strong>Paso 3: Registrar nuevo alumno</strong>
+                <ul class="lista">
+                    <li>Presiona el botón <strong>"+ Nuevo Alumno"</strong></li>
+                    <li>Completa los datos generales (Nombre, Matrícula, CURP, etc.)</li>
+                    <li>Ingresa los datos académicos (Trimestre de ingreso, estatus, etc.)</li>
+                    <li>Agrega información de beca (opcional - desplegar acordeón)</li>
+                    <li>Ingresa datos de titulación (opcional - desplegar acordeón)</li>
+                    <li>Registra proyecto de tesis (opcional - desplegar acordeón)</li>
+                    <li>Presiona <strong>"Guardar Expediente Completo"</strong></li>
+                </ul>
+            </div>
+
+            <div class="paso">
+                <strong>Paso 4: Editar alumno</strong>
+                <ul class="lista">
+                    <li>Localiza el alumno en la tabla</li>
+                    <li>Presiona el ícono de lápiz (✏️) en la columna "Acciones"</li>
+                    <li>Modifica los datos necesarios</li>
+                    <li>Presiona <strong>"Guardar Expediente Completo"</strong></li>
+                </ul>
+            </div>
+
+            <div class="paso">
+                <strong>Paso 5: Eliminar alumno</strong>
+                <ul class="lista">
+                    <li>Localiza el alumno en la tabla</li>
+                    <li>Presiona el ícono de basura (🗑️) en la columna "Acciones"</li>
+                    <li>Confirma la eliminación presionando <strong>"Sí, Eliminar"</strong></li>
+                </ul>
+            </div>
+
+            <div class="imagen-container">
+                <img src="imagenes/alumnos_consulta.png" alt="Consulta de alumnos">
+                <p>Figura 3: Pantalla de consulta y gestión de alumnos</p>
+            </div>
+
+            <div class="imagen-container">
+                <img src="imagenes/alumnos_registro.png" alt="Registro de nuevo alumno">
+                <p>Figura 4: Formulario de registro de alumno con secciones desplegables</p>
+            </div>
+
+            <div class="nota">
+                <strong>Nota:</strong> El sistema calcula automáticamente el trimestre en que pierde calidad el alumno basándose en el trimestre de ingreso.
+            </div>
+        </section>
+
+        <!-- MÓDULO DE BECAS -->
+        <section id="becas">
+            <h2>4. Módulo de Becas</h2>
+            
+            <h3>Consulta de Becas SECIHTI/CONAHCYT</h3>
+            
+            <div class="paso">
+                <strong>Paso 1: Acceder al módulo</strong>
+                Desde el menú principal, haz clic en <strong>"Becas"</strong>.
+            </div>
+
+            <div class="paso">
+                <strong>Paso 2: Filtrar becas</strong>
+                Utiliza los filtros disponibles:
+                <ul class="lista">
+                    <li><strong>CVU:</strong> Busca por Clave Única de Usuario CONAHCYT</li>
+                    <li><strong>Generación:</strong> Filtra por trimestre de ingreso (últimos 10 años)</li>
+                    <li><strong>Estatus Beca:</strong> Filtra por estado (Vigente, Suspendida, Baja, etc.)</li>
+                </ul>
+            </div>
+
+            <div class="paso">
+                <strong>Paso 3: Visualizar información</strong>
+                La tabla muestra:
+                <ul class="lista">
+                    <li>Matrícula del alumno</li>
+                    <li>Nombre completo</li>
+                    <li>CVU CONAHCYT</li>
+                    <li>Trimestre de ingreso</li>
+                    <li>Fecha de fin de beca</li>
+                    <li>Fecha máxima CONAHCYT</li>
+                    <li>Estatus de la beca</li>
+                    <li>Fecha de titulación</li>
+                </ul>
+            </div>
+
+            <div class="imagen-container">
+                <img src="imagenes/becas_consulta.png" alt="Consulta de becas">
+                <p>Figura 5: Pantalla de consulta de becas con filtros dinámicos</p>
+            </div>
+
+            <div class="importante">
+                <strong>Importante:</strong> Los filtros se aplican automáticamente mientras escribes (búsqueda en tiempo real).
+            </div>
+        </section>
+
+        <!-- MÓDULO DE PROFESORADO -->
+        <section id="profesorado">
+            <h2>5. Módulo de Profesorado</h2>
+            
+            <h3>Consulta del Núcleo Académico</h3>
+            
+            <div class="paso">
+                <strong>Paso 1: Acceder al módulo</strong>
+                Desde el menú principal, haz clic en <strong>"Profesorado"</strong>.
+            </div>
+
+            <div class="paso">
+                <strong>Paso 2: Buscar profesores</strong>
+                Utiliza los campos de búsqueda:
+                <ul class="lista">
+                    <li><strong>Número Económico:</strong> Busca por identificador institucional</li>
+                    <li><strong>CVU:</strong> Busca por Clave Única de Usuario</li>
+                </ul>
+            </div>
+
+            <div class="paso">
+                <strong>Paso 3: Visualizar información</strong>
+                La tabla muestra:
+                <ul class="lista">
+                    <li>Número económico</li>
+                    <li>Nombre completo</li>
+                    <li>CVU</li>
+                    <li>Nivel SNI (Sistema Nacional de Investigadores)</li>
+                    <li>Tipo de dedicación</li>
+                    <li>Departamento</li>
+                    <li>Fecha de ingreso al núcleo</li>
+                    <li>Correo institucional</li>
+                </ul>
+            </div>
+
+            <div class="imagen-container">
+                <img src="imagenes/profesorado_consulta.png" alt="Consulta de profesorado">
+                <p>Figura 6: Pantalla de consulta del núcleo académico</p>
+            </div>
+
+            <div class="nota">
+                <strong>Nota:</strong> La búsqueda se actualiza automáticamente mientras escribes en los campos de filtro.
+            </div>
+        </section>
+
+        <!-- MÓDULO DE PROYECTOS -->
+        <section id="proyectos">
+            <h2>6. Módulo de Proyectos/Tesis</h2>
+            
+            <h3>Consulta de Proyectos de Investigación</h3>
+            
+            <div class="paso">
+                <strong>Paso 1: Acceder al módulo</strong>
+                Desde el menú principal, haz clic en <strong>"Tesis"</strong>.
+            </div>
+
+            <div class="paso">
+                <strong>Paso 2: Filtrar proyectos</strong>
+                Utiliza los filtros disponibles:
+                <ul class="lista">
+                    <li><strong>Matrícula:</strong> Busca por número de matrícula del alumno</li>
+                    <li><strong>Título de tesis:</strong> Busca por palabras clave del título</li>
+                    <li><strong>Director/Codirector:</strong> Busca por nombre del asesor</li>
+                </ul>
+            </div>
+
+            <div class="paso">
+                <strong>Paso 3: Visualizar información</strong>
+                La tabla muestra:
+                <ul class="lista">
+                    <li>Matrícula del alumno</li>
+                    <li>Nombre del alumno</li>
+                    <li>Estatus UAM (con indicador de color)</li>
+                    <li>Título de tesis</li>
+                    <li>Director (asesor)</li>
+                    <li>Codirector (coasesor)</li>
+                    <li>Área de concentración</li>
+                </ul>
+            </div>
+
+            <div class="imagen-container">
+                <img src="imagenes/proyectos_consulta.png" alt="Consulta de proyectos">
+                <p>Figura 7: Pantalla de consulta de proyectos de tesis</p>
+            </div>
+
+            <div class="nota">
+                <strong>Nota:</strong> Los estatus se muestran con colores: Verde (Titulado), Amarillo (Vigente), Rojo (Baja), Naranja (Baja Temporal).
+            </div>
+        </section>
+
+        <!-- REPORTES PDF -->
+        <section id="reportes">
+            <h2>7. Generación de Reportes PDF</h2>
+            
+            <h3>Exportar Información a PDF</h3>
+            
+            <div class="paso">
+                <strong>Paso 1: Aplicar filtros (opcional)</strong>
+                Aplica los filtros deseados en el módulo que estés consultando para obtener solo la información que necesitas.
+            </div>
+
+            <div class="paso">
+                <strong>Paso 2: Generar reporte</strong>
+                Presiona el botón <strong>"Exportar PDF"</strong> ubicado en la parte superior derecha de la tabla.
+            </div>
+
+            <div class="paso">
+                <strong>Paso 3: Descargar archivo</strong>
+                El sistema generará automáticamente un archivo PDF con:
+                <ul class="lista">
+                    <li>Encabezado institucional con el nombre del reporte</li>
+                    <li>Tabla con todos los datos visibles</li>
+                    <li>Formato profesional con colores institucionales</li>
+                </ul>
+            </div>
+
+            <div class="paso">
+                <strong>Paso 4: Guardar o imprimir</strong>
+                El archivo se descargará automáticamente a tu carpeta de descargas predeterminada. Puedes:
+                <ul class="lista">
+                    <li>Abrirlo para visualizarlo</li>
+                    <li>Imprimirlo directamente</li>
+                    <li>Guardarlo en otra ubicación</li>
+                </ul>
+            </div>
+
+            <div class="imagen-container">
+                <img src="imagenes/reporte_ejemplo.png" alt="Ejemplo de reporte PDF">
+                <p>Figura 8: Ejemplo de reporte PDF generado</p>
+            </div>
+
+            <div class="importante">
+                <strong>Importante:</strong> Los reportes PDF incluyen únicamente los datos visibles en la tabla después de aplicar los filtros.
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p><strong>Sistema de Gestión de Posgrado CBI</strong></p>
+        <p>UAM Azcapotzalco - División de Ciencias Básicas e Ingeniería</p>
+        <p>© 2026 - Manual de Usuario v1.0</p>
+    </footer>
+</body>
+</html>

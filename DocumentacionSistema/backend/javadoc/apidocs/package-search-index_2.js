@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"uam.azc.sistemagestionposgradocbi"},{"l":"uam.azc.sistemagestionposgradocbi.dao"},{"l":"uam.azc.sistemagestionposgradocbi.modelo"},{"l":"uam.azc.sistemagestionposgradocbi.resources"},{"l":"uam.azc.sistemagestionposgradocbi.servlets"},{"l":"uam.azc.sistemagestionposgradocbi.util"}];updateSearchResults();
